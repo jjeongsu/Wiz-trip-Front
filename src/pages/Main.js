@@ -1,4 +1,10 @@
+import Layout from '../components/Layout';
+
 function Main() {
-  return <div>this is main Page</div>;
+  return (
+    <Layout>
+      <div> this is main page</div>
+    </Layout>
+  );
 }
 export default Main;
