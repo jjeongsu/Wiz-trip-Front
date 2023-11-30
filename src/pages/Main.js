@@ -1,10 +1,10 @@
-import { styled } from 'styled-components';
+import Layout from '../components/Layout';
 
 function Main() {
-  return <Title>this is main Page</Title>;
+  return (
+    <Layout>
+      <div> this is main page</div>
+    </Layout>
+  );
 }
 export default Main;
-
-const Title = styled.div`
-  height: 30px;
-`;
