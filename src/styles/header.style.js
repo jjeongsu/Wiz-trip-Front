@@ -16,13 +16,17 @@ export const HeaderBox = styled.header`
   }
 
   button {
-    width: 130px;
+    width: 100px;
     height: 55px;
     background-color: ${({ theme }) => theme.mainAccentColor};
     border: none;
     border-radius: 10px;
     color: ${({ theme }) => theme.gray50};
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
+    cursor: pointer;
+    &:hover {
+      background-color: #5a40de;
+    }
   }
 `;
