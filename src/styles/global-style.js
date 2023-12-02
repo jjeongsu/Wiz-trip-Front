@@ -16,4 +16,6 @@ export const GlobalStyle = createGlobalStyle`
 
   }
   a { cursor: pointer; text-decoration: none; }
+
+  li{list-style: none;}
 `;
