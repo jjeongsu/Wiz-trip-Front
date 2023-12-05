@@ -6,7 +6,7 @@ function DateModal({date, setDate, toggledates}) {
 
   const [firstarr, setfirstArr] = useState([]);
   const [secondarr, setsecondArr] = useState([]);
-
+  const [nextMonth, setnextMonth] = useState(dayjs('YYYY-MM-DD'));
   const initArr = (firstDay, daysInMonth, d) => {
       return Array.from({length: firstDay+ daysInMonth},
           (v,i) => i<firstDay
@@ -36,7 +36,7 @@ function DateModal({date, setDate, toggledates}) {
       .add(1, 'month') //1달 후로 이동
       .startOf('month') // 해당 월의 첫 번째 날짜를 얻음
       .format('YYYY-MM-DD');
-      console.log("newDate: ", newDate)
+    setnextMonth(newDate);
 
     setsecondArr(initArr(dayjs(newDate).startOf('month').day(), dayjs(newDate).daysInMonth(), newDate));
   }, [date])
@@ -79,7 +79,7 @@ function DateModal({date, setDate, toggledates}) {
           <path d="M10 13.2375L3.81916 7.5L10 1.7625L8.09717 0L0 7.5L8.09717 15L10 13.2375Z" fill="#454C53"/>
         </svg>
         <span className='first-month'>{dayjs(date).year()}년 {dayjs(date).month()+1}월</span>
-        <span className='second-month'>{dayjs(date).year()}년 {(dayjs(date).add(1, 'month')).month()+1}월</span>
+        <span className='second-month'>{dayjs(nextMonth).year()}년 {dayjs(nextMonth).month()+1}월</span>
         <svg onClick={handleNextMonth} width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 1.7625L6.18084 7.5L0 13.2375L1.90283 15L10 7.5L1.90283 0L0 1.7625Z" fill="#454C53"/>
         </svg>
