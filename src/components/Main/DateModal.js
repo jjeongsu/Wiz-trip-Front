@@ -60,12 +60,6 @@ function DateModal({date, setDate, toggledates}) {
   };
 
   const handleSelect = (v) => () =>{
-
-    // 선택한 날짜가 오늘 날짜 이전인지 확인
-    if (dayjs(v).isBefore(dayjs(), 'day')) {
-      alert('오늘 날짜 이후를 선택해주세요.');
-      return;
-    }
     setDate(v);
     toggledates();
   }
@@ -101,11 +95,11 @@ function DateModal({date, setDate, toggledates}) {
                 {firstarr.map((v, i) => (
                     <div key={v ? v.toString() : `${v}${i}`}>
                     {v && (
-                        <p.DateContainer>
+                        <p.DateContainer >
                           <li 
                           role="presentation"
-                          className={date === v ? 'selected' : 'not-selected'} 
-                          onClick={handleSelect(v)}>{dayjs(v).date()}</li>
+                          className={dayjs(v).isBefore(dayjs(), 'day') ? 'disabled' : date === v ? 'selected' : 'not-selected'}
+                          onClick={dayjs(v).isBefore(dayjs(), 'day') ? null : handleSelect(v)}>{dayjs(v).date()}</li>
                         </p.DateContainer>
                     )}
                     </div>
@@ -127,12 +121,12 @@ function DateModal({date, setDate, toggledates}) {
               {secondarr.map((v, i) => (
                   <div key={v ? v.toString() : `${v}${i}`}>
                   {v && (
-                      <p.DateContainer>
-                       <li 
-                          role="presentation"
-                          className={date === v ? 'selected' : 'not-selected'} 
-                          onClick={handleSelect(v)}>{dayjs(v).date()}</li>
-                      </p.DateContainer>
+                     <p.DateContainer >
+                        <li 
+                        role="presentation"
+                        className={dayjs(v).isBefore(dayjs(), 'day') ? 'disabled' : date === v ? 'selected' : 'not-selected'}
+                        onClick={dayjs(v).isBefore(dayjs(), 'day') ? null : handleSelect(v)}>{dayjs(v).date()}</li>
+                    </p.DateContainer>
                   )}
                   </div>
               ))}

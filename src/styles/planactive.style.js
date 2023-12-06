@@ -32,7 +32,7 @@ export const TextBox = styled.div`
     padding-left: 30px;
     &:hover{
         ${props => props.$visible === 'false' && `
-            height: 70px;
+            height: 69px;
             background: rgba(158, 164, 170, 0.40);
             cursor: pointer;
         `}
