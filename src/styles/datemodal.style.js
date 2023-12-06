@@ -78,11 +78,18 @@ export const CalendarBoard = styled.div`
 export const DateContainer = styled.div`
     width: 30px;
     height: 30px;
-    cursor:pointer;
     margin: 6.5px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .disabled {
+        color: ${({ theme }) => theme.gray400Cool};
+        font-family: Pretendard Variable;
+        font-size: 18px;
+        font-weight: 600;
+        font-style: normal;
+    }
 
     .not-selected{  
         color: ${({ theme }) => theme.gray600};
@@ -93,6 +100,7 @@ export const DateContainer = styled.div`
         font-style: normal;
         font-weight: 600;
         line-height: 140%; /* 25.2px */
+        cursor:pointer;
     }
 
     .selected{  
@@ -108,5 +116,7 @@ export const DateContainer = styled.div`
         line-height: 175%; /* 25.2px */
         border-radius: 10px;
         background: #BFC6FA;
+        cursor:pointer;
     }
 `
+

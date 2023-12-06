@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const PlaceModalLayout = styled.div`
-    position: fixed;
+    position: absolute;
     width: 380px;
     height: 400px;
     border-radius: 20px;
@@ -13,6 +13,9 @@ export const PlaceModalLayout = styled.div`
     margin-left: 200px;
     margin-top: -15px;
 
+    &::-webkit-scrollbar {
+        width: 4px;
+      }
 `
 export const PlaceListBox = styled.div`
     display: flex;
@@ -31,4 +34,16 @@ export const PlaceListBox = styled.div`
         margin-left: 10px;
         cursor: pointer;
     }
+  
 `
+
+// export const ScrollDiv = styled.div`
+//   overflow-y: auto;
+//   &::-webkit-scrollbar {
+//     width: 4px;
+//   }
+//   &::-webkit-scrollbar-thumb {
+//     border-radius: 2px;
+//     background: #ccc;
+//   }
+// `;

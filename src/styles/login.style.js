@@ -10,15 +10,19 @@ export const LoginWrapper = styled.div`
 `
 
 export const LoginForm = styled.form`
+    position: absolute;
     width: 404px;
-    height: 460px;
+    height: 663px;
+
+    background: #FFFFFF;
+    box-shadow: -2.17893px -2.17893px 6.5368px #FFFFFF, 2.17893px 2.17893px 6.5368px rgba(174, 174, 192, 0.4);
     border-radius: 20px;
-    background: #FFF;
     display: flex;
     flex-direction: column;
     align-items: center;
 
     .logo {
+        margin-top: 102px;
         font-size: 36px;
         color: ${({ theme }) => theme.mainAccentColor};
       }
