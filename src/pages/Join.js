@@ -11,9 +11,8 @@ function Join() {
     getValues,
     setError,
     clearErrors,
-    formState,
-  } = useForm({ mode: onchange });
-  const { errors } = formState;
+    formState: { errors, isDirty, isValid },
+  } = useForm({ mode: 'onChange' });
   const onValid = (e) => {
     console.log('valid한 폼 제출');
     e.preventDefault();
@@ -28,25 +27,26 @@ function Join() {
   };
   const sendCode = (e) => {
     const { email } = getValues();
-    console.log(errors);
-    //axios.post 요청보내기
-    alert(`${email}로 인증코드가 전송되었습니다.`);
+    if (!errors.email) {
+      //axios.post 요청보내기
+      alert(`${email}로 인증코드가 전송되었습니다.`);
+    }
   };
 
-  // useEffect(() => {
-  //   if (
-  //     watch('password') !== watch('passwordCheck') &&
-  //     watch('passwordCheck')
-  //   ) {
-  //     setError('passwordCheck', {
-  //       type: 'password-mismatch',
-  //       message: '비밀번호가 일치하지 않습니다',
-  //     });
-  //   } else {
-  //     // 비밀번호 일치시 오류 제거
-  //     clearErrors('passwordCheck');
-  //   }
-  // }, [watch('password'), watch('passwordcheck')]);
+  useEffect(() => {
+    if (
+      watch('password') !== watch('passwordCheck') &&
+      watch('passwordCheck')
+    ) {
+      setError('passwordCheck', {
+        type: 'password-mismatch',
+        message: '비밀번호가 일치하지 않습니다',
+      });
+    } else {
+      // 비밀번호 일치시 오류 제거
+      clearErrors('passwordCheck');
+    }
+  }, [watch('password'), watch('passwordcheck')]);
 
   console.log(watch());
   return (
@@ -54,13 +54,14 @@ function Join() {
       <S.JoinForm onSubmit={handleSubmit(onValid)} className="container">
         <div className="container">
           <input
+            name="email"
             placeholder="이메일"
             type="email"
             {...register('email', {
-              required: '이메일을 입력해주세요',
+              required: '* 이메일을 입력해주세요',
               pattern: {
                 value: emailRegex,
-                message: '이메일 형식을 확인해주세요',
+                message: '* 이메일 형식을 확인해주세요',
               },
               minLength: {
                 value: 3,
@@ -137,9 +138,14 @@ function Join() {
           <S.Button className="button" onClick={checkNickname}>
             중복확인
           </S.Button>
+          {errors.nickname && (
+            <span className="error-message">{errors.nickname.message}</span>
+          )}
         </div>
-        {/* disabled={!isDirty || !isValid} */}
-        <S.SubmitBtn type="submit">가입하기</S.SubmitBtn>
+
+        <S.SubmitBtn type="submit" disabled={!isDirty || !isValid}>
+          가입하기
+        </S.SubmitBtn>
       </S.JoinForm>
     </FormLayout>
   );

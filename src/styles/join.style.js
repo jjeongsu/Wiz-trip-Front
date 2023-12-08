@@ -6,9 +6,8 @@ export const JoinForm = styled.div`
     padding-inline: auto;
     display: grid;
     grid-template-columns: 260px 80px;
-    grid-auto-rows: minmax(40px, auto);
+    grid-auto-rows: minmax(12px, auto);
     grid-gap: 13px;
-    grid-row-gap: 15px;
   }
   input {
     border: 1px solid #bfc6fa;
@@ -18,6 +17,7 @@ export const JoinForm = styled.div`
     font-style: normal;
     font-weight: 400;
     padding-left: 5px;
+    height: 40px;
     grid-column: 1 / span 1;
   }
   .button {
@@ -28,9 +28,11 @@ export const JoinForm = styled.div`
     border-bottom: 1px solid #bfc6fa;
   }
   .error-message {
-    color: black;
-    font: 12px;
-    grid-column: 1 / span 1;
+    display: block;
+    color: ${({ theme }) => theme.red600};
+    font-size: 13px;
+    grid-column: 1 / span 2;
+    height: 10px;
   }
 `;
 
