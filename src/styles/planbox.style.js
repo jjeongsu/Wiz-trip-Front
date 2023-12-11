@@ -9,7 +9,7 @@ export const BoxLayout = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 25px auto;
+    margin: 25px auto 10px auto;
 `
 
 export const BasicLabel = styled.label`

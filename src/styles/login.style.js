@@ -77,14 +77,12 @@ export const LoginForm = styled.form`
     .error{
         width: 290px;
         font-family: Pretendard Variable;
-        font-size: 12px;
+        font-size: 13px;
         font-style: normal;
         font-weight: 400;
-        color: ${({ theme }) => theme.red900};
-        margin-bottom: -5px;
-    
+        color: ${({ theme }) => theme.red600};
+        margin-top: 1px;    
     }
-
 
 `
 

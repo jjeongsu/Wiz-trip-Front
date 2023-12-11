@@ -1,9 +1,8 @@
 import React, {useState} from 'react'
 import * as P from '../../styles/planactive.style'
-import PlaceList from './PlaceList';
+import PlaceList from '../PlaceList';
 import dayjs from 'dayjs';
-import districtData from '../../administrative_district.json';
-import DateModal from './DateModal';
+import DateModal from '../DateModal';
 
 // eslint-disable-next-line react/prop-types
 function PlanActiveBox({setInputPlan}) {
@@ -16,9 +15,7 @@ function PlanActiveBox({setInputPlan}) {
     edate: false,
   });
 
-  const filteredList = districtData.filter(district =>
-    district.includes(placeInput)
-  ); 
+
 
   const toggleLocation = () => {
     setIsActive({ location: !isActive.location, sdate: false, edate:false });
@@ -89,9 +86,9 @@ function PlanActiveBox({setInputPlan}) {
      
 
     </P.BoxLayout>
-    {isActive.location && <PlaceList filteredList={filteredList} setPlaceInput={setPlaceInput} toggleLocation={toggleLocation}/>}
-    {isActive.sdate && <DateModal date={StartDate} setDate={setStartDate} toggledates={toggleSdates}/>}
-    {isActive.edate && <DateModal date={EndDate} setDate={setEndDate} toggledates={toggleEdates}/>}
+    {isActive.location && <PlaceList placeInput={placeInput} setPlaceInput={setPlaceInput} toggleLocation={toggleLocation} layout='main'/>}
+    {isActive.sdate && <DateModal date={StartDate} setDate={setStartDate} toggledates={toggleSdates} layout='main'/>}
+    {isActive.edate && <DateModal date={EndDate} setDate={setEndDate} toggledates={toggleEdates} layout='main'/>}
      
    
    

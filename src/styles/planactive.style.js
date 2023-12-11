@@ -11,7 +11,7 @@ export const BoxLayout = styled.div`
     justify-content: space-between;
     align-items: center;
     background: #F7F8F9;
-    margin: 25px auto;
+    margin: 25px auto 10px auto;
     z-index: 999;
 
 `

@@ -1,5 +1,6 @@
 import React from 'react';
 import * as L from '../styles/login.style';
+import { emailRegex, passwordRegex } from '../utils/regex';
 import { useForm } from 'react-hook-form';
 import Kakaologin from '../components/Login/Kakaologin';
 function Login() {
@@ -27,11 +28,11 @@ function Login() {
           name="email"
           placeholder="이메일"
           {...register('email', {
-            required: '이메일을 입력하세요',
+            required: '* 이메일을 입력하세요',
             pattern: {
               value:
-                /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/,
-              message: '이메일 형식을 확인해주세요',
+                emailRegex,
+              message: '* 이메일 형식을 확인해주세요',
             },
           })}
         />
@@ -40,7 +41,13 @@ function Login() {
           className="input-container"
           type="password"
           placeholder="비밀번호"
-          {...register('password', { required: '비밀번호를 입력하세요' })}
+          {...register('password', { 
+            required: '* 비밀번호를 입력하세요', 
+            pattern: {
+              value:
+                passwordRegex,
+              message: '* 비밀번호 형식을 확인해주세요',
+            }})}
         />
         {errors.password && (
           <span className="error">{errors.password.message}</span>

@@ -11,8 +11,15 @@ export const DateModalLayout = styled.div`
     display: flex;
     flex-direction: column;
     margin-left: 200px;
-    margin-top: -15px;
 
+`
+
+export const UpdateModalLayout = styled(DateModalLayout)`
+    top: 170px;
+    width: 500px;
+    height: 300px;
+    border: 1px solid #C9CDD2;
+    margin-left: 30px;
 `
 
 export const Header = styled.div`
@@ -44,6 +51,27 @@ export const Header = styled.div`
     }
 `
 
+export const UpdateHeader = styled(Header)`
+    margin: 20px 15px 10px 15px;
+    .first-month{
+        width: 190px;
+        color: ${({ theme }) => theme.gray600};
+        font-family: Wanted Sans;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+    }
+    .second-month{
+        width: 190px;
+        color: ${({ theme }) => theme.gray600};
+        font-family: Wanted Sans;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        margin-left: 50px;
+    }
+`
+
 export const DayWrapper = styled.div`
     display: flex;
     justify-content: space-between;
@@ -52,28 +80,39 @@ export const DayWrapper = styled.div`
     width: 300px;
     list-style:none;
 
-
     li{
         width: 20px;
         height: 20px;
         color: ${({ theme }) => theme.gray600};
         text-align: center;
-        /* text-lg */
         font-family: Pretendard Variable;
         font-size: 18px;
         font-style: normal;
-        font-weight: 600;
+        font-weight: 500;
         line-height: 140%; /* 25.2px */
         margin: 13px 10px;
     }
 
-       
+`
+export const UpdateDayWrapper = styled(DayWrapper)`
+    width: 190px;
+
+    li{
+        font-family: Wanted Sans;
+        width: 15px;
+        height: 15px;
+        font-size: 14px;
+    }
 `
 
 export const CalendarBoard = styled.div`
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     width: 300px;
+`
+
+export const UpdateCalendarBoard = styled(CalendarBoard)`
+    width: 190px;
 `
 export const DateContainer = styled.div`
     width: 30px;
@@ -118,5 +157,40 @@ export const DateContainer = styled.div`
         background: #BFC6FA;
         cursor:pointer;
     }
+`
+
+export const UpdateDateContainer = styled(DateContainer)`
+    width: 20px;
+    height: 20px;
+    margin: 6px;
+
+
+    .disabled {
+        color: ${({ theme }) => theme.gray400Cool};
+        font-family: Wanted Sans;
+        font-size: 14px;
+        font-weight: 500;
+        font-style: normal;
+    }
+
+    .not-selected{  
+        color: ${({ theme }) => theme.gray600};
+        text-align: center;
+        font-family: Wanted Sans;
+        font-size: 14px;
+        font-weight: 500;
+        cursor:pointer;
+    }
+
+    .selected{  
+        width: 25px;
+        height: 25px;
+        font-family: Wanted Sans;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 175%; /* 25.2px */
+        border-radius: 8px;
+    }
+
 `
 

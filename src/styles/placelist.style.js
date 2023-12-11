@@ -6,16 +6,20 @@ export const PlaceModalLayout = styled.div`
     height: 400px;
     border-radius: 20px;
     border: 2px solid ${({ theme }) => theme.paleAccentColor};
-    margin-top: 6px;
     background: #FFF;
     z-index: 999;
     overflow: auto;
     margin-left: 200px;
-    margin-top: -15px;
-
     &::-webkit-scrollbar {
         width: 4px;
       }
+`
+
+export const UpdateLayout = styled(PlaceModalLayout)`
+    top: 170px;
+    height: 300px;
+    border: 1px solid #C9CDD2;
+    margin-left: 30px;
 `
 export const PlaceListBox = styled.div`
     display: flex;
@@ -37,13 +41,11 @@ export const PlaceListBox = styled.div`
   
 `
 
-// export const ScrollDiv = styled.div`
-//   overflow-y: auto;
-//   &::-webkit-scrollbar {
-//     width: 4px;
-//   }
-//   &::-webkit-scrollbar-thumb {
-//     border-radius: 2px;
-//     background: #ccc;
-//   }
-// `;
+export const UpdateListBox = styled(PlaceListBox)`
+    .placelabel{
+        font-family: Wanted Sans;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+    }
+`
