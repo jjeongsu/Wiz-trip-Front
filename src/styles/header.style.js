@@ -5,11 +5,11 @@ export const HeaderBox = styled.header`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  /* width: 1100px; */
+  width: 1100px;
   /* width: 77.5%; */
   height: 60px;
+  margin: auto;
   margin-top: 29px;
-
   .logo {
     font-size: 48px;
     color: ${({ theme }) => theme.mainAccentColor};

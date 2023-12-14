@@ -11,7 +11,7 @@ function Layout({ children, fullWidth }) {
 }
 Layout.propsTypes = {
   children: PropTypes.node.isRequired,
-  fullWidth: PropTypes.bool,  // fullWidth prop에 대한 PropTypes 설정
+  fullWidth: PropTypes.bool, // fullWidth prop에 대한 PropTypes 설정
 };
 
 export default Layout;
