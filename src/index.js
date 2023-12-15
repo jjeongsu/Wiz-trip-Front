@@ -9,6 +9,8 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
 import { colorTheme } from './styles/theme';
 import { GlobalStyle } from './styles/global-style';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const queryClient = new QueryClient();
 root.render(
