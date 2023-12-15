@@ -15,6 +15,17 @@ function Plan() {
   const [defaultDate, setDefaultDate] = useState(null);
   const [currentSpot, setCurrentSpot] = useState('');
 
+  const [plans, setPlans] = useState([]);
+  /**
+   * plan예시
+   * {
+   *    day :
+   *    startIndex :
+   *    endIndex :
+   *    title :
+   * }
+   */
+  console.log('plan', plans);
   return (
     <Layout fullWidth={true}>
       <Planheader />
@@ -23,6 +34,7 @@ function Plan() {
           days={initialDays}
           setIsOpenModal={setIsOpenModal}
           setDefaultDate={setDefaultDate}
+          plans={plans}
         />
         <div style={{ backgroundColor: 'powderblue' }}> MAPS</div>
         <div style={{ backgroundColor: 'salmon' }}> MEMOS</div>
@@ -31,6 +43,7 @@ function Plan() {
           setIsOpenModal={setIsOpenModal}
           defaultDate={defaultDate}
           days={initialDays}
+          setPlans={setPlans}
         />
       </PlanLayout>
     </Layout>

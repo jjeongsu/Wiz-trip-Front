@@ -3,7 +3,8 @@ import * as S from '../../styles/planboard.style';
 import createSelectTimes from '../../utils/createSelectTimes';
 import { hours24 } from '../../utils/HoursAday';
 import { useEffect } from 'react';
-function PlanBoard({ days, setIsOpenModal, setDefaultDate }) {
+import GridLayout from 'react-grid-layout';
+function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
   const times = createSelectTimes();
   useEffect(() => {
     console.log(times);
@@ -18,13 +19,13 @@ function PlanBoard({ days, setIsOpenModal, setDefaultDate }) {
           </div>
         ))}
       </div>
-      <div className="schedule">
-        {days.map((day, i) => (
-          <div className="oneday-schedule" key={i}>
+      <div className="schedule-table">
+        {days.map((day, dayi) => (
+          <div className="oneday-schedule" key={dayi}>
             <div className="gap">
               <div className="board-header"></div>
-              {hours24.map((time, i) => (
-                <div className="gap-entity" key={i}></div>
+              {hours24.map((time, timei) => (
+                <div className="gap-entity" key={timei}></div>
               ))}
             </div>
             <div className="contents">
@@ -40,11 +41,22 @@ function PlanBoard({ days, setIsOpenModal, setDefaultDate }) {
                   추가하기
                 </button>
               </div>
-              {times.map((time, i) => (
-                <div className="minute-entity" key={i}>
+              {times.map((time, timei) => (
+                <div className="minute-entity" key={timei}>
                   {' '}
                 </div>
               ))}
+              {plans
+                .filter((plan, v) => ~~plan.day === dayi)
+                .map((plan, i) => {
+                  const top = 18 + 12 * plan.startIndex;
+                  const height = 12 * plan.endIndex;
+                  return (
+                    <S.Schedule key={i} top={top} height={height}>
+                      {plan.title}
+                    </S.Schedule>
+                  );
+                })}
             </div>
           </div>
         ))}

@@ -23,7 +23,7 @@ export const BoardBox = styled.div`
     border-left: none;
   }
 
-  .schedule {
+  .schedule-table {
     display: flex;
     flex-direction: row;
   }
@@ -34,6 +34,7 @@ export const BoardBox = styled.div`
   }
   .contents {
     width: 211px;
+    position: relative;
   }
   .minute-entity {
     height: 12px;
@@ -50,4 +51,13 @@ export const BoardBox = styled.div`
       border-left: none;
     }
   }
+`;
+export const Schedule = styled.div`
+  position: absolute;
+  top: ${(props) => `${props.top}px`};
+  left: 0px;
+  z-index: 3;
+  background-color: aliceblue;
+  width: 211px;
+  height: ${(props) => `${props.height}px`};
 `;

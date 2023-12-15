@@ -1,15 +1,35 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import createSelectTimes from '../../utils/createSelectTimes';
-function PlanModal({ isOpenModal, setIsOpenModal, defaultDate, days }) {
+function PlanModal({
+  isOpenModal,
+  setIsOpenModal,
+  defaultDate,
+  days,
+  setPlans,
+}) {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(0);
   const [selectedDay, setSelectedDay] = useState(0);
+  const [title, setTitle] = useState('');
   const times = createSelectTimes();
-  const onStartTimeChange = (e) => {
-    console.log(e.target.value);
-    setStartIndex(e.target.value);
+
+  const onSubmitClick = (e) => {
+    setPlans((plans) => [
+      ...plans,
+      {
+        day: selectedDay,
+        startIndex: startIndex,
+        endIndex: endIndex,
+        title: title,
+      },
+    ]);
+    setIsOpenModal(false);
+    setStartIndex(0);
+    setEndIndex(0);
+    setTitle('');
   };
+
   useEffect(() => {
     console.log('날짜', '시작시간', '종료시간');
     console.log(selectedDay, startIndex, endIndex);
@@ -54,7 +74,14 @@ function PlanModal({ isOpenModal, setIsOpenModal, defaultDate, days }) {
             </option>
           ))}
         </select>
+        <p> 내용 </p>
+        <input
+          name="title"
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
+        />
       </div>
+      <button onClick={onSubmitClick}> 만들기 </button>
     </ModalWrapper>
   );
 }
@@ -69,4 +96,5 @@ const ModalWrapper = styled.div`
   position: absolute;
   top: 100px;
   left: 200px;
+  z-index: 4;
 `;
