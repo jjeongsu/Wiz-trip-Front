@@ -9,18 +9,23 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
 import { colorTheme } from './styles/theme';
 import { GlobalStyle } from './styles/global-style';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import rootReducer from './services';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const queryClient = new QueryClient();
+const store = createStore(rootReducer, composeWithDevTools());
 root.render(
-  // <React.StrictMode>
-  <QueryClientProvider client={queryClient}>
-    <ReactQueryDevtools initialIsOpen={true} />
-    <GlobalStyle />
-    <ThemeProvider theme={colorTheme}>
-      <App />
-    </ThemeProvider>
-  </QueryClientProvider>,
-  // </React.StrictMode>,
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={true} />
+      <GlobalStyle />
+      <ThemeProvider theme={colorTheme}>
+        <App />
+      </ThemeProvider>
+    </QueryClientProvider>
+  </Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function
