@@ -7,7 +7,7 @@ import PlanBoard from '../components/Plan/PlanBoard';
 import { useState } from 'react';
 
 //planBoard 프로토타입용 #이후삭제
-const initialDays = ['12월 13일', '12월 14일', '12월 15일'];
+const initialDays = ['12월 13일', '12월 14일', '12월 15일']; //추가하면
 
 function Plan() {
   const [days, setDays] = useState(initialDays);
