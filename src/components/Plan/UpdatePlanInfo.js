@@ -3,10 +3,11 @@ import * as U from '../../styles/updateplan.style'
 import PlaceList from '../PlaceList';
 import DateModal from '../DateModal';
 import dayjs from 'dayjs';
-function UpdatePlanInfo({setUpdateForm, planinfo, setPlanInfo}) {
-    const [placeInput, setPlaceInput] = useState(planinfo.location);
-    const [StartDate, setStartDate] = useState(planinfo.startDate);
-    const [EndDate, setEndDate] = useState(planinfo.endDate);
+import {useSelector} from 'react-redux'
+function UpdatePlanInfo({setUpdateForm}) {
+    const [placeInput, setPlaceInput] = useState(useSelector(state=>state.Schedule.place));
+    const StartDate = useSelector(state=>state.Schedule.startDate);
+    const EndDate = useSelector(state=>state.Schedule.endDate);
     const [isActive, setIsActive] = useState({
       location: false,
       sdate: false,
@@ -15,38 +16,36 @@ function UpdatePlanInfo({setUpdateForm, planinfo, setPlanInfo}) {
 
     const toggleLocation = () => {
         setIsActive({ location: !isActive.location, sdate: false, edate:false });
-      };
+    };
     
     const toggleSdates = () => {
-    setIsActive({ location: false, sdate: !isActive.sdate, edate: false });
+      setIsActive({ location: false, sdate: !isActive.sdate, edate: false });
     };
 
     const toggleEdates = () => {
-    setIsActive({ location: false, sdate: false, edate: !isActive.edate });
+      setIsActive({ location: false, sdate: false, edate: !isActive.edate });
     };
 
     const handleInput = (e) => {
-    setPlaceInput(e.target.value);
-        if(placeInput.length>0){
-            setIsActive({...isActive, location: true});
-        }
+      setPlaceInput(e.target.value);
+      if(placeInput.length>0){
+          setIsActive({...isActive, location: true});
+      }
     }
     const handleSubmit = () => {
         if (dayjs(EndDate).isBefore(dayjs(StartDate), 'day')) {
             alert('종료날짜는 시작날짜보다 같거나 그 이후여야 합니다.');
             return;
-          }
+        }
     
-          let data = {
-            location: placeInput,
-            startDate: StartDate,
-            endDate: EndDate
-          }
-          //서버 API 요청 코드 추가 
-          console.log(data);
-          setPlanInfo({...planinfo, location: placeInput, startDate: StartDate, endDate: EndDate});
-          console.log(planinfo)
-          setUpdateForm(false);
+        let data = {
+          location: placeInput,
+          startDate: StartDate,
+          endDate: EndDate
+        }
+        //서버 API 요청 코드 추가 
+        console.log(data);
+        setUpdateForm(false);
 
 
     }
@@ -71,8 +70,8 @@ function UpdatePlanInfo({setUpdateForm, planinfo, setPlanInfo}) {
     </U.PlanInfoLayout>
 
     {isActive.location && <PlaceList placeInput={placeInput} setPlaceInput={setPlaceInput} toggleLocation={toggleLocation} layout='update'/>}
-    {isActive.sdate && <DateModal date={StartDate} setDate={setStartDate} toggledates={toggleSdates} layout='update'/>}
-    {isActive.edate && <DateModal date={EndDate} setDate={setEndDate} toggledates={toggleEdates} layout='update'/>}
+    {isActive.sdate && <DateModal type='start' toggledates={toggleSdates} layout='update'/>}
+    {isActive.edate && <DateModal type='end' toggledates={toggleEdates} layout='update'/>}
     </>
   )
 }

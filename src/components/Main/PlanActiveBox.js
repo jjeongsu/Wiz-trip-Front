@@ -1,19 +1,30 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import * as P from '../../styles/planactive.style'
 import PlaceList from '../PlaceList';
 import dayjs from 'dayjs';
 import DateModal from '../DateModal';
-
+import { useSelector, useDispatch } from 'react-redux'
+import { initSchedule } from '../../services/schedule';
 // eslint-disable-next-line react/prop-types
 function PlanActiveBox({setInputPlan}) {
   const [placeInput, setPlaceInput] = useState('');
-  const [StartDate, setStartDate] = useState('');
-  const [EndDate, setEndDate] = useState('');
+  const StartDate = useSelector(state=>state.Schedule.startDate);
+  const EndDate = useSelector(state=>state.Schedule.endDate);
   const [isActive, setIsActive] = useState({
     location: false,
     sdate: false,
     edate: false,
   });
+
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    let data =  {
+      place: '',
+      startDate: '',
+      endDate: ''}
+    dispatch(initSchedule(data));
+  },[dispatch])
 
 
 
@@ -87,8 +98,12 @@ function PlanActiveBox({setInputPlan}) {
 
     </P.BoxLayout>
     {isActive.location && <PlaceList placeInput={placeInput} setPlaceInput={setPlaceInput} toggleLocation={toggleLocation} layout='main'/>}
-    {isActive.sdate && <DateModal date={StartDate} setDate={setStartDate} toggledates={toggleSdates} layout='main'/>}
-    {isActive.edate && <DateModal date={EndDate} setDate={setEndDate} toggledates={toggleEdates} layout='main'/>}
+    {isActive.sdate && <DateModal type='start' toggledates={toggleSdates} layout='main'/>}
+    {isActive.edate && <DateModal type='end' toggledates={toggleEdates} layout='main'/>}
+
+
+
+
      
    
    
