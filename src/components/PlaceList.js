@@ -2,13 +2,17 @@ import React from 'react'
 import * as P from '../styles/placelist.style'
 import PlaceIcon from '../assets/place-icon';
 import districtData from '../administrative_district.json';
+import { setPlace } from '../services/schedule';
+import {useDispatch} from 'react-redux';
 // eslint-disable-next-line react/prop-types
 function PlaceList({placeInput, setPlaceInput, toggleLocation, layout}) {
 
+  const dispatch = useDispatch();
   const filteredList = districtData.filter(district =>
     district.includes(placeInput)
   ); 
   const handleSetPlace = (item) => () =>{
+    dispatch(setPlace(item));
     setPlaceInput(item);
     toggleLocation();
   }
