@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const JoinForm = styled.div`
+export const JoinForm = styled.form`
   margin-top: 40px;
   div.container {
     padding-inline: auto;
@@ -58,4 +58,7 @@ export const SubmitBtn = styled(Button)`
   justify-content: center;
   align-items: center;
   font-weight: 600;
+  &:disabled {
+    background-color: ${({ theme }) => theme.gray200};
+  }
 `;

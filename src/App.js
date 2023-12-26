@@ -4,6 +4,7 @@ import Main from './pages/Main';
 import Login from './pages/Login';
 import Join from './pages/Join';
 import Plan from './pages/Plan';
+import Plantest from './pages/Plantest';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/join" element={<Join />} />
           <Route path="/plan" element={<Plan />} />
+          <Route path="/plantest" element={<Plan />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
