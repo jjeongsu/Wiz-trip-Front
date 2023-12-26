@@ -11,4 +11,8 @@ export const PlanLayoutBox = styled.div`
     grid-column: 1 / span 1;
     grid-row: 1 / -1;
   }
+  div:nth-child(3){
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
+  }
 `;

@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import Schedule from './schedule'
+import Memo from './memo';
 const rootReducer = combineReducers({
-    Schedule,
+    Schedule, Memo
 });
 
 export default rootReducer;
