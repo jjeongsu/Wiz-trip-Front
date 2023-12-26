@@ -1,7 +1,8 @@
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import FormLayout from '../components/FormLayout';
 import { emailRegex, passwordRegex } from '../utils/regex';
+import axios from 'axios';
 import * as S from '../styles/join.style';
 function Join() {
   const {
@@ -13,23 +14,81 @@ function Join() {
     clearErrors,
     formState: { errors, isDirty, isValid },
   } = useForm({ mode: 'onChange' });
-  const onValid = (e) => {
-    console.log('valid한 폼 제출');
-    e.preventDefault();
+
+  const [isEmailChecked, setIsEmailChecked] = useState(false);
+  const [isNicknameChecked, setIsNicknameChecked] = useState(true);
+
+  //1. 이메일 인증용 코드발송을 요청
+  const sendCode = async (e) => {
+    const { email } = getValues();
+    if (!errors.email) {
+      try {
+        const response = await axios.post(`/email-verification?email=${email}`);
+        if (response.status === 200) {
+          alert(`${email}로 인증코드가 전송되었습니다.`);
+        }
+      } catch (error) {
+        console.log('Send Verify-Code Err', error);
+        const statusCode = error.response.status;
+        const statusText = error.response.statusText;
+        const message = error.response.data.message;
+        console.log(`${statusCode} - ${statusText} : ${message}`);
+      }
+    } else {
+      alert('이메일 형식을 다시 확인하여 주십시오');
+    }
   };
-  const checkCode = (e) => {
-    const { emailcheck } = getValues();
-    //axios.post 요청보내기
+
+  //2. 올바른 이메일 인증코드인지 확인
+  const checkCode = async (e) => {
+    const { emailcheck, email } = getValues();
+    try {
+      const response = await axios.get(
+        `/email-verification?email=${email}&code=${emailcheck}`,
+      );
+      if (response.data === true) {
+        alert('이메일 인증에 성공하였습니다!');
+        setIsEmailChecked(true);
+      } else {
+        alert('이메일 인증에 실패하였습니다. 코드를 확인하여 주십시오');
+      }
+    } catch (error) {
+      console.log('Check Verify-Code Err : ', error);
+      const statusCode = error.response.status;
+      const statusText = error.response.statusText;
+      const message = error.response.data.message;
+      console.log(`${statusCode} - ${statusText} : ${message}`);
+    }
   };
+
+  //3. 닉네임 중복체크
   const checkNickname = (e) => {
     const { nickname } = getValues();
     //axios.post 요청보내기
   };
-  const sendCode = (e) => {
-    const { email } = getValues();
-    if (!errors.email) {
-      //axios.post 요청보내기
-      alert(`${email}로 인증코드가 전송되었습니다.`);
+
+  //4. 회원가입 처리
+  const onSubmit = (data) => {
+    const { email, password, nickname, passwordcheck } = data;
+
+    if (isEmailChecked && isNicknameChecked) {
+      try {
+        const response = axios.post('/users/signup', {
+          email: email,
+          password: password,
+          confirmedPassword: passwordcheck,
+          nickname: nickname,
+        });
+        console.log('회원가입 응답', response);
+      } catch (error) {
+        console.log('Join Error', error);
+        const statusCode = error.response.status;
+        const statusText = error.response.statusText;
+        const message = error.response.data.message;
+        console.log(`${statusCode} - ${statusText} : ${message}`);
+      }
+    } else {
+      alert('이메일인증과 닉네임중복확인을 진행하여 주십시오.');
     }
   };
 
@@ -49,9 +108,10 @@ function Join() {
   }, [watch('password'), watch('passwordcheck')]);
 
   console.log(watch());
+  console.log(errors);
   return (
     <FormLayout title="Join Us">
-      <S.JoinForm onSubmit={handleSubmit(onValid)} className="container">
+      <S.JoinForm onSubmit={handleSubmit(onSubmit)}>
         <div className="container">
           <input
             name="email"
