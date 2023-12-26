@@ -3,7 +3,8 @@ import { landmarks } from '../../assets/korea-landmarks';
 import * as S from '../../styles/tourinfo.style';
 import SlidePrevIcon from '../../assets/slide-prev-icon';
 import SlideNextIcon from '../../assets/slide-next-icon';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import LandmarkCard from './LandmarkCard';
 function TourInfo() {
   console.log(cities);
@@ -20,6 +21,9 @@ function TourInfo() {
   };
 
   console.log(city);
+  useEffect(() => {
+    axios.get('/landmarks').then((res) => console.log(res));
+  }, []);
   return (
     <>
       <S.TourCityBox slide={slidePx}>

@@ -43,7 +43,7 @@ export const deleteDailyPlan = (planIdx, day) => {
   };
 };
 
-export default function plan(state = initialState, action) {
+export default function Plan(state = initialState, action) {
   switch (action.type) {
     case ADD_DAILY_PLAN: {
       const { day, new_plan } = action;
