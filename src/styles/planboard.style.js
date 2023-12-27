@@ -4,6 +4,7 @@ export const BoardBox = styled.div`
   display: flex;
   flex-direction: row;
   overflow-y: auto;
+  position: relative;
   .board-header {
     height: 18px;
     display: flex;
@@ -50,6 +51,12 @@ export const BoardBox = styled.div`
       border-bottom: none;
       border-left: none;
     }
+  }
+  .grid-drag-board {
+    position: absolute;
+    top: 18px;
+    left: 94px;
+    z-index: 2;
   }
 `;
 export const Schedule = styled.div`
