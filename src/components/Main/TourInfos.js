@@ -4,12 +4,17 @@ import * as S from '../../styles/tourinfo.style';
 import SlidePrevIcon from '../../assets/slide-prev-icon';
 import SlideNextIcon from '../../assets/slide-next-icon';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useQuery } from 'react-query';
+import { getLandmarks } from '../../apis/api/landmark';
 import LandmarkCard from './LandmarkCard';
 function TourInfo() {
-  console.log(cities);
   const [slidePx, setSlidePx] = useState(0);
   const [city, setCity] = useState('');
+  const { isLoading, fetchedLandmarks } = useQuery(
+    'allLandmarks',
+    getLandmarks,
+  );
+
   const toPrev = () => {
     if (slidePx < 0) setSlidePx(slidePx + 1000);
   };
@@ -19,11 +24,7 @@ function TourInfo() {
   const onCityClick = (event) => {
     setCity(event.target.value);
   };
-
-  console.log(city);
-  useEffect(() => {
-    axios.get('/landmarks').then((res) => console.log(res));
-  }, []);
+  console.log('isloading', isLoading);
   return (
     <>
       <S.TourCityBox slide={slidePx}>
