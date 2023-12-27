@@ -7,16 +7,29 @@ const DELETE_USER = 'user/DELETE_USER';
 export const addUser = (data) => {
   return {
     type: ADD_USER,
-    user: user,
+    user: data,
   };
 };
 
-export const deleteUser = () => {
+//유저정보 삭제 : 로그아웃시
+export const deleteUser = (data) => {
   return {
     type: DELETE_USER,
   };
 };
 
+const initialState = {
+  userIdx: null,
+  userProfile: null,
+};
 // Initial State
-const initialState = {};
-export default function user(state = initialState, action) {}
+export default function User(state = initialState, action) {
+  switch (action.type) {
+    case ADD_USER:
+      return { ...state, ...action.user };
+    case DELETE_USER:
+      return { ...state, ...initialState };
+    default:
+      return state;
+  }
+}

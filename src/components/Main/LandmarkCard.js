@@ -7,7 +7,7 @@ import card from '../../assets/dummyImg/card1.png';
 function LandmarkCard({ data }) {
   const [isLike, setIsLike] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(data.imageURL);
+
   const onHeartClick = () => {
     setIsLike((prev) => !prev);
   };

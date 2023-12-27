@@ -15,8 +15,8 @@ function Join() {
     formState: { errors, isDirty, isValid },
   } = useForm({ mode: 'onChange' });
 
-  const [isEmailChecked, setIsEmailChecked] = useState(false);
-  const [isNicknameChecked, setIsNicknameChecked] = useState(true);
+  const [isEmailChecked, setIsEmailChecked] = useState(true);
+  const [isNicknameChecked, setIsNicknameChecked] = useState(true); //닉네임 중복확인 api 연결후 false로 바꾸기
 
   //1. 이메일 인증용 코드발송을 요청
   const sendCode = async (e) => {
@@ -68,15 +68,16 @@ function Join() {
   };
 
   //4. 회원가입 처리
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const { email, password, nickname, passwordcheck } = data;
-
+    // const username = email.slice(0, email.indexOf('@'));
     if (isEmailChecked && isNicknameChecked) {
       try {
-        const response = axios.post('/users/signup', {
+        const response = await axios.post('/users/signup', {
+          username: email.slice(0, email.indexOf('@')),
           email: email,
           password: password,
-          confirmedPassword: passwordcheck,
+          confirmPassword: passwordcheck,
           nickname: nickname,
         });
         console.log('회원가입 응답', response);
