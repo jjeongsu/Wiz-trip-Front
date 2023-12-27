@@ -13,6 +13,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './services';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const queryClient = new QueryClient();
 const store = createStore(rootReducer, composeWithDevTools());
