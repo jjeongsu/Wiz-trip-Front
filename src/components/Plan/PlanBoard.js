@@ -4,8 +4,7 @@ import createSelectTimes from '../../utils/createSelectTimes';
 import { hours24 } from '../../utils/HoursAday';
 import { useEffect, useState } from 'react';
 import GridLayout from 'react-grid-layout';
-import RGL, { WidthProvider } from 'react-grid-layout';
-const ReactGridLayout = WidthProvider(RGL);
+import AddPlanIcon from '../../assets/add-plan-icon';
 function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
   const times = createSelectTimes();
 
@@ -61,13 +60,13 @@ function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
               <div className="board-header">
                 {day}
                 <button
+                  className="add-plan-button"
                   onClick={() => {
                     setIsOpenModal(true);
                     setDefaultDate(day);
                   }}
                 >
-                  {' '}
-                  추가하기
+                  <AddPlanIcon />
                 </button>
               </div>
               {times.map((time, timei) => (

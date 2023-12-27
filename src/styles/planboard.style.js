@@ -58,6 +58,13 @@ export const BoardBox = styled.div`
     left: 94px;
     z-index: 2;
   }
+  button.add-plan-button {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 export const Schedule = styled.div`
   position: absolute;
