@@ -4,7 +4,11 @@ import PlaceList from '../PlaceList';
 import DateModal from '../DateModal';
 import dayjs from 'dayjs';
 import {useSelector} from 'react-redux'
+import { useParams } from 'react-router';
+import { getCookie } from '../../utils/cookies';
+import axios from 'axios';
 function UpdatePlanInfo({setUpdateForm}) {
+    const tripId = useParams().tripId;
     const [placeInput, setPlaceInput] = useState(useSelector(state=>state.Schedule.place));
     const StartDate = useSelector(state=>state.Schedule.startDate);
     const EndDate = useSelector(state=>state.Schedule.endDate);
@@ -13,6 +17,15 @@ function UpdatePlanInfo({setUpdateForm}) {
       sdate: false,
       edate: false,
     });
+
+
+    // 원래 상태를 추적하는 상태 변수
+
+    const [originalData, setOriginalData] = useState({
+      location: placeInput,
+      startDate: StartDate,
+      endDate: EndDate
+    })
 
     const toggleLocation = () => {
         setIsActive({ location: !isActive.location, sdate: false, edate:false });
@@ -32,20 +45,46 @@ function UpdatePlanInfo({setUpdateForm}) {
           setIsActive({...isActive, location: true});
       }
     }
-    const handleSubmit = () => {
+
+    const handleSubmit = async () => {
         if (dayjs(EndDate).isBefore(dayjs(StartDate), 'day')) {
             alert('종료날짜는 시작날짜보다 같거나 그 이후여야 합니다.');
             return;
         }
-    
-        let data = {
-          location: placeInput,
-          startDate: StartDate,
-          endDate: EndDate
+
+        // 변경된 데이터만 추출
+        const updatedData = {};
+        if (placeInput !== originalData.location) {
+          updatedData.destination = placeInput;
         }
-        //서버 API 요청 코드 추가 
-        console.log(data);
-        setUpdateForm(false);
+        if (StartDate !== originalData.startDate) {
+          updatedData.startDate = dayjs(StartDate).format('YYYYMMDD');
+        }
+        if (EndDate !== originalData.endDate) {
+          updatedData.finishDate = dayjs(EndDate).format('YYYY-MM-DD');
+        }
+
+        // 변경된 데이터가 없으면 경고를 표시하고 함수를 종료
+        if (Object.keys(updatedData).length === 0) {
+          setUpdateForm(false);
+          return;
+        }
+
+        //trip 수정 API 요청 코드 
+        try{
+          const res = await axios.patch('/trips',{
+            ...updatedData, tripId: tripId
+          },
+          { headers: {
+            'Authorization': `Bearer ${getCookie('jwtToken')}`
+          }
+        })
+          console.log(res);
+          setUpdateForm(false);
+        }catch(error){
+          console.log("trip 수정 에러", error)
+        }
+
 
 
     }

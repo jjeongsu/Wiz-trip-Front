@@ -4,20 +4,11 @@ import UpdatePlanInfo from './UpdatePlanInfo';
 import ConnectedUsers from './ConnectedUsers';
 import { useDispatch, useSelector } from 'react-redux';
 import { initSchedule } from '../../services/schedule';
+import dayjs from 'dayjs';
 function Planheader() {
   const planinfo = useSelector((state) => state.Schedule);
   const [userNum, setUserNum] = useState(3);
   const [updateform, setUpdateForm] = useState(false);
-  const dispatch = useDispatch();
-
-  useEffect(()=>{
-    //서버에서 계획 개요 정보 가져오기 코드 추가 
-    let data =  {
-      place: "부산 기장군",
-      startDate: '2024-01-01',
-      endDate: '2024-01-04'}
-    dispatch(initSchedule(data));
-  },[])
 
   const formatDate = (date) => {
     // 월과 일만 표시하도록 설정

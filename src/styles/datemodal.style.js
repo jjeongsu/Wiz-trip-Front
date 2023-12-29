@@ -128,6 +128,7 @@ export const DateContainer = styled.div`
         font-size: 18px;
         font-weight: 600;
         font-style: normal;
+        cursor: default;
     }
 
     .not-selected{  
@@ -139,7 +140,7 @@ export const DateContainer = styled.div`
         font-style: normal;
         font-weight: 600;
         line-height: 140%; /* 25.2px */
-        cursor:pointer;
+        cursor: default;
     }
 
     .selected{  
@@ -155,7 +156,7 @@ export const DateContainer = styled.div`
         line-height: 175%; /* 25.2px */
         border-radius: 10px;
         background: #BFC6FA;
-        cursor:pointer;
+        cursor: default;
     }
 `
 

@@ -59,8 +59,7 @@ export const TextBox = styled.div`
         font-weight: 600;
         border: none; //테두리 없애기
         background-color: transparent; //input창 배경 투명하게
-        padding: 0;
-        
+        padding: 0;  
     }
     .input:focus{
         outline: none;

@@ -5,6 +5,10 @@ import dayjs from 'dayjs';
 import DateModal from '../DateModal';
 import { useSelector, useDispatch } from 'react-redux'
 import { initSchedule } from '../../services/schedule';
+import axios from 'axios';
+import { getCookie } from '../../utils/cookies';
+import CheckLogin from '../../utils/checklogin';
+import { useNavigate } from 'react-router';
 // eslint-disable-next-line react/prop-types
 function PlanActiveBox({setInputPlan}) {
   const [placeInput, setPlaceInput] = useState('');
@@ -17,6 +21,7 @@ function PlanActiveBox({setInputPlan}) {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(()=>{
     let data =  {
@@ -41,7 +46,8 @@ function PlanActiveBox({setInputPlan}) {
   };
 
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+
       // 여행지, 시작날짜, 종료날짜가 모두 입력되었는지 확인
       if (!placeInput || !StartDate || !EndDate) {
         alert('모든 필드를 입력해주세요.');
@@ -53,13 +59,41 @@ function PlanActiveBox({setInputPlan}) {
         return;
       }
 
-      let data = {
-        place: placeInput,
-        startdate: StartDate,
-        enddate: EndDate
-      }
+      let isLogin = CheckLogin();
+      if(isLogin){
 
-      console.log(data);
+        try{
+          //trip 생성 api 요청 코드
+          const res = await axios.post("/trips", {
+            startDate: dayjs(StartDate).format('YYYYMMDD'),
+            finishDate: dayjs(EndDate).format('YYYYMMDD'),
+            destination: placeInput
+          },{
+            headers: {
+              'Authorization': `Bearer ${getCookie('jwtToken')}`
+            }
+          })
+          
+          console.log("Trip 생성 응답", res.data);
+          console.log(res.data.tripId);
+
+          //해당 TripId를 가진 여행 계획 페이지로 이동 
+          navigate(`/plan/${res.data.tripId}`);
+
+        }catch(error){
+          console.log('Trip Error', error);
+          const statusCode = error.response.status;
+          const statusText = error.response.statusText;
+          const message = error.response.data.message;
+          console.log(`${statusCode} - ${statusText} : ${message}`);
+
+        }
+      }else{
+        alert('로그인 후 이용해주세요.');
+        navigate('/login');
+      }
+      
+
 
    
   }

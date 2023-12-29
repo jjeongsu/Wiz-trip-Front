@@ -29,4 +29,47 @@ export const HeaderBox = styled.header`
       background-color: #5a40de;
     }
   }
+
+  .user-info{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    span{
+      color: #000;
+      text-align: center;
+      font-family: Wanted Sans;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+
+  }
 `;
+
+export const MenuBox = styled.div`
+  position: absolute;
+  margin-right: 2rem;
+  width: 165px;
+  height: 85px;
+  border-radius: 5px;
+  background: #F7F8F9;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 15px;
+
+  .menu-text{
+    margin: 5px;
+    color: var(--gray900, #1B1D1F);
+    font-family: Wanted Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    cursor: default;
+  }
+
+`

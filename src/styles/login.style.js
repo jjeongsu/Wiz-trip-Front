@@ -22,8 +22,12 @@ export const LoginForm = styled.form`
     align-items: center;
 
     .logo {
+        font-family: Pretendard Variable;
         margin-top: 102px;
+        margin-bottom: 10px;
         font-size: 36px;
+        font-style: normal;
+        font-weight: 600;
         color: ${({ theme }) => theme.mainAccentColor};
       }
 
@@ -33,7 +37,8 @@ export const LoginForm = styled.form`
         font-style: normal;
         font-weight: 400;
         font-family: Pretendard Variable;
-        margin-top: 2px;
+        margin-top: 5px;
+        cursor: default;
     }
     .input-container{
         width: 290px;
@@ -60,6 +65,7 @@ export const LoginForm = styled.form`
         font-weight: 400;
         margin-top: 13px;
         padding-left: 5px;
+        cursor: pointer;
     }
     .bottom-text{
         color: ${({ theme }) => theme.gray600};
@@ -68,6 +74,7 @@ export const LoginForm = styled.form`
         font-style: normal;
         font-weight: 400;
         margin-top: 25px;
+        cursor: default;
 
         a{
             color: #6446FF;
