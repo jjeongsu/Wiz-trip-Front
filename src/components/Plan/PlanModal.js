@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import createSelectTimes from '../../utils/createSelectTimes';
 import CloseIcon from '../../assets/close-icon';
+import * as M from '../../styles/planmodal.style';
+import { useForm } from 'react-hook-form';
 function PlanModal({
   isOpenModal,
   setIsOpenModal,
@@ -14,6 +16,16 @@ function PlanModal({
   const [selectedDay, setSelectedDay] = useState(0);
   const [title, setTitle] = useState('');
   const times = createSelectTimes();
+  //days정보 -> schedule redux에서 가져오기
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues,
+    setError,
+    clearErrors,
+    formState: { errors, isDirty, isValid },
+  } = useForm({ mode: 'onChange' });
 
   const onSubmitClick = (e) => {
     setPlans((plans) => [
@@ -30,128 +42,96 @@ function PlanModal({
     setEndIndex(0);
     setTitle('');
   };
-
+  const onSubmit = () => {};
   useEffect(() => {
     console.log('날짜', '시작시간', '종료시간');
     console.log(selectedDay, startIndex, endIndex);
   }, [startIndex, endIndex, selectedDay]);
   return (
-    <ModalWrapper isopen={isOpenModal}>
-      <div></div>
-      <button onClick={() => setIsOpenModal(false)}>
-        <CloseIcon width="19" height="19" fill="#6446ff" />
-      </button>
-      <div>
-        <p className="label">날짜</p>
-        <Selecter
-          className="seleter"
-          name="selectDay"
-          onChange={(e) => setSelectedDay(e.target.value)}
+    <div>
+      <M.ModalWrapper isopen={isOpenModal}>
+        <button
+          className="close-modal-button"
+          onClick={() => setIsOpenModal(false)}
         >
-          {days.map((day, index) => (
-            <option key={index} value={index}>
-              {day}
-            </option>
-          ))}
-        </Selecter>
-      </div>
-      <div>
-        <p className="label">시간</p>
-        <Selecter
-          className="seleter"
-          name="startTime"
-          onChange={(e) => setStartIndex(e.target.value)}
-          value={startIndex}
-        >
-          {times.map((time, index) => (
-            <option key={index} value={index}>
-              {time.text}
-            </option>
-          ))}
-        </Selecter>
-        <span> ~ </span>
-        <Selecter
-          className="seleter"
-          name="endTime"
-          onChange={(e) => setEndIndex(e.target.value)}
-          value={endIndex}
-        >
-          {times.slice(startIndex).map((time, index) => (
-            <option key={index} value={index}>
-              {time.text}
-            </option>
-          ))}
-        </Selecter>
-        <p className="label"> 내용 </p>
-        <input
-          name="title"
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-        />
-      </div>
-      <button className="submit-button" onClick={onSubmitClick}>
-        {' '}
-        완료{' '}
-      </button>
-    </ModalWrapper>
+          <CloseIcon width="19" height="19" fill="#6446ff" />
+        </button>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <M.FormWrapper>
+            <div className="field">
+              <p className="label">장소</p>
+              <input />
+            </div>
+
+            <div className="field">
+              <p className="label">시간</p>
+              <div>
+                <M.Selecter
+                  className="seleter"
+                  name="selectDay"
+                  onChange={(e) => setSelectedDay(e.target.value)}
+                >
+                  {days.map((day, index) => (
+                    <option key={index} value={index}>
+                      {day}
+                    </option>
+                  ))}
+                </M.Selecter>
+                <br />
+                <M.Selecter
+                  className="seleter"
+                  name="startTime"
+                  onChange={(e) => setStartIndex(e.target.value)}
+                  value={startIndex}
+                >
+                  {times.map((time, index) => (
+                    <option key={index} value={index}>
+                      {time.text}
+                    </option>
+                  ))}
+                </M.Selecter>
+                <span> ~ </span>
+                <M.Selecter
+                  className="seleter"
+                  name="endTime"
+                  onChange={(e) => setEndIndex(e.target.value)}
+                  value={endIndex}
+                >
+                  {times.slice(startIndex).map((time, index) => (
+                    <option key={index} value={index}>
+                      {time.text}
+                    </option>
+                  ))}
+                </M.Selecter>
+              </div>
+            </div>
+
+            <div className="field">
+              <p className="label">카테고리</p>
+              <M.Selecter>
+                {['음식', '숙소', '관광', '기타'].map((category, index) => (
+                  <option key={index}>{category}</option>
+                ))}
+              </M.Selecter>
+            </div>
+
+            <div className="field">
+              <p className="label"> 내용 </p>
+              <textarea
+                name="title"
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
+              />
+            </div>
+          </M.FormWrapper>
+          <button className="submit-button" onClick={onSubmitClick}>
+            완료
+          </button>
+        </form>
+      </M.ModalWrapper>
+      <M.ModalBackground isopen={isOpenModal}>{''}</M.ModalBackground>
+    </div>
   );
 }
 export default PlanModal;
-
-const ModalWrapper = styled.div`
-  width: 364px;
-  height: 475px;
-  background-color: #fff;
-  padding: 20px;
-  display: ${(props) => (props.isopen === true ? 'fixed' : 'none')};
-  position: absolute;
-  top: 100px;
-  left: 200px;
-  z-index: 4;
-  border-radius: 27px;
-  border: 1px solid #e8ebed;
-
-  button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
-
-  input {
-    width: 193px;
-    height: 84px;
-    border-radius: 5px;
-    background-color: ${({ theme }) => theme.background};
-    border: none;
-  }
-  .label {
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .submit-button {
-    width: 88px;
-    height: 30px;
-    background-color: ${({ theme }) => theme.mainAccentColor};
-    border-radius: 16px;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 28px;
-  }
-`;
-
-const Selecter = styled.select`
-  width: 100px;
-  height: 30px;
-  padding: 7px 19px;
-  appearance: none;
-  font-size: 12px;
-  text-align: center;
-  background-color: ${({ theme }) => theme.background};
-  border: none;
-  border-radius: 5px;
-`;
