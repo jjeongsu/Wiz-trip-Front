@@ -12,20 +12,25 @@ import { GlobalStyle } from './styles/global-style';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import rootReducer from './services';
+import rootReducer, { persistedReducer } from './services';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from "redux-persist";
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const queryClient = new QueryClient();
-const store = createStore(rootReducer, composeWithDevTools());
+const store = createStore(persistedReducer, composeWithDevTools());
+const persistor = persistStore(store);
 root.render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
+    <PersistGate loading={null} persistor={persistor}>
       <ReactQueryDevtools initialIsOpen={true} />
       <GlobalStyle />
       <ThemeProvider theme={colorTheme}>
         <App />
       </ThemeProvider>
+      </PersistGate>
     </QueryClientProvider>
   </Provider>,
 );
