@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { initSchedule } from '../services/schedule';
 import { getCookie } from '../utils/cookies';
 import dayjs from 'dayjs';
+import { getTrip } from '../apis/api/trip';
 
 //planBoard 프로토타입용 #이후삭제
 const initialDays = ['12월 13일', '12월 14일', '12월 15일']; //추가하면
@@ -31,26 +32,16 @@ function Plan() {
   useEffect(()=>{
     //trip 정보 세팅 
     async function fetchTripData() {
-      try {
-        const res = await axios.get(`/trips?tripId=${tripId}`,
-          { headers: {
-              'Authorization': `Bearer ${getCookie('jwtToken')}`
-            }
-          }
-        );
-        console.log(res.data);
 
-        let schedule =  {
-          place: res.data.destination,
-          startDate: dayjs(res.data.startDate).format('YYYY-MM-DD'),
-          endDate: dayjs(res.data.finishDate).format('YYYY-MM-DD')}
-        dispatch(initSchedule(schedule));
-   
-        
-      } catch (error) {
-        console.error('trip 조회 에러:', error);
-      }
-    
+      const res = await getTrip(tripId);
+      console.log(res.data);
+
+      let schedule =  {
+        place: res.data.destination,
+        startDate: dayjs(res.data.startDate).format('YYYY-MM-DD'),
+        endDate: dayjs(res.data.finishDate).format('YYYY-MM-DD')}
+      dispatch(initSchedule(schedule));
+  
     }
     fetchTripData();
 

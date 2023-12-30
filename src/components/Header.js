@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import * as S from '../styles/header.style';
 import { useNavigate } from 'react-router-dom';
@@ -14,8 +13,10 @@ function Header() {
 
   //로그인 여부 확인
   const isLogin = CheckLogin();
+  const userInfo = useSelector(state=>state.User);
   const [isOpenMenu, setIsOpenMenu] = useState(false)
   const dispatch = useDispatch();
+
 
 
   const handleLogout=()=>{
@@ -24,6 +25,9 @@ function Header() {
       removeCookie('refreshToken');
       setIsOpenMenu(!isOpenMenu)
       dispatch(deleteUser());
+       
+      // 페이지를 새로고침
+      window.location.reload();
       
   }
   return (
@@ -34,9 +38,9 @@ function Header() {
       </Link>
       {isLogin? 
         <div className='user-info'>
-          <span>사용자 이름</span>
+          <span>{userInfo.nickname}</span>
           <button onClick={()=>setIsOpenMenu(!isOpenMenu)} style={{ background: 'none', border: 'none', padding: 0, cursor: 'default' }}>
-            <img src={Profileimg} alt='profile' width={50}/>
+            <img src={userInfo.Profileimg? userInfo.Profileimg: Profileimg} alt='profile' width={50}/>
           </button>
         </div>
         :

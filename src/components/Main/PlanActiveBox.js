@@ -5,10 +5,9 @@ import dayjs from 'dayjs';
 import DateModal from '../DateModal';
 import { useSelector, useDispatch } from 'react-redux'
 import { initSchedule } from '../../services/schedule';
-import axios from 'axios';
-import { getCookie } from '../../utils/cookies';
 import CheckLogin from '../../utils/checklogin';
 import { useNavigate } from 'react-router';
+import { addTrip } from '../../apis/api/trip';
 // eslint-disable-next-line react/prop-types
 function PlanActiveBox({setInputPlan}) {
   const [placeInput, setPlaceInput] = useState('');
@@ -47,55 +46,42 @@ function PlanActiveBox({setInputPlan}) {
 
 
   const handleSubmit = async () => {
+    let isLogin = CheckLogin();
 
-      // 여행지, 시작날짜, 종료날짜가 모두 입력되었는지 확인
-      if (!placeInput || !StartDate || !EndDate) {
-        alert('모든 필드를 입력해주세요.');
-        return;
-      }
-  
-      if (dayjs(EndDate).isBefore(dayjs(StartDate), 'day')) {
-        alert('종료날짜는 시작날짜보다 같거나 그 이후여야 합니다.');
-        return;
-      }
+    if(!isLogin){
+      alert('로그인 후 이용해주세요.');
+      navigate('/login');
+      return;
+    }
 
-      let isLogin = CheckLogin();
-      if(isLogin){
+    // 여행지, 시작날짜, 종료날짜가 모두 입력되었는지 확인
+    if (!placeInput || !StartDate || !EndDate) {
+      alert('모든 필드를 입력해주세요.');
+      return;
+    }
 
-        try{
-          //trip 생성 api 요청 코드
-          const res = await axios.post("/trips", {
-            startDate: dayjs(StartDate).format('YYYYMMDD'),
-            finishDate: dayjs(EndDate).format('YYYYMMDD'),
-            destination: placeInput
-          },{
-            headers: {
-              'Authorization': `Bearer ${getCookie('jwtToken')}`
-            }
-          })
-          
-          console.log("Trip 생성 응답", res.data);
-          console.log(res.data.tripId);
+    if (dayjs(EndDate).isBefore(dayjs(StartDate), 'day')) {
+      alert('종료날짜는 시작날짜보다 같거나 그 이후여야 합니다.');
+      return;
+    }
 
-          //해당 TripId를 가진 여행 계획 페이지로 이동 
-          navigate(`/plan/${res.data.tripId}`);
+    let data = {
+      startDate: dayjs(StartDate).format('YYYYMMDD'),
+      finishDate: dayjs(EndDate).format('YYYYMMDD'),
+      destination: placeInput
+    }
 
-        }catch(error){
-          console.log('Trip Error', error);
-          const statusCode = error.response.status;
-          const statusText = error.response.statusText;
-          const message = error.response.data.message;
-          console.log(`${statusCode} - ${statusText} : ${message}`);
+    //trip 생성 api 요청 코드
+    const res = await addTrip(data);
+    
+    if(res.status==200){
+      console.log("Trip 생성 응답", res.data);
+      console.log(res.data.tripId);
+    }
 
-        }
-      }else{
-        alert('로그인 후 이용해주세요.');
-        navigate('/login');
-      }
-      
+    //해당 TripId를 가진 여행 계획 페이지로 이동 
+    navigate(`/plan/${res.data.tripId}`);
 
-
-   
   }
 
   const handleInput = (e) => {

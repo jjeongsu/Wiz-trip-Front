@@ -5,8 +5,8 @@ import DateModal from '../DateModal';
 import dayjs from 'dayjs';
 import {useSelector} from 'react-redux'
 import { useParams } from 'react-router';
-import { getCookie } from '../../utils/cookies';
-import axios from 'axios';
+import { updateTrip } from '../../apis/api/trip';
+
 function UpdatePlanInfo({setUpdateForm}) {
     const tripId = useParams().tripId;
     const [placeInput, setPlaceInput] = useState(useSelector(state=>state.Schedule.place));
@@ -20,7 +20,6 @@ function UpdatePlanInfo({setUpdateForm}) {
 
 
     // 원래 상태를 추적하는 상태 변수
-
     const [originalData, setOriginalData] = useState({
       location: placeInput,
       startDate: StartDate,
@@ -61,7 +60,7 @@ function UpdatePlanInfo({setUpdateForm}) {
           updatedData.startDate = dayjs(StartDate).format('YYYYMMDD');
         }
         if (EndDate !== originalData.endDate) {
-          updatedData.finishDate = dayjs(EndDate).format('YYYY-MM-DD');
+          updatedData.finishDate = dayjs(EndDate).format('YYYYMMDD');
         }
 
         // 변경된 데이터가 없으면 경고를 표시하고 함수를 종료
@@ -71,22 +70,9 @@ function UpdatePlanInfo({setUpdateForm}) {
         }
 
         //trip 수정 API 요청 코드 
-        try{
-          const res = await axios.patch('/trips',{
-            ...updatedData, tripId: tripId
-          },
-          { headers: {
-            'Authorization': `Bearer ${getCookie('jwtToken')}`
-          }
-        })
-          console.log(res);
-          setUpdateForm(false);
-        }catch(error){
-          console.log("trip 수정 에러", error)
-        }
-
-
-
+        const res = await updateTrip({...updatedData, tripId: tripId})
+        console.log(res);
+        setUpdateForm(false);
     }
   return (
     <>
