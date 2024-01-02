@@ -4,6 +4,9 @@ import createSelectTimes from '../../utils/createSelectTimes';
 import CloseIcon from '../../assets/close-icon';
 import * as M from '../../styles/planmodal.style';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { createDatesArr } from '../../utils/createDaysArr';
+import { categoryToEng } from '../../assets/category-palette';
 function PlanModal({
   isOpenModal,
   setIsOpenModal,
@@ -11,12 +14,11 @@ function PlanModal({
   days,
   setPlans,
 }) {
-  const [startIndex, setStartIndex] = useState(0);
-  const [endIndex, setEndIndex] = useState(0);
-  const [selectedDay, setSelectedDay] = useState(0);
-  const [title, setTitle] = useState('');
   const times = createSelectTimes();
   //days정보 -> schedule redux에서 가져오기
+  const schedules = useSelector((state) => state.schedule);
+  const n_days = createDatesArr({ ...schedules });
+  console.log('모달 days', n_days);
   const {
     register,
     handleSubmit,
@@ -24,29 +26,34 @@ function PlanModal({
     getValues,
     setError,
     clearErrors,
+    reset,
     formState: { errors, isDirty, isValid },
   } = useForm({ mode: 'onChange' });
 
-  const onSubmitClick = (e) => {
+  const onSubmit = (data) => {
+    console.log(data);
+    //
     setPlans((plans) => [
       ...plans,
       {
-        day: selectedDay,
-        startIndex: startIndex,
-        endIndex: endIndex,
-        title: title,
+        day: data.selectDay,
+        startIndex: data.startTime,
+        endIndex: data.endTime,
+        content: data.content,
+        category: categoryToEng[data.category],
       },
     ]);
     setIsOpenModal(false);
-    setStartIndex(0);
-    setEndIndex(0);
-    setTitle('');
+    reset({
+      selectDay: 0,
+      startTiem: '',
+      endTime: 0,
+      content: '',
+      category: '',
+      place: '',
+    });
   };
-  const onSubmit = () => {};
-  useEffect(() => {
-    console.log('날짜', '시작시간', '종료시간');
-    console.log(selectedDay, startIndex, endIndex);
-  }, [startIndex, endIndex, selectedDay]);
+
   return (
     <div>
       <M.ModalWrapper isopen={isOpenModal}>
@@ -61,7 +68,7 @@ function PlanModal({
           <M.FormWrapper>
             <div className="field">
               <p className="label">장소</p>
-              <input />
+              <input {...register('place')} />
             </div>
 
             <div className="field">
@@ -70,7 +77,7 @@ function PlanModal({
                 <M.Selecter
                   className="seleter"
                   name="selectDay"
-                  onChange={(e) => setSelectedDay(e.target.value)}
+                  {...register('selectDay', { required: true })}
                 >
                   {days.map((day, index) => (
                     <option key={index} value={index}>
@@ -82,8 +89,7 @@ function PlanModal({
                 <M.Selecter
                   className="seleter"
                   name="startTime"
-                  onChange={(e) => setStartIndex(e.target.value)}
-                  value={startIndex}
+                  {...register('startTime', { required: true })}
                 >
                   {times.map((time, index) => (
                     <option key={index} value={index}>
@@ -95,10 +101,9 @@ function PlanModal({
                 <M.Selecter
                   className="seleter"
                   name="endTime"
-                  onChange={(e) => setEndIndex(e.target.value)}
-                  value={endIndex}
+                  {...register('endTime', { required: true })}
                 >
-                  {times.slice(startIndex).map((time, index) => (
+                  {times.slice(watch('startTime')).map((time, index) => (
                     <option key={index} value={index}>
                       {time.text}
                     </option>
@@ -109,9 +114,14 @@ function PlanModal({
 
             <div className="field">
               <p className="label">카테고리</p>
-              <M.Selecter>
+              <M.Selecter
+                name="category"
+                {...register('category', { required: true })}
+              >
                 {['음식', '숙소', '관광', '기타'].map((category, index) => (
-                  <option key={index}>{category}</option>
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
                 ))}
               </M.Selecter>
             </div>
@@ -119,15 +129,12 @@ function PlanModal({
             <div className="field">
               <p className="label"> 내용 </p>
               <textarea
-                name="title"
-                onChange={(e) => setTitle(e.target.value)}
-                value={title}
+                name="content"
+                {...register('content', { required: true })}
               />
             </div>
           </M.FormWrapper>
-          <button className="submit-button" onClick={onSubmitClick}>
-            완료
-          </button>
+          <button className="submit-button">완료</button>
         </form>
       </M.ModalWrapper>
       <M.ModalBackground isopen={isOpenModal}>{''}</M.ModalBackground>

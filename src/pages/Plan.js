@@ -5,7 +5,9 @@ import PlanLayout from '../components/Plan/PlanLayout';
 import PlanModal from '../components/Plan/PlanModal';
 import PlanBoard from '../components/Plan/PlanBoard';
 import Memo from '../components/Plan/Memo';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { createDatesArr } from '../utils/createDaysArr';
 
 //planBoard 프로토타입용 #이후삭제
 const initialDays = ['12월 13일', '12월 14일', '12월 15일']; //추가하면
@@ -16,17 +18,12 @@ function Plan() {
   const [defaultDate, setDefaultDate] = useState(null);
   const [currentSpot, setCurrentSpot] = useState('');
 
+  //스케쥴 정보 가져와서 배열로 만들기
+  const schedules = useSelector((state) => state.schedule);
+  console.log('schedules', schedules);
+  //const datesArr = createDatesArr({ ...schedules });
+  const [datesArr, setDatesArr] = useState([]);
   const [plans, setPlans] = useState([]);
-  /**
-   * plan예시
-   * {
-   *    day :
-   *    startIndex :
-   *    endIndex :
-   *    title :
-   * }
-   */
-  console.log('plan', plans);
   return (
     <Layout fullWidth={true}>
       <Planheader />
