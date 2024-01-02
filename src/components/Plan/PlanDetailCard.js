@@ -4,9 +4,10 @@ import { useQuery } from 'react-query';
 import { getUserProfile } from '../../apis/api/plan-userinfo';
 import ModifyDetailIcon from '../../assets/plan-modi-detail-icon';
 import DefaultProfileIcon from '../../assets/default-profile-icon';
+import { useState } from 'react';
 function PlanDetailCard({ address, content, category, userId }) {
   const Color = category_palette[category];
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   //const { isLoading, fetchedUserProfile } = useQuery(
   //  'userProfileInfo',
   //  getUserProfile(userId),
@@ -27,10 +28,33 @@ function PlanDetailCard({ address, content, category, userId }) {
       </div>
       <div className="horizental content-button">
         <div className="content">{content}</div>
-        <button className="modi-button">
+        <button
+          className="modi-button"
+          onClick={() => {
+            setIsModalOpen((prev) => !prev);
+            console.log('onclick 이벤트 발생');
+          }}
+        >
           <ModifyDetailIcon width="19" height="19" />
         </button>
       </div>
+      <ModiModal isOpen={isModalOpen}>
+        <button
+          onClick={() => {
+            console.log('수정하기cliked');
+          }}
+        >
+          수정하기
+        </button>
+        <button
+          className="delete"
+          onClick={() => {
+            console.log('삭제하기cliked');
+          }}
+        >
+          삭제하기
+        </button>
+      </ModiModal>
     </DetailCard>
   );
 }
@@ -72,8 +96,12 @@ const DetailCard = styled.div`
 
   .content {
     font-size: 12px;
+    overflow-y: hidden;
+    overflow-x: hidden;
   }
   .modi-button {
+    width: 19px;
+    height: 19px;
     background: none;
     border: none;
     cursor: pointer;
@@ -81,5 +109,31 @@ const DetailCard = styled.div`
     justify-content: center;
     align-items: center;
     padding: 0;
+    z-index: 4;
+  }
+`;
+
+const ModiModal = styled.div`
+  width: 71px;
+  height: 47px;
+  position: absolute;
+  display: ${(props) => (props.isOpen === true ? 'flex' : 'none')};
+  flex-direction: column;
+  right: 0;
+  bottom: -40px;
+  button {
+    background-color: white;
+    border: 1px solid ${({ theme }) => theme.gray100};
+    font-size: 12px;
+    color: ${({ theme }) => theme.gray200};
+    margin: 0;
+    width: inherit;
+    height: 23px;
+    cursor: pointer;
+  }
+
+  .delete {
+    color: ${({ theme }) => theme.red600};
+    border-top: none;
   }
 `;
