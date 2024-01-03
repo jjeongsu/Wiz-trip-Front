@@ -18,4 +18,11 @@ export const GlobalStyle = createGlobalStyle`
   a { cursor: pointer; text-decoration: none; }
 
   li{list-style: none;}
+
+  button{
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: default;
+  }
 `;

@@ -7,12 +7,11 @@ import PlanBoard from '../components/Plan/PlanBoard';
 import Memo from '../components/Plan/Memo';
 import { useState } from 'react';
 import {useParams} from 'react-router-dom'
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { initSchedule } from '../services/schedule';
-import { getCookie } from '../utils/cookies';
 import dayjs from 'dayjs';
 import { getTrip } from '../apis/api/trip';
+import { useQuery } from 'react-query';
 
 //planBoard 프로토타입용 #이후삭제
 const initialDays = ['12월 13일', '12월 14일', '12월 15일']; //추가하면
@@ -29,23 +28,21 @@ function Plan() {
 
   const dispatch = useDispatch();
 
+  const { isLoading, data: tripData } = useQuery('getTrip', () => getTrip(tripId));
+
   useEffect(()=>{
     //trip 정보 세팅 
-    async function fetchTripData() {
-
-      const res = await getTrip(tripId);
-      console.log(res.data);
-
-      let schedule =  {
-        place: res.data.destination,
-        startDate: dayjs(res.data.startDate).format('YYYY-MM-DD'),
-        endDate: dayjs(res.data.finishDate).format('YYYY-MM-DD')}
+    if (tripData) {
+      const { destination, startDate, finishDate } = tripData;
+      const schedule = {
+        place: destination,
+        startDate: dayjs(startDate).format('YYYY-MM-DD'),
+        endDate: dayjs(finishDate).format('YYYY-MM-DD'),
+      };
       dispatch(initSchedule(schedule));
-  
     }
-    fetchTripData();
 
-  },[])
+  },[tripData])
   /**
    * plan예시
    * {
@@ -56,9 +53,11 @@ function Plan() {
    * }
    */
   console.log('plan', plans);
+
+  if(isLoading){ return <div>loading....</div>}
   return (
     <Layout fullWidth={true}>
-      <Planheader />
+      <Planheader userIdList={tripData.userIdList}/>
       <PlanLayout>
         <PlanBoard
           days={initialDays}

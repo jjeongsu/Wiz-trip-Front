@@ -63,7 +63,7 @@ function Login() {
       }));
 
       //메인화면 이동 
-      navigate('/')
+      window.location.href = '/'
     }
       
 };

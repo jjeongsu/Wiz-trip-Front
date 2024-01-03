@@ -5,9 +5,8 @@ import ConnectedUsers from './ConnectedUsers';
 import { useDispatch, useSelector } from 'react-redux';
 import { initSchedule } from '../../services/schedule';
 import dayjs from 'dayjs';
-function Planheader() {
+function Planheader({userIdList}) {
   const planinfo = useSelector((state) => state.Schedule);
-  const [userNum, setUserNum] = useState(3);
   const [updateform, setUpdateForm] = useState(false);
 
   const formatDate = (date) => {
@@ -39,12 +38,12 @@ function Planheader() {
               {startDate} ~ {endDate}
             </span>
             <div className="vertical-line" />
-            <span className="text-container">{userNum}명</span>
+            <span className="text-container">{userIdList.length}명</span>
           </P.PlanInfoLayout>
         )}
 
         {/* 접속 중인 사용자 */}
-        <ConnectedUsers />
+        <ConnectedUsers userIdList={userIdList}/>
       </div>
       <div className="button-container">
         <P.InviteBtn>초대 하기</P.InviteBtn>

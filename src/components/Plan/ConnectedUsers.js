@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 import Profileimg from '../../assets/default_profileimg.png'
 
-function ConnectedUsers() {
-    const [users, setUsers] = useState([1,2,3]);
+function ConnectedUsers({userIdList}) {
+    const users = userIdList;
+    console.log(users);
 
     const UserProfile = ({user, index}) => {
         const colors = ['#D35344', '#FF73CB', '#53ABF7', '#01C99B', '#D88435'];
