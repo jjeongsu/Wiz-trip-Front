@@ -11,7 +11,7 @@ function UserProfile() {
 
     const userId = useSelector(state=>state.User.userIdx);
 
-    const { isLoading, data: userData } = useQuery('getTrip', () => getUser(userId));
+    const { isLoading, data: userData } = useQuery('getUserInfo', () => getUser(userId));
     console.log(userId);
     console.log(userData);
     
@@ -27,6 +27,7 @@ function UserProfile() {
         "nickname": "string",
         "like": {}
       } */
+    if(isLoading) return <div> is Loading...</div>
     return (
         <div>
             <M.TitleText>나의 프로필</M.TitleText>
