@@ -12,6 +12,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import CheckLogin from './utils/checklogin';
 function App() {
     const isLogin = CheckLogin();
+    console.log(isLogin);
 
     //로그인한 회원은 들어갈 수 없는 페이지 
     const PublicRoute = () => {
