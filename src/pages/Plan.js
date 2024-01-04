@@ -8,6 +8,7 @@ import Memo from '../components/Plan/Memo';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { createDatesArr } from '../utils/createDaysArr';
+import KakaoMap from '../components/Plan/KakaoMap';
 
 //planBoard 프로토타입용 #이후삭제
 const initialDays = ['12월 13일', '12월 14일', '12월 15일']; //추가하면
@@ -34,7 +35,7 @@ function Plan() {
           setDefaultDate={setDefaultDate}
           plans={plans}
         />
-        <div style={{ backgroundColor: 'powderblue' }}> MAPS</div>
+        <KakaoMap />
         <Memo />
         <PlanModal
           isOpenModal={isOpenModal}

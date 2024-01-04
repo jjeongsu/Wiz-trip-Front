@@ -22,9 +22,8 @@ export const ModalWrapper = styled.div`
   z-index: 4;
   border-radius: 27px;
   border: 1px solid #e8ebed;
-
+  font-family: 'Pretendard';
   button {
-    background-color: transparent;
     border: none;
     cursor: pointer;
   }
@@ -42,6 +41,11 @@ export const ModalWrapper = styled.div`
     margin-top: 28px;
   }
   .close-modal-button {
+    background-color: transparent;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .button-box {
     display: flex;
     justify-content: flex-end;
   }
@@ -49,7 +53,9 @@ export const ModalWrapper = styled.div`
 
 export const FormWrapper = styled.form`
   margin-top: 28px;
-
+  strong {
+    color: ${({ theme }) => theme.subAccentColor};
+  }
   textarea {
     width: 217px;
     height: 84px;
@@ -65,7 +71,9 @@ export const FormWrapper = styled.form`
     background-color: ${({ theme }) => theme.background};
     border: none;
   }
+
   .field {
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -73,11 +81,16 @@ export const FormWrapper = styled.form`
   }
 
   .label {
+    display: block;
     font-size: 14px;
     font-weight: 500;
     width: 100px;
     margin: 0;
-    height: 100%;
+    height: inherit;
+  }
+  .address-box {
+    display: flex;
+    flex-direction: column;
   }
 `;
 

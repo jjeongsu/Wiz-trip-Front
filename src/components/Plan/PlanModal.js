@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import createSelectTimes from '../../utils/createSelectTimes';
 import CloseIcon from '../../assets/close-icon';
@@ -7,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { createDatesArr } from '../../utils/createDaysArr';
 import { categoryToEng } from '../../assets/category-palette';
+
+import KakaoPostcode from './KakaoPostcode';
 function PlanModal({
   isOpenModal,
   setIsOpenModal,
@@ -29,13 +30,15 @@ function PlanModal({
     reset,
     formState: { errors, isDirty, isValid },
   } = useForm({ mode: 'onChange' });
+  const [isOpenPostcode, setIsOpenPostcode] = useState(false);
+  const [address, setAddress] = useState('');
 
   const onSubmit = (data) => {
     console.log(data);
-    //
     setPlans((plans) => [
       ...plans,
       {
+        address: address,
         day: data.selectDay,
         startIndex: data.startTime,
         endIndex: data.endTime,
@@ -57,22 +60,28 @@ function PlanModal({
   return (
     <div>
       <M.ModalWrapper isopen={isOpenModal}>
-        <button
-          className="close-modal-button"
-          onClick={() => setIsOpenModal(false)}
-        >
-          <CloseIcon width="19" height="19" fill="#6446ff" />
-        </button>
-
+        <div className="button-box">
+          <button
+            className="close-modal-button"
+            onClick={() => setIsOpenModal(false)}
+          >
+            <CloseIcon width="19" height="19" fill="#6446ff" />
+          </button>
+        </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <M.FormWrapper>
             <div className="field">
               <p className="label">장소</p>
-              <input {...register('place')} />
+              <div className="address-box">
+                <input value={address} />
+                <KakaoPostcode setAddress={setAddress} />
+              </div>
             </div>
-
             <div className="field">
-              <p className="label">시간</p>
+              <p className="label">
+                시간
+                <strong>*</strong>
+              </p>
               <div>
                 <M.Selecter
                   className="seleter"
@@ -113,7 +122,9 @@ function PlanModal({
             </div>
 
             <div className="field">
-              <p className="label">카테고리</p>
+              <p className="label">
+                카테고리<strong>*</strong>
+              </p>
               <M.Selecter
                 name="category"
                 {...register('category', { required: true })}
@@ -127,14 +138,18 @@ function PlanModal({
             </div>
 
             <div className="field">
-              <p className="label"> 내용 </p>
+              <p className="label">
+                내용<strong>*</strong>
+              </p>
               <textarea
                 name="content"
                 {...register('content', { required: true })}
               />
             </div>
           </M.FormWrapper>
-          <button className="submit-button">완료</button>
+          <div className="button-box">
+            <button className="submit-button">완료</button>
+          </div>
         </form>
       </M.ModalWrapper>
       <M.ModalBackground isopen={isOpenModal}>{''}</M.ModalBackground>

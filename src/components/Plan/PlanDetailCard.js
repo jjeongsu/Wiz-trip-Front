@@ -4,21 +4,33 @@ import { useQuery } from 'react-query';
 import { getUserProfile } from '../../apis/api/plan-userinfo';
 import ModifyDetailIcon from '../../assets/plan-modi-detail-icon';
 import DefaultProfileIcon from '../../assets/default-profile-icon';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+
 function PlanDetailCard({ address, content, category, userId }) {
   const Color = category_palette[category];
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const cardRef = useRef(null);
+  const contentRef = useRef(null);
+
   //const { isLoading, fetchedUserProfile } = useQuery(
   //  'userProfileInfo',
   //  getUserProfile(userId),
   //); //프로필 이미지 정보 만 가져옴
 
   const userProfile = ''; //유저프로필 복호화
+
+  useEffect(() => {
+    const parentHeight = cardRef.current.clientHeight;
+    const childHeight = parentHeight - 40;
+    contentRef.current.style.maxHeight = `${childHeight}px`;
+  }, []);
+
   return (
     <DetailCard
       background={Color.background}
       stroke={Color.stroke}
       tag={Color.tag}
+      ref={cardRef}
     >
       <div className="horizental ">
         <div className="category-tag">{categoryToKo[category]}</div>
@@ -27,7 +39,9 @@ function PlanDetailCard({ address, content, category, userId }) {
         </div>
       </div>
       <div className="horizental content-button">
-        <div className="content">{content}</div>
+        <div className="content" ref={contentRef}>
+          {content}
+        </div>
         <button
           className="modi-button"
           onClick={() => {
@@ -70,6 +84,7 @@ const DetailCard = styled.div`
   width: inherit;
   height: inherit;
   padding: 5px 7px 5px 14px;
+
   .horizental {
     display: flex;
     flex-direction: row;
@@ -96,8 +111,15 @@ const DetailCard = styled.div`
 
   .content {
     font-size: 12px;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    width: 160px;
+    overflow: hidden;
+    display: block;
+    white-space: wrap;
+    text-overflow: ellipsis;
+
+    &:hover {
+      overflow: visible;
+    }
   }
   .modi-button {
     width: 19px;
