@@ -5,14 +5,13 @@ import PlanLayout from '../components/Plan/PlanLayout';
 import PlanModal from '../components/Plan/PlanModal';
 import PlanBoard from '../components/Plan/PlanBoard';
 import Memo from '../components/Plan/Memo';
-import { useState } from 'react';
-import {useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { initSchedule } from '../services/schedule';
 import dayjs from 'dayjs';
 import { getTrip } from '../apis/api/trip';
 import { useQuery } from 'react-query';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { createDatesArr } from '../utils/createDaysArr';
 import KakaoMap from '../components/Plan/KakaoMap';
