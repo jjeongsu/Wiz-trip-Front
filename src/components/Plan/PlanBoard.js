@@ -5,6 +5,7 @@ import { hours24 } from '../../utils/HoursAday';
 import { useEffect, useState } from 'react';
 import GridLayout from 'react-grid-layout';
 import AddPlanIcon from '../../assets/add-plan-icon';
+import PlanDetailCard from './PlanDetailCard';
 function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
   const times = createSelectTimes();
 
@@ -37,6 +38,7 @@ function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
   }, [plans]);
   console.log('계획들', plans);
   console.log('layout 배열', mylayout);
+
   return (
     <S.BoardBox>
       <div className="timeline">
@@ -74,17 +76,6 @@ function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
                   {' '}
                 </div>
               ))}
-              {/* {plans
-                .filter((plan, v) => ~~plan.day === dayi)
-                .map((plan, i) => {
-                  const top = 18 + 12 * plan.startIndex;
-                  const height = 12 * plan.endIndex;
-                  return (
-                    <S.Schedule key={i} top={top} height={height}>
-                      {plan.title}
-                    </S.Schedule>
-                  );
-                })} */}
             </div>
           </div>
         ))}
@@ -100,7 +91,16 @@ function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
         layout={mylayout}
       >
         {plans?.map((p, index) => {
-          return <S.Schedule key={index.toString()}>{p.title}</S.Schedule>;
+          return (
+            <div key={index.toString()}>
+              <PlanDetailCard
+                address="서울시 강남구"
+                content={p.content}
+                category={p.category}
+                userId="1"
+              />
+            </div>
+          );
         })}
       </GridLayout>
     </S.BoardBox>
