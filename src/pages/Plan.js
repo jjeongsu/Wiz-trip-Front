@@ -12,6 +12,10 @@ import { initSchedule } from '../services/schedule';
 import dayjs from 'dayjs';
 import { getTrip } from '../apis/api/trip';
 import { useQuery } from 'react-query';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { createDatesArr } from '../utils/createDaysArr';
+import KakaoMap from '../components/Plan/KakaoMap';
 
 //planBoard 프로토타입용 #이후삭제
 const initialDays = ['12월 13일', '12월 14일', '12월 15일']; //추가하면
@@ -24,6 +28,11 @@ function Plan() {
   const [defaultDate, setDefaultDate] = useState(null);
   const [currentSpot, setCurrentSpot] = useState('');
 
+  //스케쥴 정보 가져와서 배열로 만들기
+  const schedules = useSelector((state) => state.schedule);
+  console.log('schedules', schedules);
+  //const datesArr = createDatesArr({ ...schedules });
+  const [datesArr, setDatesArr] = useState([]);
   const [plans, setPlans] = useState([]);
 
   const dispatch = useDispatch();
@@ -65,7 +74,7 @@ function Plan() {
           setDefaultDate={setDefaultDate}
           plans={plans}
         />
-        <div style={{ backgroundColor: 'powderblue' }}> MAPS</div>
+        <KakaoMap />
         <Memo />
         <PlanModal
           isOpenModal={isOpenModal}

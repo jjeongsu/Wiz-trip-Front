@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { getLandmarks } from '../../apis/api/landmark';
 import LandmarkCard from './LandmarkCard';
+import axios from 'axios';
 function TourInfo() {
   const [slidePx, setSlidePx] = useState(0);
   const [city, setCity] = useState('');
@@ -24,7 +25,13 @@ function TourInfo() {
   const onCityClick = (event) => {
     setCity(event.target.value);
   };
-  console.log('isloading', isLoading);
+  const test = async () =>
+    await axios
+      .get('landmarks/page?page=0&size=10&sort=id')
+      .then((res) => console.log(res));
+  useEffect(() => {
+    test();
+  }, []);
   return (
     <>
       <S.TourCityBox slide={slidePx}>
