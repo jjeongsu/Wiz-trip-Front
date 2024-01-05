@@ -6,13 +6,19 @@ import MyTrip from '../components/My/MyTrip'
 import MyReviewList from '../components/My/MyReviewList'
 function Mypage() {
   return (
-    <Layout>
-      <M.MyLayoutBox>
+
+    <Layout fullWidth={true}>
+    <div style={{background: '#EDF3FB'}}> 
+    <M.MyLayoutBox>
         <UserProfile/>
-        <MyTrip/>
-        <MyReviewList/>
-      </M.MyLayoutBox>
+        <div className='column-layout'>
+          <MyTrip/>
+          <MyReviewList/>
+        </div>
+    </M.MyLayoutBox>
+    </div>
     </Layout>
+    
   )
 }
 

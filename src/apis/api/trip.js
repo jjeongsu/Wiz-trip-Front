@@ -49,12 +49,12 @@ export async function getTrip(tripId){
 
 }
 
-export async function getMyTrip(pageNum, pageSize){ //내 여행계획 2개씩 조회 
+export async function getMyTrip(pageNum){ //내 여행계획 2개씩 조회 
 
     try{
-        const res = await api.get(`/trips/with-details/page?pageNum=${pageNum}&pageSize=${pageSize}`)
+        const res = await api.get(`/trips/with-details/page`)
         console.log(res.data);
-        return res.data;
+        return res.data.content;
     }
     catch(error){
         console.log('내 Trip 조회 Error', error);
