@@ -31,7 +31,7 @@ function Header() {
       
   }
   return (
-    <>
+    <div style={{background: '#FFF'}}>
     <S.HeaderBox>
       <Link to="/">
         <h1 className="logo">Wiz-trip</h1>
@@ -59,7 +59,7 @@ function Header() {
           <Link className='menu-text' onClick={handleLogout}>로그아웃</Link>
         </S.MenuBox>
       </div>}
-    </>
+    </div>
   );
 }
 

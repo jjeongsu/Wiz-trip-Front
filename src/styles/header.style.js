@@ -10,6 +10,7 @@ export const HeaderBox = styled.header`
   height: 60px;
   margin: auto;
   margin-top: 29px;
+  
   .logo {
     font-size: 36px;
     color: ${({ theme }) => theme.mainAccentColor};
