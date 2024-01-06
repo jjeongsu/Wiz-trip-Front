@@ -6,7 +6,13 @@ import ModifyDetailIcon from '../../assets/plan-modi-detail-icon';
 import DefaultProfileIcon from '../../assets/default-profile-icon';
 import { useState, useRef, useEffect } from 'react';
 
-function PlanDetailCard({ address, content, category, userId }) {
+function PlanDetailCard({
+  address,
+  content,
+  category,
+  userId,
+  setCurrentSpot,
+}) {
   const Color = category_palette[category];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const cardRef = useRef(null);
@@ -31,6 +37,7 @@ function PlanDetailCard({ address, content, category, userId }) {
       stroke={Color.stroke}
       tag={Color.tag}
       ref={cardRef}
+      onClick={(e) => setCurrentSpot(address)}
     >
       <div className="horizental ">
         <div className="category-tag">{categoryToKo[category]}</div>

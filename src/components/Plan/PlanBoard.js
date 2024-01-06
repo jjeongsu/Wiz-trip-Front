@@ -6,12 +6,18 @@ import { useEffect, useState } from 'react';
 import GridLayout from 'react-grid-layout';
 import AddPlanIcon from '../../assets/add-plan-icon';
 import PlanDetailCard from './PlanDetailCard';
-function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
+function PlanBoard({
+  days,
+  setIsOpenModal,
+  setDefaultDate,
+  plans,
+  setCurrentSpot,
+}) {
   const times = createSelectTimes();
 
   //react-grid-layout 관련 설정
   const defaultProps = {
-    cols: 3,
+    cols: 3, //days.length에 맞춰서 조절하는 코드 추가하기
     verticalCompact: false,
     preventCollision: true,
   };
@@ -33,7 +39,6 @@ function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
     setMyLayout((layout) => [...layout, ...l]);
   }, [plans]);
   console.log('계획들', plans);
-  console.log('layout 배열', mylayout);
 
   return (
     <S.BoardBox>
@@ -90,10 +95,11 @@ function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
           return (
             <div key={index.toString()}>
               <PlanDetailCard
-                address="서울시 강남구"
+                address={p.address}
                 content={p.content}
                 category={p.category}
                 userId="1"
+                setCurrentSpot={setCurrentSpot}
               />
             </div>
           );

@@ -51,18 +51,9 @@ function Plan() {
     }
   }, [tripData]);
 
-  console.log('datesArr : ', datesArr);
-  /**
-   * plan예시
-   * {
-   *    day :
-   *    startIndex :
-   *    endIndex :
-   *    title :
-   * }
-   */
   console.log('plan', plans);
 
+  console.log('address', currentSpot);
   if (isLoading) {
     return <div>loading....</div>;
   }
@@ -75,8 +66,9 @@ function Plan() {
           setIsOpenModal={setIsOpenModal}
           setDefaultDate={setDefaultDate}
           plans={plans}
+          setCurrentSpot={setCurrentSpot}
         />
-        <KakaoMap />
+        <KakaoMap address={currentSpot} />
         <Memo />
         <PlanModal
           isOpenModal={isOpenModal}
