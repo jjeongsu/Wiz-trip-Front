@@ -37,7 +37,7 @@ function PlanDetailCard({
       stroke={Color.stroke}
       tag={Color.tag}
       ref={cardRef}
-      onClick={(e) => setCurrentSpot(address)}
+      onMouseDown={(e) => setCurrentSpot(address)}
     >
       <div className="horizental ">
         <div className="category-tag">{categoryToKo[category]}</div>
