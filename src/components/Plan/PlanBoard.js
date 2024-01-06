@@ -1,6 +1,6 @@
 import { useActionData } from 'react-router-dom';
 import * as S from '../../styles/planboard.style';
-import createSelectTimes from '../../utils/createSelectTimes';
+import { createSelectTimes } from '../../utils/createSelectTimes';
 import { hours24 } from '../../utils/HoursAday';
 import { useEffect, useState } from 'react';
 import GridLayout from 'react-grid-layout';
@@ -15,11 +15,7 @@ function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
     verticalCompact: false,
     preventCollision: true,
   };
-  // const layout = [
-  //   // { i: 'a', x: 0, y: 0, w: 1, h: 5, static: false },
-  //   // { i: 'b', x: 1, y: 20, w: 1, h: 5 },
-  //   // { i: 'c', x: 2, y: 10, w: 1, h: 10 },
-  // ];
+
   const [mylayout, setMyLayout] = useState([]);
   // { i: 'random', x: plans.day, y: palns.startIndex, w:1, h: ~~endIndex, static: false }
   useEffect(() => {
@@ -60,12 +56,12 @@ function PlanBoard({ days, setIsOpenModal, setDefaultDate, plans }) {
             </div>
             <div className="contents">
               <div className="board-header">
-                {day}
+                {day.date_trimed} <strong> {day.day}</strong>
                 <button
                   className="add-plan-button"
                   onClick={() => {
                     setIsOpenModal(true);
-                    setDefaultDate(day);
+                    setDefaultDate(day.date_trimed);
                   }}
                 >
                   <AddPlanIcon />

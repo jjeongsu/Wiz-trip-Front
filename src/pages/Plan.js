@@ -5,41 +5,38 @@ import PlanLayout from '../components/Plan/PlanLayout';
 import PlanModal from '../components/Plan/PlanModal';
 import PlanBoard from '../components/Plan/PlanBoard';
 import Memo from '../components/Plan/Memo';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { initSchedule } from '../services/schedule';
 import dayjs from 'dayjs';
 import { getTrip } from '../apis/api/trip';
+import { getAllPlans } from '../apis/api/plan';
 import { useQuery } from 'react-query';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { createDatesArr } from '../utils/createDaysArr';
 import KakaoMap from '../components/Plan/KakaoMap';
 
-//planBoard 프로토타입용 #이후삭제
-const initialDays = ['12월 13일', '12월 14일', '12월 15일']; //추가하면
-
 function Plan() {
   const tripId = useParams().tripId;
   console.log(tripId);
-  const [days, setDays] = useState(initialDays);
+
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [defaultDate, setDefaultDate] = useState(null);
-  const [currentSpot, setCurrentSpot] = useState('');
+  const [currentSpot, setCurrentSpot] = useState(''); //focus된 card의 도로명주소
 
-  //스케쥴 정보 가져와서 배열로 만들기
-  const schedules = useSelector((state) => state.schedule);
-  console.log('schedules', schedules);
-  //const datesArr = createDatesArr({ ...schedules });
   const [datesArr, setDatesArr] = useState([]);
   const [plans, setPlans] = useState([]);
 
   const dispatch = useDispatch();
-
-  const { isLoading, data: tripData } = useQuery('getTrip', () => getTrip(tripId));
-
-  useEffect(()=>{
-    //trip 정보 세팅 
+  const { isLoading, data: tripData } = useQuery('getTrip', () =>
+    getTrip(tripId),
+  );
+  const { isLoadingPlan, data: planData } = useQuery('getAllPlan', () =>
+    getAllPlans(tripId),
+  );
+  useEffect(() => {
+    //trip 정보 세팅
     if (tripData) {
       const { destination, startDate, finishDate } = tripData;
       const schedule = {
@@ -48,9 +45,13 @@ function Plan() {
         endDate: dayjs(finishDate).format('YYYY-MM-DD'),
       };
       dispatch(initSchedule(schedule));
+      //trip 내 모든 날짜 정보 array 만들기
+      const newDatesArray = createDatesArr({ ...schedule });
+      setDatesArr(newDatesArray);
     }
+  }, [tripData]);
 
-  },[tripData])
+  console.log('datesArr : ', datesArr);
   /**
    * plan예시
    * {
@@ -62,13 +63,15 @@ function Plan() {
    */
   console.log('plan', plans);
 
-  if(isLoading){ return <div>loading....</div>}
+  if (isLoading) {
+    return <div>loading....</div>;
+  }
   return (
     <Layout fullWidth={true}>
-      <Planheader userIdList={tripData.userIdList}/>
+      <Planheader userIdList={tripData.userIdList} />
       <PlanLayout>
         <PlanBoard
-          days={initialDays}
+          days={datesArr}
           setIsOpenModal={setIsOpenModal}
           setDefaultDate={setDefaultDate}
           plans={plans}
@@ -79,8 +82,9 @@ function Plan() {
           isOpenModal={isOpenModal}
           setIsOpenModal={setIsOpenModal}
           defaultDate={defaultDate}
-          days={initialDays}
+          days={datesArr}
           setPlans={setPlans}
+          tripId={tripId}
         />
       </PlanLayout>
     </Layout>

@@ -1,25 +1,28 @@
-import { useState, useEffect } from 'react';
-import createSelectTimes from '../../utils/createSelectTimes';
+import { useState, useEffect, useParams } from 'react';
+import {
+  createClockTimes,
+  createSelectTimes,
+} from '../../utils/createSelectTimes';
 import CloseIcon from '../../assets/close-icon';
 import * as M from '../../styles/planmodal.style';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { createDatesArr } from '../../utils/createDaysArr';
 import { categoryToEng } from '../../assets/category-palette';
-
+import { createTimestamp } from '../../utils/createTimestamp';
 import KakaoPostcode from './KakaoPostcode';
+import { createPlan } from '../../apis/api/plan';
 function PlanModal({
   isOpenModal,
   setIsOpenModal,
   defaultDate,
   days,
   setPlans,
+  tripId,
 }) {
   const times = createSelectTimes();
-  //days정보 -> schedule redux에서 가져오기
-  const schedules = useSelector((state) => state.schedule);
-  const n_days = createDatesArr({ ...schedules });
-  console.log('모달 days', n_days);
+
+  console.log('모달 days', days);
   const {
     register,
     handleSubmit,
@@ -46,15 +49,37 @@ function PlanModal({
         category: categoryToEng[data.category],
       },
     ]);
+    //실제 plan 생성
+    const cur_date = days[data.selectDay];
+
+    const obj = createTimestamp(
+      cur_date.date_full,
+      data.startTime,
+      data.endTime,
+    );
+
+    const response = createPlan(tripId, {
+      name: '',
+      address: {
+        roadNameAddress: address,
+        localAddress: '',
+      },
+      startTime: obj.startTimestamp,
+      finishTime: obj.endTimestamp,
+      content: data.content,
+      category: categoryToEng[data.category],
+    });
+
+    console.log('플랜 등록 response', response);
     setIsOpenModal(false);
     reset({
       selectDay: 0,
-      startTiem: '',
+      startTime: 0,
       endTime: 0,
       content: '',
       category: '',
-      place: '',
     });
+    setAddress('');
   };
 
   return (
@@ -90,7 +115,7 @@ function PlanModal({
                 >
                   {days.map((day, index) => (
                     <option key={index} value={index}>
-                      {day}
+                      {day.date_trimed}
                     </option>
                   ))}
                 </M.Selecter>
