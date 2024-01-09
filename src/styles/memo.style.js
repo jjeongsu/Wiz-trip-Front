@@ -32,27 +32,27 @@ export const CategoryButton = styled.button`
     
     ${({ $category }) => {
         switch ($category) {
-            case 'accom':
+            case 'ACCOM':
                 return `
                     background: #E2F6EF;
                     color: #01C99B;
                 `
-            case 'food':
+            case 'FOOD':
                 return `
                     background: #FFEDF9;
                     color: #FF73CB;
                 `
-            case 'tour':
+            case 'TOUR':
                 return `
                     background: #EEF8FF;
                     color: #53ABF7;
                 `
-            case 'etc':
+            case 'ETC':
                 return `
                     background: #FEFBF7;
                     color: #D88435;
                 `
-            case 'memo':
+            case 'MEMO':
                 return `
                     background: #FFEFED;
                     color: #D35344;
@@ -80,23 +80,23 @@ export const MemoContainer = styled.div`
       }
     ${({ $category }) => {
         switch ($category) {
-            case 'accom':
+            case 'ACCOM':
                 return `
                     background: #E2F6EF;
                 `
-            case 'food':
+            case 'FOOD':
                 return `
                     background: #FFEDF9;
                 `
-            case 'tour':
+            case 'TOUR':
                 return `
                     background: #EEF8FF;
                 `
-            case 'etc':
+            case 'ETC':
                 return `
                     background: #FEFBF7;
                 `
-            case 'memo':
+            case 'MEMO':
                 return `
                     background: #FFEFED;
                 `
