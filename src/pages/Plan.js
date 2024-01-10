@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { createDatesArr } from '../utils/createDaysArr';
 import KakaoMap from '../components/Plan/KakaoMap';
-
+import { setDailyPlan } from '../services/plan';
 function Plan() {
   const tripId = useParams().tripId;
   console.log(tripId);
@@ -26,14 +26,15 @@ function Plan() {
   const [currentSpot, setCurrentSpot] = useState(''); //focus된 card의 도로명주소
 
   const [datesArr, setDatesArr] = useState([]);
-  const [plans, setPlans] = useState([]);
 
   const dispatch = useDispatch();
+
   const { isLoading, data: tripData } = useQuery('getTrip', () =>
     getTrip(tripId),
   );
-  const { isLoadingPlan, data: planData } = useQuery('getAllPlan', () =>
-    getAllPlans(tripId),
+  const { isLoading: ispLoadingPlan, data: planData } = useQuery(
+    'getAllPlan',
+    () => getAllPlans(tripId),
   );
   useEffect(() => {
     //trip 정보 세팅
@@ -50,10 +51,13 @@ function Plan() {
       setDatesArr(newDatesArray);
     }
   }, [tripData]);
+  useEffect(() => {
+    //plan 정보 세팅
+    if (planData && datesArr) {
+      dispatch(setDailyPlan(planData.list, datesArr));
+    }
+  }, [planData]);
 
-  console.log('plan', plans);
-
-  console.log('address', currentSpot);
   if (isLoading) {
     return <div>loading....</div>;
   }
@@ -65,7 +69,6 @@ function Plan() {
           days={datesArr}
           setIsOpenModal={setIsOpenModal}
           setDefaultDate={setDefaultDate}
-          plans={plans}
           setCurrentSpot={setCurrentSpot}
         />
         <KakaoMap address={currentSpot} />
@@ -75,7 +78,6 @@ function Plan() {
           setIsOpenModal={setIsOpenModal}
           defaultDate={defaultDate}
           days={datesArr}
-          setPlans={setPlans}
           tripId={tripId}
         />
       </PlanLayout>

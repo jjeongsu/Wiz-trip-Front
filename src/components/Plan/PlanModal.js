@@ -22,7 +22,6 @@ function PlanModal({
 }) {
   const times = createSelectTimes();
 
-  console.log('모달 days', days);
   const {
     register,
     handleSubmit,
@@ -37,7 +36,6 @@ function PlanModal({
   const [address, setAddress] = useState('');
 
   const onSubmit = (data) => {
-    console.log(data);
     setPlans((plans) => [
       ...plans,
       {
@@ -59,10 +57,10 @@ function PlanModal({
     );
 
     const response = createPlan(tripId, {
-      name: '',
+      name: 'defaultName',
       address: {
         roadNameAddress: address,
-        localAddress: '',
+        localAddress: 'defaultLocalAddress',
       },
       startTime: obj.startTimestamp,
       finishTime: obj.endTimestamp,
@@ -70,7 +68,6 @@ function PlanModal({
       category: categoryToEng[data.category],
     });
 
-    console.log('플랜 등록 response', response);
     setIsOpenModal(false);
     reset({
       selectDay: 0,

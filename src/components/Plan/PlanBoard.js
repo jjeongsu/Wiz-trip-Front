@@ -6,14 +6,10 @@ import { useEffect, useState } from 'react';
 import GridLayout from 'react-grid-layout';
 import AddPlanIcon from '../../assets/add-plan-icon';
 import PlanDetailCard from './PlanDetailCard';
-function PlanBoard({
-  days,
-  setIsOpenModal,
-  setDefaultDate,
-  plans,
-  setCurrentSpot,
-}) {
+import { useSelector } from 'react-redux';
+function PlanBoard({ days, setIsOpenModal, setDefaultDate, setCurrentSpot }) {
   const times = createSelectTimes();
+  const plans = useSelector((state) => state.Plan);
 
   //react-grid-layout 관련 설정
   const defaultProps = {
@@ -27,18 +23,18 @@ function PlanBoard({
   useEffect(() => {
     const l = [];
     plans.forEach((p, index) => {
+      const gap = ~~p.endIndex - ~~p.startIndex;
       const newPlan = {
         i: index.toString(),
         x: ~~p.day,
         y: ~~p.startIndex,
         w: 1,
-        h: ~~p.endIndex,
+        h: gap,
       };
       l.push(newPlan);
     });
     setMyLayout((layout) => [...layout, ...l]);
   }, [plans]);
-  console.log('계획들', plans);
 
   return (
     <S.BoardBox>

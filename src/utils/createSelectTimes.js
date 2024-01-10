@@ -34,3 +34,5 @@ export function createClockTimes() {
 
   return times;
 }
+
+export const clockTimes = createClockTimes();
