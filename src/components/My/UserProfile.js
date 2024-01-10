@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import * as U from '../../styles/userprofile.style'
 import DefaultImage from '../../assets/default_profileimg.png'
 import SettingIcon from '../../assets/setting-icon'
@@ -8,12 +8,15 @@ import { getUser } from '../../apis/api/user'
 import AirplaneIcon from '../../assets/airplane-icon'
 import ReviewIcon from '../../assets/review-icon'
 import TaskIcon from '../../assets/task-icon'
+import ReviseProfileForm from './ReviseProfileForm'
 
 function UserProfile() {
 
     const userId = useSelector(state=>state.User.userIdx);
 
     const { isLoading, data: userData } = useQuery('getUserInfo', () => getUser(userId));
+
+    const [isOpen, setIsOpen] = useState(false);
     console.log(userId);
     console.log(userData);
     
@@ -62,12 +65,14 @@ function UserProfile() {
                         <span className='count-text'>1개</span>
                     </div>
                 </U.ItemLayout>
-                <U.ReviseButton> 
+                <U.ReviseButton onClick={()=>setIsOpen(!isOpen)}> 
                     <span className='revise-text'>회원정보 수정</span>
                     <SettingIcon/>
                 </U.ReviseButton>
                 
             </U.ProfileWrapper>
+
+            {isOpen && <ReviseProfileForm setIsOpen={setIsOpen}/>}
             
         </>
     )
