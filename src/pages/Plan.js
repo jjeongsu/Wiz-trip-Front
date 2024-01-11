@@ -19,7 +19,6 @@ import KakaoMap from '../components/Plan/KakaoMap';
 import { setDailyPlan } from '../services/plan';
 function Plan() {
   const tripId = useParams().tripId;
-  console.log(tripId);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [defaultDate, setDefaultDate] = useState(null);
@@ -29,11 +28,13 @@ function Plan() {
 
   const dispatch = useDispatch();
 
-  const { isLoading, data: tripData } = useQuery('getTrip', () =>
-    getTrip(tripId),
-  );
-  const { isLoading: ispLoadingPlan, data: planData } = useQuery(
-    'getAllPlan',
+  const {
+    isLoading: isLoadingTrip,
+    isSuccess,
+    data: tripData,
+  } = useQuery('getTrip', () => getTrip(tripId));
+  const { isLoading: isLoadingPlan, data: planData } = useQuery(
+    ['getAllPlan'],
     () => getAllPlans(tripId),
   );
   useEffect(() => {
@@ -51,37 +52,33 @@ function Plan() {
       setDatesArr(newDatesArray);
     }
   }, [tripData]);
-  useEffect(() => {
-    //plan 정보 세팅
-    if (planData && datesArr) {
-      dispatch(setDailyPlan(planData.list, datesArr));
-    }
-  }, [planData]);
 
-  if (isLoading) {
+  if (isLoadingTrip && isLoadingPlan) {
     return <div>loading....</div>;
+  } else if (isSuccess) {
+    return (
+      <Layout fullWidth={true}>
+        <Planheader userIdList={tripData?.userIdList} />
+        <PlanLayout>
+          <PlanBoard
+            days={datesArr}
+            setIsOpenModal={setIsOpenModal}
+            setDefaultDate={setDefaultDate}
+            setCurrentSpot={setCurrentSpot}
+            plans={Array.from(planData?.list)}
+          />
+          <KakaoMap address={currentSpot} />
+          <Memo />
+          <PlanModal
+            isOpenModal={isOpenModal}
+            setIsOpenModal={setIsOpenModal}
+            defaultDate={defaultDate}
+            days={datesArr}
+            tripId={tripId}
+          />
+        </PlanLayout>
+      </Layout>
+    );
   }
-  return (
-    <Layout fullWidth={true}>
-      <Planheader userIdList={tripData.userIdList} />
-      <PlanLayout>
-        <PlanBoard
-          days={datesArr}
-          setIsOpenModal={setIsOpenModal}
-          setDefaultDate={setDefaultDate}
-          setCurrentSpot={setCurrentSpot}
-        />
-        <KakaoMap address={currentSpot} />
-        <Memo />
-        <PlanModal
-          isOpenModal={isOpenModal}
-          setIsOpenModal={setIsOpenModal}
-          defaultDate={defaultDate}
-          days={datesArr}
-          tripId={tripId}
-        />
-      </PlanLayout>
-    </Layout>
-  );
 }
 export default Plan;

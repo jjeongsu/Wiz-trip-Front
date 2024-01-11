@@ -25,6 +25,7 @@ export const setDailyPlan = (data, datesArray) => {
     const endIndex = clockTimes.findIndex((time) => time.text == trim_endTime);
     const newPlan = {
       address: plan.address.roadNameAddress,
+      tripId: plan.tripId,
       planId: plan.planId,
       content: plan.content,
       category: plan.category,
