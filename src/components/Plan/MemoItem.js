@@ -3,16 +3,18 @@ import * as M from '../../styles/memo-item.style'
 import DeleteIcon from '../../assets/delete-icon';
 import { useDispatch } from 'react-redux';
 import { deleteMemo } from '../../services/memo';
-
+import { deleteMemoData } from '../../apis/api/memo';
+import { useParams } from 'react-router-dom';
 function MemoItem({category, item}) {
     console.log(category);
     console.log(item);
 
     const dispatch = useDispatch();
 
-    const handleDelete = () => {
+    const handleDelete = async() => {
       console.log(item.memoId);
       dispatch(deleteMemo(item.memoId));
+      await deleteMemoData(item.tripId, item.memoId);
     }
     return (
       <M.ItemLayout $category={category}>

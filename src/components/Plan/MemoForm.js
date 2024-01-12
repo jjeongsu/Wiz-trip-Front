@@ -4,6 +4,8 @@ import SubmitIcon from '../../assets/submit-icon';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMemo } from '../../services/memo';
+import { addMemoData } from '../../apis/api/memo';
+import { useParams } from 'react-router-dom';
 function MemoForm({category}) {
   const {
     register,
@@ -12,12 +14,13 @@ function MemoForm({category}) {
   } = useForm();
 
   const dispatch = useDispatch();
+  const tripId = useParams().tripId;
 
   useEffect(()=>{
     resetForm();
   },[category])
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     console.log('클릭');
     
     let memo = {
@@ -26,6 +29,7 @@ function MemoForm({category}) {
         "url": data.url,
         "category": category
     }
+    await(addMemoData(tripId, data))
     dispatch(addMemo(memo));
     resetForm();
     //axios post 요청 보내기 
