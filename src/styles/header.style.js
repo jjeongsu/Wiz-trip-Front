@@ -37,7 +37,6 @@ export const HeaderBox = styled.header`
     align-items: center;
     span{
       color: #000;
-      text-align: center;
       font-family: Wanted Sans;
       font-size: 24px;
       font-style: normal;
