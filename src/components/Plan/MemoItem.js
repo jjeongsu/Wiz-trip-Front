@@ -7,7 +7,7 @@ import { deleteMemo } from '../../services/memo';
 function MemoItem({category, item}) {
     console.log(category);
     console.log(item);
-
+  
     const dispatch = useDispatch();
 
     const handleDelete = () => {

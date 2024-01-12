@@ -2,6 +2,7 @@
 const ADD_USER = 'user/ADD_USER';
 const DELETE_USER = 'user/DELETE_USER';
 const AUTH_USER = 'user/AUTH_USER';
+const REVISE_USER = 'user/REVISE_USER';
 
 //Action Creater
 
@@ -26,6 +27,12 @@ export const authUser = (data) => {
     user: data,
   };
 };
+export const reviseUser = (data)=>{
+  return {
+    type: REVISE_USER,
+    user: data,
+  };
+}
 
 const initialState = {
   userIdx: null,
@@ -42,6 +49,8 @@ export default function User(state = initialState, action) {
       return { ...state, ...initialState };
     case AUTH_USER:
       return {...state, ...action.user};
+    case REVISE_USER:
+      return{...state, ...action.user};
     default:
       return state;
   }

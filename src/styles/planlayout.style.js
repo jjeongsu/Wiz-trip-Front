@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 export const PlanLayoutBox = styled.div`
   display: grid;
+  max-width: 1480px;
+  margin: auto;
   grid-template-columns: 826px 522px;
   grid-template-rows: 500px 293px;
   grid-column-gap: 44px;

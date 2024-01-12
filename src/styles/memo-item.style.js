@@ -8,23 +8,23 @@ export const ItemLayout = styled.div`
 
     ${({ $category }) => {
         switch ($category) {
-            case 'accom':
+            case 'ACCOM':
                 return `
                     border-left: 2px solid #01C99B;
                 `
-            case 'food':
+            case 'FOOD':
                 return `
                     border-left: 2px solid #FF73CB;
                 `
-            case 'tour':
+            case 'TOUR':
                 return `
                     border-left: 2px solid #53ABF7;
                 `
-            case 'etc':
+            case 'ETC':
                 return `
                     border-left: 2px solid #D88435;
                 `
-            case 'memo':
+            case 'MEMO':
                 return `
                     border-left: 2px solid #D35344;
                 `

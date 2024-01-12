@@ -42,4 +42,12 @@ export const ReviewItem = styled.div`
         font-weight: 600;
         margin-top: 5px;
     }
+    .default-text{
+        color: ${({ theme }) => theme.gray400Cool};
+        font-family: Pretendard Variable;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        margin: auto;
+    }
 `

@@ -18,7 +18,7 @@ export const sendCode = async (email) => {
 };
 
 //2. 올바른 이메일 인증 코드인지 확인하기
-export const checkCode = async ({ emailcheck, email, setIsEmailChecked }) => {
+export const checkCode = async (emailcheck, email, setIsEmailChecked) => {
   try {
     const response = await axios.get(
       `/email-verification?email=${email}&code=${emailcheck}`,

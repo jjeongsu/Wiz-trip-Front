@@ -1,7 +1,7 @@
 export const categories = {
-    accom: '숙소',
-    food: '음식',
-    tour: '관광',
-    etc: '기타',
-    memo: 'memo'
+    ACCOM: '숙소',
+    FOOD: '음식',
+    TOUR: '관광',
+    ETC: '기타',
+    MEMO: 'memo'
 }

@@ -5,6 +5,7 @@ import ConnectedUsers from './ConnectedUsers';
 import { useDispatch, useSelector } from 'react-redux';
 import { initSchedule } from '../../services/schedule';
 import dayjs from 'dayjs';
+import LinkIcon from '../../assets/link-icon';
 function Planheader({userIdList}) {
   const planinfo = useSelector((state) => state.Schedule);
   const [updateform, setUpdateForm] = useState(false);
@@ -46,7 +47,10 @@ function Planheader({userIdList}) {
         <ConnectedUsers userIdList={userIdList}/>
       </div>
       <div className="button-container">
-        <P.InviteBtn>초대 하기</P.InviteBtn>
+        <P.InviteBtn>
+          <LinkIcon/>
+          <span className='text'>초대링크 복사</span> 
+        </P.InviteBtn>
         <P.CompleteBtn>여행 완료</P.CompleteBtn>
       </div>
     </P.HeaderWrapper>

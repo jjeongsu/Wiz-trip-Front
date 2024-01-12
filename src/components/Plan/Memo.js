@@ -6,27 +6,34 @@ import MemoItem from './MemoItem';
 import MemoForm from './MemoForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { initMemo } from '../../services/memo';
-
+import { useQuery } from 'react-query';
+// import { getMemo } from '../../apis/api/memo';
+import { useParams } from 'react-router';
 function Memo(){
 
   const dispatch = useDispatch();
-
-  const [selectedCategory, setSelectedCategory] = useState('accom');
+  const tripId = useParams().tripId;
+  const [selectedCategory, setSelectedCategory] = useState('ACCOM');
+  // const { isLoading, data: memoData } = useQuery('getMemo', () => getMemo(tripId, selectedCategory));
   const items = useSelector(state=> state.Memo);
   
 
   useEffect(()=>{
     //데이터 조회 요청 추가 
-    const filterItems = memos.filter((item)=> item.category === selectedCategory);
-    dispatch(initMemo(filterItems));
+    // const filterItems = memos.filter((item)=> item.category === selectedCategory);
+    // if(memoData){
+    //   dispatch(initMemo(memoData));
+    // }
+
     // setItems(filterItems);
 
     
-  },[selectedCategory, dispatch])
+  },[dispatch])
 
 
 
   console.log(items);
+  // if(isLoading) return<div>is loading...</div>
   return (
     <M.MemoLayout>
       <M.CategoryLayout>

@@ -40,7 +40,7 @@ function Header() {
         <div className='user-info'>
           <span>{userInfo.nickname}</span>
           <button onClick={()=>setIsOpenMenu(!isOpenMenu)} style={{ background: 'none', border: 'none', padding: 0, cursor: 'default' }}>
-            <img src={userInfo.Profileimg? userInfo.Profileimg: Profileimg} alt='profile' width={50}/>
+            <img src={userInfo.userProfile? userInfo.userProfile: Profileimg} alt='profile' style={{borderRadius: '50%', width:'50px', height: '50px', border: '2px solid #878EA1'}}/>
           </button>
         </div>
         :
