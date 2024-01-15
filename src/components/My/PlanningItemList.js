@@ -8,7 +8,6 @@ function PlanningItemList() {
 
     const navigate = useNavigate();
     const {isLoading, data:myTripData} = useQuery('getMyTrip', () => getMyTrip());
-
     const queryClient = useQueryClient();
     const deleteMutation = useMutation(deleteTrip, {
       onSuccess: () => {

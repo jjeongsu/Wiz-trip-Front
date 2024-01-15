@@ -9,11 +9,12 @@ export const PlanLayoutBox = styled.div`
   grid-row-gap: 20px;
   padding-inline: 24px;
   padding-top: 10px;
+
   div:first-child {
     grid-column: 1 / span 1;
     grid-row: 1 / -1;
   }
-  div:nth-child(3){
+  div:nth-child(3) {
     grid-column: 2 / span 1;
     grid-row: 2 / span 1;
   }

@@ -55,18 +55,26 @@ export const PlanInfoLayout = styled.div`
 `;
 
 export const InviteBtn = styled.button`
-  width: 105px;
+  width: 150px;
   height: 41px;
   border-radius: 25.5px;
-  border: 1px solid ${({ theme }) => theme.mainAccentColor};
-  font-family: Wanted Sans;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  color: ${({ theme }) => theme.gray600};
   background: transparent;
   margin-right: 15px;
-`;
+  cursor: pointer;
+  border: 2px solid ${({ theme }) => theme.mainAccentColor};
+  &:hover {
+    background-color: #BFC6FA;
+  }
+  .text{
+    font-family: Wanted Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    color: ${({ theme }) => theme.gray600};
+    margin-left: 2px;
+  }
+  
+`
 
 export const CompleteBtn = styled.button`
   width: 105px;

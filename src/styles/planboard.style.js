@@ -10,6 +10,12 @@ export const BoardBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    strong {
+      color: ${({ theme }) => theme.subAccentColor};
+      font-weight: 400;
+      margin-left: 10px;
+    }
   }
   div.timeline {
     width: 94px;
