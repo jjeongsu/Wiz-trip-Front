@@ -14,7 +14,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer, { persistedReducer } from './services';
 import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from "redux-persist";
+import { persistStore } from 'redux-persist';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -23,15 +23,15 @@ const store = createStore(persistedReducer, composeWithDevTools());
 const persistor = persistStore(store);
 root.render(
   <Provider store={store}>
-    <QueryClientProvider client={queryClient}>
     <PersistGate loading={null} persistor={persistor}>
-      <ReactQueryDevtools initialIsOpen={true} />
       <GlobalStyle />
       <ThemeProvider theme={colorTheme}>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={true} />
+          <App />
+        </QueryClientProvider>
       </ThemeProvider>
-      </PersistGate>
-    </QueryClientProvider>
+    </PersistGate>
   </Provider>,
 );
 

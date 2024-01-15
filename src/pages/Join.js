@@ -5,7 +5,12 @@ import { emailRegex, passwordRegex } from '../utils/regex';
 import * as S from '../styles/join.style';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { onRegister, sendCode, checkCode } from '../apis/api/join';
+import {
+  onRegister,
+  sendCode,
+  checkCode,
+  checkNickname,
+} from '../apis/api/join';
 function Join() {
   const {
     register,
@@ -17,15 +22,9 @@ function Join() {
     formState: { errors, isDirty, isValid },
   } = useForm({ mode: 'onChange' });
 
-  const [isEmailChecked, setIsEmailChecked] = useState(true);
-  const [isNicknameChecked, setIsNicknameChecked] = useState(true); //닉네임 중복확인 api 연결후 false로 바꾸기
+  const [isEmailChecked, setIsEmailChecked] = useState(false);
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false); //닉네임 중복확인 api 연결후 false로 바꾸기
   const navigate = useNavigate();
-
-  //3. 닉네임 중복체크
-  const checkNickname = (e) => {
-    const { nickname } = getValues();
-    //axios.post 요청보내기
-  };
 
   //4. 회원가입 처리
   const onSubmit = async (data) => {
@@ -49,6 +48,8 @@ function Join() {
 
   console.log(watch());
   console.log(errors);
+  console.log('이메일 인증여부 ', isEmailChecked);
+  console.log('닉네임 중복여부', isNicknameChecked);
   return (
     <FormLayout title="Join Us">
       <S.JoinForm onSubmit={handleSubmit(onSubmit)}>
@@ -145,9 +146,19 @@ function Join() {
                 value: 2,
                 message: '닉네임은 2글자 이상이여야 합니다.',
               },
+              maxLength: {
+                value: 8,
+                message: '닉네임은 8글자 이하여야 합니다.',
+              },
             })}
           />
-          <S.Button className="button" onClick={checkNickname}>
+          <S.Button
+            className="button"
+            onClick={() => {
+              const { nickname } = getValues();
+              checkNickname(nickname, setIsNicknameChecked);
+            }}
+          >
             중복확인
           </S.Button>
           {errors.nickname && (
