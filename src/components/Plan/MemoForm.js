@@ -4,6 +4,9 @@ import SubmitIcon from '../../assets/submit-icon';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMemo } from '../../services/memo';
+import { addMemoData } from '../../apis/api/memo';
+import { useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from 'react-query';
 function MemoForm({category}) {
   const {
     register,
@@ -12,13 +15,22 @@ function MemoForm({category}) {
   } = useForm();
 
   const dispatch = useDispatch();
+  const tripId = useParams().tripId;
 
   useEffect(()=>{
     resetForm();
   },[category])
 
-  const onSubmit = (data) => {
-    console.log('클릭');
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(addMemoData, {
+    onSuccess: () => {
+      // API 호출이 성공하면 메모 목록 쿼리를 무효화하여 다시 불러오도록 합니다.
+      queryClient.invalidateQueries('getMemoData');
+    },
+  })
+
+  const onSubmit = async(data) => {
     
     let memo = {
         "title": data.title,
@@ -26,9 +38,9 @@ function MemoForm({category}) {
         "url": data.url,
         "category": category
     }
-    dispatch(addMemo(memo));
+    
+    mutation.mutateAsync({tripId: tripId, data: memo});
     resetForm();
-    //axios post 요청 보내기 
   };
 
   // 폼 초기화 함수
@@ -61,7 +73,7 @@ function MemoForm({category}) {
               required: true,
             })}/>
         </M.InputContainer>
-        {category !== 'memo' && 
+        {category !== 'MEMO' && 
           <M.InputContainer>
             <span className='input-label'>링크</span>
             <input className='input-text'

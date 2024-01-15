@@ -18,7 +18,6 @@ function PlanningItemList() {
     const handleDelete = async (tripId) => {
         await deleteMutation.mutateAsync(tripId);
     }
-    
 
     if(isLoading) return <div>loading...</div>
      

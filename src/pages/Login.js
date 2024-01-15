@@ -2,7 +2,6 @@ import React from 'react';
 import * as L from '../styles/login.style';
 import { passwordRegex } from '../utils/regex';
 import { useForm } from 'react-hook-form';
-import Kakaologin from '../components/Login/Kakaologin';
 import {setCookie} from '../utils/cookies';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -106,12 +105,6 @@ function Login() {
            로그인
         </button>
 
-        <L.LineContainer>
-          <hr />
-          <span>or</span>
-          <hr />
-        </L.LineContainer>
-        <Kakaologin />
         <p className="bottom-text">
           아직 회원이 아닌가요? <a href="/join">회원가입 하러가기</a>
         </p>

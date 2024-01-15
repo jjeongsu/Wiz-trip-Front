@@ -14,7 +14,7 @@ function MyReviewList() {
     <>
     <M.TitleText>나의 여행기록</M.TitleText>
     <M.Line/>
-    {myReview.length > 0? 
+    {myReview.listSize > 0? 
         <R.ReviewItemBox>
           <R.ReviewItem>
             <img src={NoImage} className='image' alt='No'/>

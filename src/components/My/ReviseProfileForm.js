@@ -17,7 +17,7 @@ function ReviseProfileForm({setIsOpen}) {
     const [isEmailChecked, setIsEmailChecked] = useState(false);
     const [isNicknameChecked, setIsNicknameChecked] = useState(false); //닉네임 중복확인 api 연결후 false로 바꾸기
     const { isLoading, data: userData } = useQuery('getUserInfo', () => getUser(user.userIdx));
-
+    const [file, setFile] = useState();
     const dispatch = useDispatch();
 
     const imgRef = useRef();
@@ -55,6 +55,8 @@ function ReviseProfileForm({setIsOpen}) {
             alert('파일 크기는 2MB를 초과할 수 없습니다.');
             return;
         }
+        setFile(file);
+        
         reader.readAsDataURL(file);
         reader.onload= () => {
             setImgFile(reader.result);
@@ -87,21 +89,26 @@ function ReviseProfileForm({setIsOpen}) {
         };
 
         // Check if a new profile image is selected
-        if (imgFile !== DefaultImage) {
-            updatedUserData.image= {
-                imageName :'profile',
-                imagePath : imgFile
-            }
-        }
+        // if (imgFile !== DefaultImage) {
+        //     updatedUserData.image= {
+        //         imageName :'profile',
+        //         imagePath : imgFile
+        //     }
+        // }
+        // console.log("imgFile:", imgFile);
 
-        dispatch(reviseUser({
-            userIdx: user.userIdx,
-            nickname: nickname,
-            userProfile: imgFile
-        }))
+        // dispatch(reviseUser({
+        //     userIdx: user.userIdx,
+        //     nickname: nickname,
+        //     userProfile: imgFile
+        // }))
         
-        //updatedUserData post 요청 추가 
-        console.log(updatedUserData);
+        // //updatedUserData post 요청 추가 
+        // console.log(updatedUserData);
+
+        const formdata = new FormData();
+        formdata.append('image', file);
+        console.log(formdata);
       };
    
     if(isLoading) return<div>is loading...</div>

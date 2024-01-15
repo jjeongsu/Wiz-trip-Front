@@ -23,9 +23,9 @@ export const LoginForm = styled.form`
 
     .logo {
         font-family: Pretendard Variable;
-        margin-top: 102px;
-        margin-bottom: 10px;
-        font-size: 36px;
+        margin-top: 115px;
+        margin-bottom: 15px;
+        font-size: 40px;
         font-style: normal;
         font-weight: 600;
         color: ${({ theme }) => theme.mainAccentColor};
@@ -73,7 +73,7 @@ export const LoginForm = styled.form`
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
-        margin-top: 25px;
+        margin-top: 30px;
         cursor: default;
 
         a{
@@ -89,27 +89,6 @@ export const LoginForm = styled.form`
         font-weight: 400;
         color: ${({ theme }) => theme.red600};
         margin-top: 1px;    
-    }
-
-`
-
-export const LineContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 15px 0;
-    
-    hr{
-        width: 140px;
-        height: 1px;
-        background: ${({ theme }) => theme.gray600};
-    }
-    span{
-        color: ${({ theme }) => theme.gray600};
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        margin: 0 16px;
     }
 
 `
