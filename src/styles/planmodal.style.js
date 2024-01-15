@@ -3,7 +3,7 @@ export const ModalBackground = styled.div`
   width: 100vw;
   height: 100vh;
   z-index: 3;
-  display: ${(props) => (props.isopen === true ? 'fixed' : 'none')};
+  display: ${(props) => (props.isopen !== false ? 'fixed' : 'none')};
   position: absolute;
   top: 0;
   left: 0;
@@ -15,7 +15,7 @@ export const ModalWrapper = styled.div`
   height: 475px;
   background-color: #fff;
   padding: 20px;
-  display: ${(props) => (props.isopen === true ? 'fixed' : 'none')};
+  display: ${(props) => (props.isopen !== false ? 'fixed' : 'none')};
   position: absolute;
   top: 30%;
   left: 40%;

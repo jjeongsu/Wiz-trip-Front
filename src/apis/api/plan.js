@@ -18,7 +18,7 @@ export const getAllPlans = async (tripId) => {
 export const getTargetPlan = async (tripId, planId) => {
   try {
     const response = await api.get(`/trips/${tripId}/plans?planId=${planId}`);
-    return response;
+    return response.data;
   } catch (error) {
     console.log('Trip 내 1개의 plan 조회 Error', error);
     const statusCode = error.response.status;

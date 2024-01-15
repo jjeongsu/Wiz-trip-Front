@@ -1,7 +1,13 @@
 import styled from 'styled-components';
+export const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;
 export const PlanLayoutBox = styled.div`
   display: grid;
-  grid-template-columns: 826px 522px;
+  grid-template-columns: 1000px 522px; //826
   grid-template-rows: 500px 293px;
   grid-column-gap: 44px;
   grid-row-gap: 20px;

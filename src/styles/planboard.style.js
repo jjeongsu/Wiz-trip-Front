@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const BoardBox = styled.div`
   display: flex;
   flex-direction: row;
-  overflow-y: auto;
+  overflow-x: scroll;
+  overflow-y: visible;
   position: relative;
   .board-header {
     height: 18px;
@@ -61,8 +62,10 @@ export const BoardBox = styled.div`
   .grid-drag-board {
     position: absolute;
     top: 18px;
-    left: 94px;
+    width: inherit;
+    height: inherit;
     z-index: 2;
+    left: -2px;
   }
   button.add-plan-button {
     background-color: transparent;
@@ -71,6 +74,23 @@ export const BoardBox = styled.div`
     justify-content: center;
     align-items: center;
   }
+`;
+export const SlideNav = styled.div`
+  position: relative;
+  .slide-button-prev {
+    position: absolute;
+    left: 0;
+    cursor: pointer;
+  }
+  .slide-button-next {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+  }
+`;
+export const SlideItemWrapper = styled.div`
+  position: relative;
+  transform: ${(props) => `translateX(${props.slide}px)`};
 `;
 export const Schedule = styled.div`
   position: absolute;

@@ -6,6 +6,7 @@ import ModifyDetailIcon from '../../assets/plan-modi-detail-icon';
 import DefaultProfileIcon from '../../assets/default-profile-icon';
 import { useState, useRef, useEffect } from 'react';
 import { deletePlan } from '../../apis/api/plan';
+import { getUser } from '../../apis/api/user';
 import { useQueryClient } from 'react-query';
 function PlanDetailCard({
   address,
@@ -13,6 +14,7 @@ function PlanDetailCard({
   category,
   userId,
   setCurrentSpot,
+  setIsOpenFormModal,
   planId,
   tripId,
 }) {
@@ -21,7 +23,14 @@ function PlanDetailCard({
   const cardRef = useRef(null);
   const contentRef = useRef(null);
 
-  console.log('planId', planId);
+  const {
+    data: userProfileData,
+    isLoading,
+    isSuccess,
+  } = useQuery(['user', userId], () => getUser(userId), {
+    select: (data) => data.image, // 원하는 필드 선택
+  });
+  const userProfile = '';
   const queryClient = useQueryClient();
   const handleDelete = (e) => {
     e.preventDefault();
@@ -35,12 +44,14 @@ function PlanDetailCard({
     },
   });
 
-  const userProfile = ''; //유저프로필 복호화
-
   useEffect(() => {
     const parentHeight = cardRef.current.clientHeight;
     const childHeight = parentHeight - 40;
     contentRef.current.style.maxHeight = `${childHeight}px`;
+
+    if (userProfileData !== null) {
+      //유저 프로필 데이터 복호화 코드 추가
+    }
   }, []);
 
   return (
@@ -75,6 +86,7 @@ function PlanDetailCard({
         <button
           onClick={() => {
             console.log('수정하기cliked');
+            setIsOpenFormModal(planId);
           }}
         >
           수정하기
