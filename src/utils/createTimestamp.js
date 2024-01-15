@@ -1,11 +1,11 @@
-import { createClockTimes } from './createSelectTimes';
+import { createClockTimes, clockTimes } from './createSelectTimes';
 
 export function createTimestamp(date, startIndex, endIndex) {
   const trimedDate = date.replaceAll('-', '');
-  const times = createClockTimes();
-  const startTime = times[startIndex].text;
+  // const times = createClockTimes();
+  const startTime = clockTimes[startIndex].text;
   const rightEndIndex = ~~startIndex + ~~endIndex;
-  const endTime = times[rightEndIndex].text;
+  const endTime = clockTimes[rightEndIndex].text;
 
   return {
     startTimestamp: `${trimedDate}T${startTime}`,

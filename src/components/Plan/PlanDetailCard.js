@@ -1,34 +1,57 @@
 import styled from 'styled-components';
 import { category_palette, categoryToKo } from '../../assets/category-palette';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { getUserProfile } from '../../apis/api/plan-userinfo';
 import ModifyDetailIcon from '../../assets/plan-modi-detail-icon';
 import DefaultProfileIcon from '../../assets/default-profile-icon';
 import { useState, useRef, useEffect } from 'react';
-
+import { deletePlan } from '../../apis/api/plan';
+import { getUser } from '../../apis/api/user';
+import { useQueryClient } from 'react-query';
 function PlanDetailCard({
   address,
   content,
   category,
   userId,
   setCurrentSpot,
+  setIsOpenFormModal,
+  planId,
+  tripId,
 }) {
   const Color = category_palette[category];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const cardRef = useRef(null);
   const contentRef = useRef(null);
 
-  //const { isLoading, fetchedUserProfile } = useQuery(
-  //  'userProfileInfo',
-  //  getUserProfile(userId),
-  //); //프로필 이미지 정보 만 가져옴
-
-  const userProfile = ''; //유저프로필 복호화
+  const {
+    data: userProfileData,
+    isLoading,
+    isSuccess,
+  } = useQuery(['user', userId], () => getUser(userId), {
+    select: (data) => data.image, // 원하는 필드 선택
+  });
+  const userProfile = '';
+  const queryClient = useQueryClient();
+  const handleDelete = (e) => {
+    e.preventDefault();
+    deletePlanMutation.mutate();
+    setIsModalOpen(false);
+  };
+  const deletePlanMutation = useMutation({
+    mutationFn: () => deletePlan(tripId, planId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getAllPlan'] });
+    },
+  });
 
   useEffect(() => {
     const parentHeight = cardRef.current.clientHeight;
     const childHeight = parentHeight - 40;
     contentRef.current.style.maxHeight = `${childHeight}px`;
+
+    if (userProfileData !== null) {
+      //유저 프로필 데이터 복호화 코드 추가
+    }
   }, []);
 
   return (
@@ -63,16 +86,12 @@ function PlanDetailCard({
         <button
           onClick={() => {
             console.log('수정하기cliked');
+            setIsOpenFormModal(planId);
           }}
         >
           수정하기
         </button>
-        <button
-          className="delete"
-          onClick={() => {
-            console.log('삭제하기cliked');
-          }}
-        >
+        <button className="delete" onClick={handleDelete}>
           삭제하기
         </button>
       </ModiModal>

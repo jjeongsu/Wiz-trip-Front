@@ -8,10 +8,11 @@ import * as M from '../../styles/planmodal.style';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { createDatesArr } from '../../utils/createDaysArr';
-import { categoryToEng } from '../../assets/category-palette';
+import { categoryToEng, categoryToKo } from '../../assets/category-palette';
 import { createTimestamp } from '../../utils/createTimestamp';
 import KakaoPostcode from './KakaoPostcode';
-import { createPlan } from '../../apis/api/plan';
+import { createPlan, getTargetPlan } from '../../apis/api/plan';
+import { useMutation, useQueryClient } from 'react-query';
 function PlanModal({
   isOpenModal,
   setIsOpenModal,
@@ -28,6 +29,7 @@ function PlanModal({
     watch,
     getValues,
     setError,
+    setValue,
     clearErrors,
     reset,
     formState: { errors, isDirty, isValid },
@@ -35,28 +37,24 @@ function PlanModal({
   const [isOpenPostcode, setIsOpenPostcode] = useState(false);
   const [address, setAddress] = useState('');
 
+  const queryClient = useQueryClient();
+  const uploadPlanMutation = useMutation({
+    mutationFn: (newPlan) => createPlan(tripId, newPlan),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getAllPlan'] });
+    },
+  });
+
   const onSubmit = (data) => {
-    setPlans((plans) => [
-      ...plans,
-      {
-        address: address,
-        day: data.selectDay,
-        startIndex: data.startTime,
-        endIndex: data.endTime,
-        content: data.content,
-        category: categoryToEng[data.category],
-      },
-    ]);
     //실제 plan 생성
     const cur_date = days[data.selectDay];
-
     const obj = createTimestamp(
       cur_date.date_full,
       data.startTime,
       data.endTime,
     );
 
-    const response = createPlan(tripId, {
+    const newPlan = {
       name: 'defaultName',
       address: {
         roadNameAddress: address,
@@ -66,8 +64,11 @@ function PlanModal({
       finishTime: obj.endTimestamp,
       content: data.content,
       category: categoryToEng[data.category],
-    });
+    };
 
+    uploadPlanMutation.mutate(newPlan);
+
+    //초기화
     setIsOpenModal(false);
     reset({
       selectDay: 0,
@@ -79,6 +80,19 @@ function PlanModal({
     setAddress('');
   };
 
+  useEffect(() => {
+    //update를 위해 창이 열렸을 때
+    if (isOpenModal !== false && isOpenModal !== true) {
+      console.log('수정하기 clicked', isOpenModal); //isOpenModal상태에 planId값 존재
+      //tripId와 planId에 해당하는 자료 값 가져오기
+      const currentPlan = getTargetPlan(tripId, isOpenModal);
+      console.log('수정될 plan', currentPlan);
+      setAddress(currentPlan.address?.roadNameAddress);
+      setValue('category', categoryToKo[currentPlan.category]);
+      setValue('content', currentPlan.content);
+    }
+  }, [isOpenModal]);
+  console.log('isOpenModal', isOpenModal);
   return (
     <div>
       <M.ModalWrapper isopen={isOpenModal}>

@@ -39,7 +39,26 @@ export const checkCode = async (emailcheck, email, setIsEmailChecked) => {
 };
 
 //3. 닉네임 중복 확인 과정 추가하기
-
+export const checkNickname = async (nickname, setIsNicknameChecked) => {
+  try {
+    console.log('닉네임 확인중');
+    const response = await axios.get(
+      `/users/nickname/exist?nickname=${nickname}`,
+    );
+    if (response.data === false) {
+      alert('사용가능한 닉네임 입니다.');
+      setIsNicknameChecked(true);
+    } else {
+      alert('사용할수 없는 닉네임입니다.');
+    }
+  } catch (error) {
+    console.log('Check Verify-Nickname Err : ', error);
+    const statusCode = error.response.status;
+    const statusText = error.response.statusText;
+    const message = error.response.data.message;
+    console.log(`${statusCode} - ${statusText} : ${message}`);
+  }
+};
 //4. 회원가입 처리
 
 export const onRegister = async (

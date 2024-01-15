@@ -7,7 +7,7 @@ import Plan from './pages/Plan';
 import Plantest from './pages/Plantest';
 import NotFound from './pages/NotFound';
 import Mypage from './pages/Mypage';
-
+import Share from './pages/Share';
 import { Navigate, Outlet } from 'react-router-dom';
 import CheckLogin from './utils/checklogin';
 function App() {
@@ -41,6 +41,7 @@ function App() {
           </Route>
 
           <Route path="*" element={<NotFound />} />
+          <Route path="/share/*" element={<Share />} />
         </Routes>
       </BrowserRouter>
     </>
