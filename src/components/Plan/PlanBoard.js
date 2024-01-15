@@ -110,12 +110,6 @@ function PlanBoard({
         ))}
       </div>
       <S.SlideNav>
-        <button className="slide-button-prev" onClick={toPrev}>
-          <SlidePrevIcon width="20" height="20" fill="none" />
-        </button>
-        <button className="slide-button-next" onClick={toNext}>
-          <SlideNextIcon width="20" height="20" fill="none" />
-        </button>
         <S.SlideItemWrapper slide={slidePx}>
           <div className="schedule-table">
             {days &&

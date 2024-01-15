@@ -26,9 +26,8 @@ function Plan() {
   const [plans, setPlans] = useState([]);
   const [datesArr, setDatesArr] = useState([]);
 
-  const trip = useSelector((state) => state.trip);
+  const trips = useSelector((state) => state.Schedule);
   const dispatch = useDispatch();
-
   const {
     isLoading: isLoadingTrip,
     isSuccess: isTripSuccess,
@@ -50,8 +49,8 @@ function Plan() {
       };
       dispatch(initSchedule(schedule));
       //trip 내 모든 날짜 정보 array 만들기
-      // const newDatesArray = createDatesArr({ ...schedule });
-      //setDatesArr(newDatesArray);
+      const newDatesArray = createDatesArr({ ...trips });
+      setDatesArr(newDatesArray);
     }
   }, [tripData]);
 
