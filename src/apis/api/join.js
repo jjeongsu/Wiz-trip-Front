@@ -67,11 +67,11 @@ export const onRegister = async (
   isNicknameChecked,
   navigate,
 ) => {
-  const { email, password, nickname, passwordcheck } = data;
+  const { email, password, nickname, passwordcheck, id } = data;
   if (isEmailChecked && isNicknameChecked) {
     try {
       const response = await axios.post('/users/signup', {
-        username: email.slice(0, email.indexOf('@')),
+        username: id,
         email: email,
         password: password,
         confirmPassword: passwordcheck,
