@@ -2,23 +2,33 @@ import React from 'react'
 import * as T from '../../styles/mytrip.style'
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { useQuery } from 'react-query';
 
-function FinishedItemList() {
+function FinishedItemList({myTripData}) {
   return (
     <>
-    <T.TripItem>
-        <div className='d-day'>D+10</div>
-        <span className='place-text'>
-            목적지
-        </span> 
-        <span className='period-text'>
-            2024-01-02~2024-01-04
-        </span> 
-        <T.ButtonWrapper>
-            <T.StyleButton $category='review'>리뷰 작성하기</T.StyleButton>
-        </T.ButtonWrapper> 
-    </T.TripItem>
+    {myTripData.length > 0? 
+          <T.TripItemBox>
+            {myTripData.map((trip, index)=>(
+            <T.TripItem key={index}>
+                <div className='d-day'>D+{dayjs().diff(dayjs(trip.finishDate), 'day')}</div>
+                <span className='place-text'>
+                {trip.destination}
+                </span> 
+                <span className='period-text'>
+                {dayjs(trip.startDate).format('YYYY-MM-DD')}~{dayjs(trip.finishDate).format('YYYY-MM-DD')}
+                </span> 
+                <T.ButtonWrapper>
+                <T.StyleButton $category='review'>리뷰 작성하기</T.StyleButton>
+                </T.ButtonWrapper> 
+            </T.TripItem>
+            ))}
+
+            </T.TripItemBox>
+            :
+            <T.TripItem style={{alignItems: 'center', justifyContent: 'center'}}>
+                <span className='default-text'> 완료된 내 일정이 없습니다.</span>
+            </T.TripItem>
+      }
     </>
   )
 }
