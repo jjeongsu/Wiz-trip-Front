@@ -1,13 +1,14 @@
 import React from 'react'
 import * as T from '../../styles/mytrip.style'
 import { useNavigate } from 'react-router-dom';
-import { getMyTrip, deleteTrip } from '../../apis/api/trip';
+import { deleteTrip } from '../../apis/api/trip';
 import dayjs from 'dayjs';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-function PlanningItemList() {
+import { useMutation, useQueryClient } from 'react-query';
+
+function PlanningItemList({myTripData}) {
 
     const navigate = useNavigate();
-    const {isLoading, data:myTripData} = useQuery('getMyTrip', () => getMyTrip());
+
     const queryClient = useQueryClient();
     const deleteMutation = useMutation(deleteTrip, {
       onSuccess: () => {
@@ -18,8 +19,7 @@ function PlanningItemList() {
     const handleDelete = async (tripId) => {
         await deleteMutation.mutateAsync(tripId);
     }
-
-    if(isLoading) return <div>loading...</div>
+    console.log(myTripData);
      
     return (
         <>

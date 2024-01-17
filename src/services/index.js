@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import Schedule from './schedule';
-import Memo from './memo';
 import Plan from './plan';
 import User from './user';
 import { persistReducer } from 'redux-persist';
@@ -8,7 +7,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 
 
 const rootReducer = combineReducers({
-  Schedule, Memo, Plan, User
+  Schedule, Plan, User
 });
 
 const persistConfig = {

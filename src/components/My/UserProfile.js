@@ -9,44 +9,60 @@ import AirplaneIcon from '../../assets/airplane-icon'
 import ReviewIcon from '../../assets/review-icon'
 import TaskIcon from '../../assets/task-icon'
 import ReviseProfileForm from './ReviseProfileForm'
+import { getMyTrip } from '../../apis/api/trip'
+import { getMyReviewLength, getToReviewLength } from '../../apis/api/review'
 
 function UserProfile() {
 
     const userId = useSelector(state=>state.User.userIdx);
 
-    const { isLoading, data: userData } = useQuery('getUserInfo', () => getUser(userId));
+    const { 
+        isLoading: isLoadingUser,
+        isSuccess: isSuccessUser,
+        data: userData 
+    } = useQuery('getUserInfo', () => getUser(userId));
+
+    //예정된 여행 데이터 가져오기 
+    const{
+        isLoading: isLoadingPlanningItem,
+        isSuccess: isSuccessPlanningItem,
+        data: planningData,
+    } = useQuery('getMyTrip', () => getMyTrip());
+    //작성해야할 리뷰 데이터 개수 가져오기 
+    const{
+        isLoading: isLoadingToReview,
+        isSuccess: isSuccessToReview,
+        data: toReviewData,
+    } = useQuery('getToReviewLength', () => getToReviewLength());
+    //작성한 리뷰 데이터 개수 가져오기 
+    const{
+        isLoading: isLoadingMyReview,
+        isSuccess: isSuccessMyReview,
+        data: myReviewData,
+    } = useQuery('getMyReviewLength', () => getMyReviewLength());
+
 
     const [isOpen, setIsOpen] = useState(false);
     console.log(userId);
-    console.log(userData);
-    
-/**
-    {
-        "id": 0,
-        "username": "string",
-        "email": "string",
-        "image": {
-          "imageName": "string",
-          "imagePath": "string"
-        },
-        "nickname": "string",
-        "like": {}
-      } */
-    if(isLoading) return <div> is Loading...</div>
+    console.log(userData);   
+
+    console.log(toReviewData);
     return (
         <>
             <U.ProfileWrapper>
+            {isSuccessUser && 
                 <U.UserInfoLayout>
                     <img src={userData.image? userData.image: DefaultImage} alt='profile'></img>
                     <span className='nickname-text'>{userData.nickname}</span>
                     <span className='email-text'>{userData.email}</span>
                 </U.UserInfoLayout>
+            }
                 <U.Line/>
                 <U.ItemLayout>
                     <AirplaneIcon/>
                     <div className='info-wrapper'>
                         <span className='title-text'>예정된 여행</span>
-                        <span className='count-text'>2개</span>
+                        {isSuccessPlanningItem && <span className='count-text'>{planningData?.filter(item => !item.finished).length}개</span>}
                     </div>
                 </U.ItemLayout>
                 <U.Line/>
@@ -54,7 +70,7 @@ function UserProfile() {
                     <ReviewIcon/>
                     <div className='info-wrapper'>
                         <span className='title-text'>나의 여행기록</span>
-                        <span className='count-text'>1개</span>
+                        {isSuccessMyReview && <span className='count-text'>{myReviewData.reviewNum}개</span>}
                     </div>
                 </U.ItemLayout>
                 <U.Line/>
@@ -62,7 +78,7 @@ function UserProfile() {
                     <TaskIcon/>
                     <div className='info-wrapper'>
                         <span className='title-text'>작성해야 할 후기</span>
-                        <span className='count-text'>1개</span>
+                        {isSuccessToReview && <span className='count-text'>{toReviewData.reviewNum}개</span>}
                     </div>
                 </U.ItemLayout>
                 <U.ReviseButton onClick={()=>setIsOpen(!isOpen)}> 
