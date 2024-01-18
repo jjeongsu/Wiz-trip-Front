@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import DefaultImg from '../assets/default_img.png';
 import BlueBtnImg from '../assets/logo-button-blue-min.png';
 import PinkBtnImg from '../assets/pink-button-min.png';
@@ -7,13 +7,13 @@ import * as W from '../../src/styles/write.style';
 import { useQuery } from 'react-query';
 import { getTrip } from '../apis/api/trip';
 import { useState, useEffect } from 'react';
-import { addReview } from '../apis/api/review';
+import { addReviewImage, addReviewText } from '../apis/api/review';
 function Write() {
   const { tripId } = useParams();
-
   const [text, setText] = useState('');
   const [imgSrcArr, setImageSrcArr] = useState([]);
   const [file, setFiles] = useState([]);
+  const navigate = useNavigate();
   const { data: tripData, isSuccess: isTripSuccess } = useQuery(['trips'], () =>
     getTrip(tripId),
   );
@@ -48,11 +48,15 @@ function Write() {
     });
     checkFormData(formData);
 
-    const data = {
+    const imageResponse = addReviewImage(tripId, formData);
+    const textResponse = addReviewText(tripId, {
       content: text,
-      imageList: formData,
-    };
-    addReview(tripId, data);
+    });
+    const condition = false;
+    //둘다 결과 true이면 홈으로 이동
+    if (condition) {
+      navigate('/');
+    }
   };
 
   if (isTripSuccess) {
