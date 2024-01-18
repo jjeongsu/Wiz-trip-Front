@@ -59,8 +59,8 @@ function Plan() {
       setPlans(Array.from(planData?.list));
     }
   }, [planData, isSuccess]);
-
-  if (isLoadingTrip && isLoadingPlan) {
+  console.log('dates', datesArr);
+  if (isLoadingTrip && isLoadingPlan && datesArr.length === 0) {
     return <div>loading....</div>;
   } else if (isSuccess) {
     return (

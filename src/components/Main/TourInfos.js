@@ -5,17 +5,20 @@ import SlidePrevIcon from '../../assets/slide-prev-icon';
 import SlideNextIcon from '../../assets/slide-next-icon';
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { getLandmarks } from '../../apis/api/landmark';
+import { getLandmarkPage, getLandmarks } from '../../apis/api/landmark';
 import LandmarkCard from './LandmarkCard';
 import axios from 'axios';
 function TourInfo() {
   const [slidePx, setSlidePx] = useState(0);
   const [city, setCity] = useState('');
-  const { isLoading, fetchedLandmarks } = useQuery(
-    'allLandmarks',
+  const { isLoading, data: fetchedLandmarks } = useQuery(
+    ['allLandmarks'],
     getLandmarks,
   );
-
+  // const { data: fetchedLandmarkPage } = useQuery(
+  //   ['landmarkPage'],
+  //   getLandmarkPage,
+  // );
   const toPrev = () => {
     if (slidePx < 0) setSlidePx(slidePx + 1000);
   };
@@ -25,13 +28,7 @@ function TourInfo() {
   const onCityClick = (event) => {
     setCity(event.target.value);
   };
-  const test = async () =>
-    await axios
-      .get('landmarks/page?page=0&size=10&sort=id')
-      .then((res) => console.log(res));
-  useEffect(() => {
-    test();
-  }, []);
+
   return (
     <>
       <S.TourCityBox slide={slidePx}>

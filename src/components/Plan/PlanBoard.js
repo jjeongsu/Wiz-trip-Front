@@ -99,6 +99,10 @@ function PlanBoard({
     },
   });
 
+  if (days === []) {
+    return <div> is Loading</div>;
+  }
+
   return (
     <S.BoardBox>
       <div className="timeline">

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { initSchedule } from '../../services/schedule';
 import dayjs from 'dayjs';
 import LinkIcon from '../../assets/link-icon';
-function Planheader({userIdList}) {
+function Planheader({ userIdList }) {
   const planinfo = useSelector((state) => state.Schedule);
   const [updateform, setUpdateForm] = useState(false);
 
@@ -24,10 +24,8 @@ function Planheader({userIdList}) {
       <div className="left-container">
         {/* 여행개요 */}
         {updateform ? (
-          <UpdatePlanInfo
-            setUpdateForm={setUpdateForm}
-          />
-          ) : (
+          <UpdatePlanInfo setUpdateForm={setUpdateForm} />
+        ) : (
           <P.PlanInfoLayout
             onClick={() => {
               setUpdateForm(true);
@@ -39,17 +37,17 @@ function Planheader({userIdList}) {
               {startDate} ~ {endDate}
             </span>
             <div className="vertical-line" />
-            <span className="text-container">{userIdList.length}명</span>
+            <span className="text-container">{userIdList?.length}명</span>
           </P.PlanInfoLayout>
         )}
 
         {/* 접속 중인 사용자 */}
-        <ConnectedUsers userIdList={userIdList}/>
+        <ConnectedUsers userIdList={userIdList} />
       </div>
       <div className="button-container">
         <P.InviteBtn>
-          <LinkIcon/>
-          <span className='text'>초대링크 복사</span> 
+          <LinkIcon />
+          <span className="text">초대링크 복사</span>
         </P.InviteBtn>
         <P.CompleteBtn>여행 완료</P.CompleteBtn>
       </div>
