@@ -55,6 +55,10 @@ function Plan() {
   }, [tripData]);
 
   useEffect(() => {
+    const newDatesArray = createDatesArr({ ...trips });
+    setDatesArr(newDatesArray);
+  }, [trips]);
+  useEffect(() => {
     if (isSuccess) {
       setPlans(Array.from(planData?.list));
     }

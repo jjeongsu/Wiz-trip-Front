@@ -14,6 +14,7 @@ import { element } from 'prop-types';
 import { createTimestamp } from '../../utils/createTimestamp';
 import { useMutation, useQueryClient } from 'react-query';
 import { updatePlan } from '../../apis/api/plan';
+import { createDatesArr } from '../../utils/createDaysArr';
 function PlanBoard({
   days,
   setIsOpenModal,
@@ -35,20 +36,25 @@ function PlanBoard({
   };
 
   useEffect(() => {
-    console.log('plan', plans);
     const l = [];
     plans.forEach((p, index) => {
       //timestamp를 index로 변환하기
-      const today = p.startTime?.slice(0, 10);
-      const todayIndex = days.findIndex((date) => date.date_full === today);
-      const trim_startTime = p.startTime?.slice(11);
-      const trim_endTime = p.finishTime?.slice(11);
+      //console.log('현재 p', p, '현재 days', days);
+      const today = p.startTime?.slice(0, 8);
+
+      const todayIndex = days.findIndex(
+        (date) => date.date_full.replaceAll('-', '') == today,
+      );
+
+      const trim_startTime = p.startTime?.slice(9);
+      const trim_endTime = p.finishTime?.slice(9);
       const startIndex = clockTimes.findIndex(
         (time) => time.text === trim_startTime,
       );
       const endIndex = clockTimes.findIndex(
         (time) => time.text == trim_endTime,
       );
+      //console.log('trimed', startIndex, endIndex);
       const gap = ~~endIndex - ~~startIndex;
       // { i: 'random', x: plans.day, y: palns.startIndex, w:1, h: ~~endIndex, static: false }
       const newPlan = {
@@ -77,7 +83,7 @@ function PlanBoard({
       submit(element.x, element.y, element.h, element.i);
     }
   };
-
+  console.log('PlanBaord 리랜더링', 'mylayout', mylayout);
   //x: 수정된 날짜 ,  y: 수정된 시작시간, h: 시간시간과 종료시간 사이의 gap, i: 몇번째 요소인지
   const submit = (newDay, newStartIndex, gap, planId) => {
     const new_date = days[newDay];
@@ -99,7 +105,7 @@ function PlanBoard({
     },
   });
 
-  if (days === []) {
+  if (days === [] && mylayout === []) {
     return <div> is Loading</div>;
   }
 
