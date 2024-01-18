@@ -1,5 +1,7 @@
 import api from '../../axiosConfig';
 import axios from 'axios';
+import { setCookie, getCookie } from '../../utils/cookies';
+
 export async function getReview() {
   try {
     const res = await api.get('/my-reviews');
@@ -14,9 +16,11 @@ export async function getReview() {
 }
 export async function addReview(tripId, data) {
   try {
-    const res = await axios.post(`/trips/${tripId}/reviews`, data, {
+    const jwtToken = getCookie('jwtToken');
+    const res = await api.post(`/trips/${tripId}/reviews`, data, {
       headers: {
         'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${jwtToken}`,
       },
     });
     return res;
