@@ -11,13 +11,14 @@ export async function getLandmarks() {
     const statusText = error.response.statusText;
     const message = error.response.data.message;
     console.log(`${statusCode} - ${statusText} : ${message}`);
+    return error;
   }
 }
 
-export async function getLandmarkPage() {
+export async function getLandmarkPage(pageNo, pageRow, sort) {
   try {
     const response = await axios.get(
-      '/landmarks/paging?pageNo=0&numOfRows=10&sort=id',
+      `/landmarks/paging?pageNo=${pageNo}&numOfRows=${pageRow}&sort=${sort}`,
     );
     return response.data;
   } catch (error) {
@@ -26,5 +27,22 @@ export async function getLandmarkPage() {
     const statusText = error.response.statusText;
     const message = error.response.data.message;
     console.log(`${statusCode} - ${statusText} : ${message}`);
+  }
+}
+
+//랜드 마크 상세 조회
+export async function getLandmarkDetail(contentId) {
+  try {
+    const response = await axios.get(
+      `/landmarks/landmarks?contentId=${contentId}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.log('랜드마크 상세정보 조회 Error', error);
+    const statusCode = error.response.status;
+    const statusText = error.response.statusText;
+    const message = error.response.data.message;
+    console.log(`${statusCode} - ${statusText} : ${message}`);
+    return error;
   }
 }

@@ -27,14 +27,7 @@ function PlanBoard({
   const [slidePx, setSlidePx] = useState(0); //day수가 3이상일 경우 slide
   const [mylayout, setMyLayout] = useState([]);
   const [dragElement, setDragElement] = useState({});
-
-  const toPrev = () => {
-    if (slidePx < 0) setSlidePx(slidePx + 705);
-  };
-  const toNext = () => {
-    if (slidePx > -1410) setSlidePx(slidePx - 705);
-  };
-
+  const [isDraggable, setIsDraggable] = useState(true); //수정 가능한지 여부
   useEffect(() => {
     const l = [];
     plans.forEach((p, index) => {
@@ -158,6 +151,8 @@ function PlanBoard({
               className="grid-drag-board"
               cols={days.length}
               rowHeight={12}
+              isResizable={false}
+              isDraggable={isDraggable}
               width={242 * days.length}
               preventCollision={true}
               compactType={null}
