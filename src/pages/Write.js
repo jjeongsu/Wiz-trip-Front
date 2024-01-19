@@ -48,10 +48,12 @@ function Write() {
     });
     checkFormData(formData);
 
-    const imageResponse = addReviewImage(tripId, formData);
     const textResponse = addReviewText(tripId, {
       content: text,
     });
+    console.log('text 보낸 결과', textResponse);
+    //const imageResponse = addReviewImage(tripId, formData);
+
     const condition = false;
     //둘다 결과 true이면 홈으로 이동
     if (condition) {
