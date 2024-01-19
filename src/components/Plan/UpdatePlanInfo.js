@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import {useSelector} from 'react-redux'
 import { useParams } from 'react-router';
 import { updateTrip } from '../../apis/api/trip';
+import { useQueryClient, useMutation } from 'react-query';
 
 function UpdatePlanInfo({setUpdateForm}) {
     const tripId = useParams().tripId;
@@ -16,6 +17,14 @@ function UpdatePlanInfo({setUpdateForm}) {
       location: false,
       sdate: false,
       edate: false,
+    });
+
+
+    const queryClient = useQueryClient();
+    const updateMutation = useMutation(updateTrip, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getTrip');
+      },
     });
 
 
@@ -70,8 +79,7 @@ function UpdatePlanInfo({setUpdateForm}) {
         }
 
         //trip 수정 API 요청 코드 
-        const res = await updateTrip({...updatedData, tripId: tripId})
-        console.log(res);
+        await updateMutation.mutateAsync({ ...updatedData, tripId: tripId });
         setUpdateForm(false);
     }
   return (
