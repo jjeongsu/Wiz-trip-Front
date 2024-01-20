@@ -5,6 +5,7 @@ import SlidePrevIcon from '../../assets/slide-prev-icon';
 import SlideNextIcon from '../../assets/slide-next-icon';
 import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
+import Spinner from '../../assets/loading-spinner.gif';
 import {
   getLandmarkPage,
   getLandmarks,
@@ -12,6 +13,7 @@ import {
 } from '../../apis/api/landmark';
 import LandmarkCard from './LandmarkCard';
 import axios from 'axios';
+import LoadingIcon from '../../assets/loading';
 function TourInfo() {
   const [slidePx, setSlidePx] = useState(0);
   const [city, setCity] = useState('전체');
@@ -46,13 +48,21 @@ function TourInfo() {
     setCity(event.target.textContent);
   };
   if (isLoading && fetchedLandmarks === undefined) {
-    return <> 로딩중 </>;
+    return (
+      <S.SpinnerContainer>
+        <img src={Spinner} alt="loading-spinner" />{' '}
+      </S.SpinnerContainer>
+    );
   } else if (
     city !== '전체' &&
     isLoadingCity &&
     fetchedLandmarksCity === undefined
   ) {
-    return <> 로딩중</>;
+    return (
+      <S.SpinnerContainer>
+        <img src={Spinner} alt="loading-spinner" />
+      </S.SpinnerContainer>
+    );
   }
   //  else if (fetchedLandmarks.name === 'AxiosError') {
   // queryClient.invalidateQueries();
@@ -90,7 +100,9 @@ function TourInfo() {
             <LandmarkCard data={data} key={index} />
           ))
         ) : isLoadingCity ? (
-          <>로딩중</>
+          <S.SpinnerContainer>
+            <img src={Spinner} alt="loading-spinner" />
+          </S.SpinnerContainer>
         ) : (
           fetchedLandmarksCity?.map((data, index) => (
             <LandmarkCard data={data} key={index} />

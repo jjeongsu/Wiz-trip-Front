@@ -45,7 +45,7 @@ export async function getMyReviewLength() {
 export async function addReviewText(tripId, data) {
   try {
     const res = await api.post(`/trips/${tripId}/reviews`, data);
-    return res;
+    return res.data;
   } catch (error) {
     console.log('Review 텍스트 추가 Error', error);
     const statusCode = error.response.status;

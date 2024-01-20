@@ -57,3 +57,11 @@ export const TourCardBox = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
 `;
+
+export const SpinnerContainer = styled.div`
+  width: inherit;
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
