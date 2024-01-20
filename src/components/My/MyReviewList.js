@@ -8,7 +8,7 @@ function MyReviewList() {
 
   const {isLoading, data:myReview} = useQuery('getMyReview', () => getReview());
 
-  if(isLoading)return<div>is loading...</div>
+  if(isLoading)return<div></div>
 
   return (
     <>

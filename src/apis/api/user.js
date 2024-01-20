@@ -36,3 +36,27 @@ export async function getUser(userId) {
     console.log(`${statusCode} - ${statusText} : ${message}`);
   }
 }
+
+export async function getUserProfile(userId) {
+  try {
+    const res = await api.get(`/users/${userId}?userId=${userId}`);
+    return res.data.image;
+  } catch (error) {
+    const statusCode = error.response.status;
+    const statusText = error.response.statusText;
+    const message = error.response.data.message;
+    console.log(`${statusCode} - ${statusText} : ${message}`);
+  }
+}
+
+export async function patchUser(userId, data) {
+  try {
+    const res = await api.patch(`/users/${userId}`, data);
+    return res.data;
+  } catch (error) {
+    const statusCode = error.response.status;
+    const statusText = error.response.statusText;
+    const message = error.response.data.message;
+    console.log(`${statusCode} - ${statusText} : ${message}`);
+  }
+}

@@ -8,6 +8,7 @@ import { createUrl, finishTrip } from '../../apis/api/trip';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 const domain = 'http://localhost:3000';
+
 function Planheader({ userIdList }) {
   const planinfo = useSelector((state) => state.Schedule);
   const [updateform, setUpdateForm] = useState(false);
@@ -61,22 +62,22 @@ function Planheader({ userIdList }) {
               {startDate} ~ {endDate}
             </span>
             <div className="vertical-line" />
-            <span className="text-container">{userIdList?.length}명</span>
+            {userIdList && <span className="text-container">{userIdList.length}명</span>}
           </P.PlanInfoLayout>
         )}
 
-        {/* 접속 중인 사용자 */}
-        <ConnectedUsers userIdList={userIdList} />
-      </div>
-      <div className="button-container">
-        <P.InviteBtn onClick={handleUrl}>
-          <LinkIcon />
-          <span className="text">초대링크 복사</span>
-        </P.InviteBtn>
-        <P.CompleteBtn onClick={handleFinishTrip}>여행 완료</P.CompleteBtn>
-      </div>
-    </P.HeaderWrapper>
-  );
+      {/* 접속 중인 사용자 */}
+      <ConnectedUsers userIdList={userIdList} />
+    </div>
+    <div className="button-container">
+      <P.InviteBtn onClick={handleUrl}>
+        <LinkIcon />
+        <span className="text">초대링크 복사</span>
+      </P.InviteBtn>
+      <P.CompleteBtn onClick={handleFinishTrip}>여행 완료</P.CompleteBtn>
+    </div>
+  </P.HeaderWrapper>
+);
 }
 
 export default Planheader;

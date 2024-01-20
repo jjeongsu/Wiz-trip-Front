@@ -25,6 +25,7 @@ api.interceptors.request.use(
   }
 );
 
+
 // API 요청을 보낼 때마다 호출되는 인터셉터를 설정
 api.interceptors.response.use(
     response => response,

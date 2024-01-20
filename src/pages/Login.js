@@ -2,15 +2,16 @@ import React from 'react';
 import * as L from '../styles/login.style';
 import { passwordRegex } from '../utils/regex';
 import { useForm } from 'react-hook-form';
-import {setCookie} from '../utils/cookies';
+import {getCookie, setCookie} from '../utils/cookies';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import DecodingInfo from '../utils/decodingInfo';
 import { useDispatch } from 'react-redux';
 import { authUser } from '../services/user';
 import { getUser, loginUser } from '../apis/api/user';
+import { GoToTrip } from './Share';
 
-function Login() {
+function Login({setIsLogin}) {
   const {
     register,
     handleSubmit,
@@ -18,8 +19,8 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
   //로그인 요청 코드
@@ -28,14 +29,11 @@ function Login() {
 
     //로그인 api 요청 
     const res = await loginUser(username, password);
-    console.log('로그인 응답', res);
 
-    if(res.status==200){
+    if(res){
       //header jwt 토큰 정보 받아오기 
       let jwtToken = res.headers.get("Authorization"); 
       let refreshToken = res.headers.get("refresh");
-      console.log(jwtToken);
-      console.log(refreshToken);
 
       //쿠키에 jwtToken, refreshToken 저장
       setCookie('jwtToken', jwtToken, {path: '/'});
@@ -43,9 +41,6 @@ function Login() {
 
       // jwt토큰 디코딩 
       let decodingInfo = DecodingInfo(jwtToken);
-
-      console.log(decodingInfo);
-      console.log(decodingInfo.id);
   
       //userId 추출 
       let userId = decodingInfo.id;
@@ -61,10 +56,18 @@ function Login() {
         nickname: userData.nickname,
       }));
 
-      //메인화면 이동 
-      window.location.href = '/'
+      //쿠키에 저장된 tripId가 있는 경우
+      if(getCookie('tripId')){
+        const tripId = await GoToTrip(getCookie('tripId'), userId);
+        setIsLogin(true);
+        navigate(`/plan/${tripId}`);
+      }else{
+        //메인화면 이동 
+        setIsLogin(true);
+        navigate('/')
+      }
+
     }
-      
 };
 
   return (
