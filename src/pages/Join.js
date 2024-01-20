@@ -100,7 +100,17 @@ function Join() {
           >
             코드확인
           </S.Button>
-
+          <input
+            name="id"
+            type="text"
+            placeholder="아이디"
+            {...register('id', {
+              required: '아이디를 입력해주세요',
+            })}
+          />
+          {errors.id && (
+            <span className="error-message">{errors.id.message}</span>
+          )}
           <input
             name="password"
             type="password"
