@@ -61,7 +61,7 @@ function Planheader({ userIdList }) {
               {startDate} ~ {endDate}
             </span>
             <div className="vertical-line" />
-            <span className="text-container">{userIdList.length}명</span>
+            <span className="text-container">{userIdList?.length}명</span>
           </P.PlanInfoLayout>
         )}
 

@@ -71,3 +71,50 @@ export const updatePlan = async (tripId, data) => {
     console.log(`${statusCode} - ${statusText} : ${message}`);
   }
 };
+
+//Plan 수정 가능한 상태로 바꾸기
+export const unlockPlan = async (tripId, planId) => {
+  try {
+    const response = await api.get(
+      `/trips/${tripId}/plans/unlock?planId=${planId}`,
+    );
+    return response;
+  } catch (error) {
+    console.log('Plan 수정 Unlock Error', error);
+    const statusCode = error.response.status;
+    const statusText = error.response.statusText;
+    const message = error.response.data.message;
+    console.log(`${statusCode} - ${statusText} : ${message}`);
+  }
+};
+
+//Plan 수정 불가능한 상태로 바꾸기
+export const lockPlan = async (tripId, planId) => {
+  try {
+    const response = await api.get(
+      `/trips/${tripId}/plans/lock?planId=${planId}`,
+    );
+    return response;
+  } catch (error) {
+    console.log('Plan 수정 Lock Error', error);
+    const statusCode = error.response.status;
+    const statusText = error.response.statusText;
+    const message = error.response.data.message;
+    console.log(`${statusCode} - ${statusText} : ${message}`);
+  }
+};
+
+export const checkLockStatus = async (tripId, planId) => {
+  try {
+    const response = await api.get(
+      `/trips/${tripId}/plans/check-lock-status?planId=${planId}`,
+    );
+    return response;
+  } catch (error) {
+    console.log('Plan Lock 상태확인 Error', error);
+    const statusCode = error.response.status;
+    const statusText = error.response.statusText;
+    const message = error.response.data.message;
+    console.log(`${statusCode} - ${statusText} : ${message}`);
+  }
+};

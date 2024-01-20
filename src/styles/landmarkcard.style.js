@@ -87,7 +87,10 @@ export const Modal = styled.div`
     display: flex;
   }
   .modal-image {
-    min-width: 300px;
+    width: 400px;
+    height: 300px;
+    object-fit: contain;
+    max-width: 500px;
   }
   .modal-text {
     margin-left: 27px;

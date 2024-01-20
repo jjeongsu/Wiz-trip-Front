@@ -27,16 +27,16 @@ export const TourCityBox = styled.div`
     padding: 5px 10px;
     transform: ${(props) => `translateX(${props.slide}px)`};
     transition: 0.8s ease;
-
     button {
       border: none;
       width: 100%;
       height: 100%;
       color: ${({ theme }) => theme.gray400Cool};
-      font-size: 24px;
+      font-size: 20px;
       background-color: transparent;
       cursor: pointer;
-      &:hover {
+      &:hover,
+      &:active {
         color: ${({ theme }) => theme.mainAccentColor};
         font-weight: 600;
       }
@@ -44,7 +44,7 @@ export const TourCityBox = styled.div`
   }
 
   .slide-button {
-    width: 40px;
+    width: 30px;
     height: 40px;
     background-color: transparent;
     border: none;
