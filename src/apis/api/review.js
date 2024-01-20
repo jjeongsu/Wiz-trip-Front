@@ -17,7 +17,7 @@ export async function getReview() {
 
 export async function getToReviewLength() {
   try {
-    const res = await api.get('/to-reviews/count');
+    const res = await api.get('/my-to-reviews/count');
     return res.data;
   } catch (error) {
     console.log('to-Review 개수 조회 Error', error);

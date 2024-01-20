@@ -9,7 +9,7 @@ import AirplaneIcon from '../../assets/airplane-icon'
 import ReviewIcon from '../../assets/review-icon'
 import TaskIcon from '../../assets/task-icon'
 import ReviseProfileForm from './ReviseProfileForm'
-import { getMyTrip } from '../../apis/api/trip'
+import { getMyTrip, getMyTripCount } from '../../apis/api/trip'
 import { getMyReviewLength, getToReviewLength } from '../../apis/api/review'
 
 function UserProfile() {
@@ -27,7 +27,7 @@ function UserProfile() {
         isLoading: isLoadingPlanningItem,
         isSuccess: isSuccessPlanningItem,
         data: planningData,
-    } = useQuery('getMyTrip', () => getMyTrip());
+    } = useQuery('getMyTripCount', () => getMyTripCount());
     //작성해야할 리뷰 데이터 개수 가져오기 
     const{
         isLoading: isLoadingToReview,
@@ -59,7 +59,7 @@ function UserProfile() {
                     <AirplaneIcon/>
                     <div className='info-wrapper'>
                         <span className='title-text'>예정된 여행</span>
-                        {isSuccessPlanningItem && <span className='count-text'>{planningData?.filter(item => !item.finished).length}개</span>}
+                        {isSuccessPlanningItem && <span className='count-text'>{planningData}개</span>}
                     </div>
                 </U.ItemLayout>
                 <U.Line/>

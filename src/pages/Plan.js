@@ -74,7 +74,7 @@ function Plan() {
   } else if (isSuccess) {
     return (
       <Layout fullWidth={true}>
-        <Planheader userIdList={tripData?.userIdList} tripId={tripId} />
+        {isTripSuccess && <Planheader userIdList={tripData?.userIdList} tripId={tripId} />}
         <PlanLayout>
           <PlanBoard
             days={datesArr}

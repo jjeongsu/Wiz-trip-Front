@@ -86,6 +86,22 @@ export async function getMyTrip(){
     }
 }
 
+export async function getMyTripCount() {
+
+    try {
+        const res = await api.get(`/my-trips/count`)
+        return res.data.tripNum;
+    }
+    catch (error) {
+        console.log('계획중 여행 개수 조회 Error', error);
+        const statusCode = error.response.status;
+        const statusText = error.response.statusText;
+        const message = error.response.data.message;
+        console.log(`${statusCode} - ${statusText} : ${message}`);
+
+    }
+}
+
 export async function deleteTrip(tripId){
     try{
         const res = await api.delete(`/trips?tripId=${tripId}`)
@@ -143,7 +159,7 @@ export async function getTripId(id){
 
 export async function addUserToTrip(tripId, userId) {
     try {
-        const res = await api.post(`/trips/${tripId}/users/${userId}`)
+        const res = await api.post(`/trips/${tripId}/users/${userId}?tripId=${tripId}&userId=${userId}`)
         return res.data;
     }
     catch (error) {
