@@ -1,11 +1,15 @@
-import { cities } from '../../assets/korea-cities';
+import { cities, cityToCode } from '../../assets/korea-cities';
 import { landmarks } from '../../assets/korea-landmarks';
 import * as S from '../../styles/tourinfo.style';
 import SlidePrevIcon from '../../assets/slide-prev-icon';
 import SlideNextIcon from '../../assets/slide-next-icon';
 import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { getLandmarkPage, getLandmarks } from '../../apis/api/landmark';
+import {
+  getLandmarkPage,
+  getLandmarks,
+  getCityLandmark,
+} from '../../apis/api/landmark';
 import LandmarkCard from './LandmarkCard';
 import axios from 'axios';
 function TourInfo() {
@@ -22,6 +26,14 @@ function TourInfo() {
   });
   const queryClient = useQueryClient();
 
+  //도시별로 데이터 불러오기
+  const { data: fetchedLandmarksCity, isLoading: isLoadingCity } = useQuery({
+    queryKey: ['landmark', city],
+    queryFn: () => getCityLandmark(cityToCode[city]),
+    stateTime: 60 * 1000,
+    enabled: city != '전체',
+  });
+
   console.log('fetchdata', fetchedLandmarks);
   const toPrev = () => {
     if (slidePx < 0) setSlidePx(slidePx + 1000);
@@ -36,9 +48,16 @@ function TourInfo() {
 
   if (isLoading && fetchedLandmarks === undefined) {
     return <> 로딩중 </>;
-  } else if (fetchedLandmarks.name === 'AxiosError') {
-    queryClient.invalidateQueries();
+  } else if (
+    city !== '전체' &&
+    isLoadingCity &&
+    fetchedLandmarksCity === undefined
+  ) {
+    return <> 로딩중</>;
   }
+  //  else if (fetchedLandmarks.name === 'AxiosError') {
+  // queryClient.invalidateQueries();
+  // }
   return (
     <>
       <S.TourCityBox slide={slidePx}>
@@ -67,13 +86,14 @@ function TourInfo() {
       </S.TourCityBox>
 
       <S.TourCardBox>
-        {fetchedLandmarks.name === 'AxiosError' ? (
-          <>
-            데이터를 불러오는 중 에러가 발생하였습니다. 리패치 될때까지
-            기다리거나 새로고침 버튼을 눌러주세요
-          </>
-        ) : (
+        {city === '전체' ? (
           fetchedLandmarks?.map((data, index) => (
+            <LandmarkCard data={data} key={index} />
+          ))
+        ) : isLoadingCity ? (
+          <>로딩중</>
+        ) : (
+          fetchedLandmarksCity?.map((data, index) => (
             <LandmarkCard data={data} key={index} />
           ))
         )}

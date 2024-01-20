@@ -46,3 +46,19 @@ export async function getLandmarkDetail(contentId) {
     return error;
   }
 }
+
+//도시코드로 랜드마크 조회하기
+export async function getCityLandmark(cityCode) {
+  try {
+    const response = await axios.get(`
+    /landmarks/landmarksAreaCode?areaCode=${cityCode}`);
+    return response.data;
+  } catch (error) {
+    console.log('도시별 조회 Error', error);
+    const statusCode = error.response.status;
+    const statusText = error.response.statusText;
+    const message = error.response.data.message;
+    console.log(`${statusCode} - ${statusText} : ${message}`);
+    return error;
+  }
+}
