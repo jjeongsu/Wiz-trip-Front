@@ -1,28 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
-import Profileimg from '../../assets/default_profileimg.png';
+import DefaultImage from '../../assets/default_profileimg.png'
+import { getUserProfile } from '../../apis/api/user';
 
 function ConnectedUsers({ userIdList }) {
-  const users = userIdList;
-  console.log(users);
 
-  const UserProfile = ({ user, index }) => {
-    const colors = ['#D35344', '#FF73CB', '#53ABF7', '#01C99B', '#D88435'];
-    // 사용자 번호에 따라 색상 선택 (5개의 색상 중 하나)
-    const color = colors[index % colors.length];
+  const [userProfile, setUserProfile] = useState([]);
+  console.log(userIdList);
 
-    return (
-      <ProfileImg src={Profileimg} alt="profile" color={color} width={40} />
-    );
-  };
+  useEffect(() => {
+    Promise.all(userIdList.map(async user => {
+      return await getUserProfile(user);
+    })).then(setUserProfile);
+
+  }, [userIdList])
+
+  const colors = ['#D35344', '#FF73CB', '#53ABF7', '#01C99B', '#D88435'];
+
+    
 
   return (
     <ImgWrapper>
-      {users?.map((user, index) => (
-        <UserProfile user={user} key={index} index={index} />
+      {userProfile.length > 0 && userProfile.map((user, index) => (
+        <ProfileImg
+          src={user ? user : DefaultImage}
+          alt="profile"
+          color={colors[index % colors.length]}
+          width={40}
+          key={index}
+        />
       ))}
     </ImgWrapper>
-  );
+  )
 }
 
 export default ConnectedUsers;

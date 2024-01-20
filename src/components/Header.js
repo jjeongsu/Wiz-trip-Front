@@ -9,6 +9,7 @@ import Profileimg from '../assets/default_profileimg.png';
 import { removeCookie } from '../utils/cookies';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser } from '../services/user';
+
 function Header() {
   const navigate = useNavigate();
 
@@ -18,16 +19,20 @@ function Header() {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const dispatch = useDispatch();
 
+
   const handleLogout = () => {
     //쿠키 삭제
     removeCookie('jwtToken');
     removeCookie('refreshToken');
+    removeCookie('tripId');
     setIsOpenMenu(!isOpenMenu);
     dispatch(deleteUser());
 
     // 페이지를 새로고침
     window.location.reload();
-  };
+
+  }
+
   return (
     <div style={{ background: '#FFF' }}>
       <S.HeaderBox>
@@ -39,31 +44,14 @@ function Header() {
             </div>
           </S.FlipBox>
         </Link>
-        {isLogin ? (
-          <div className="user-info">
+        {isLogin ?
+          <div className='user-info'>
             <span>{userInfo.nickname}</span>
-            <button
-              onClick={() => setIsOpenMenu(!isOpenMenu)}
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                cursor: 'default',
-              }}
-            >
-              <img
-                src={userInfo.userProfile ? userInfo.userProfile : Profileimg}
-                alt="profile"
-                style={{
-                  borderRadius: '50%',
-                  width: '50px',
-                  height: '50px',
-                  border: '2px solid #878EA1',
-                }}
-              />
+            <button onClick={() => setIsOpenMenu(!isOpenMenu)} style={{ background: 'none', border: 'none', padding: 0, cursor: 'default' }}>
+              <img src={userInfo.userProfile ? userInfo.userProfile : Profileimg} alt='profile' style={{ borderRadius: '50%', width: '50px', height: '50px', border: '2px solid #878EA1' }} />
             </button>
           </div>
-        ) : (
+          :
           <button
             onClick={() => {
               navigate('/login');
@@ -71,8 +59,9 @@ function Header() {
           >
             로그인
           </button>
-        )}
+        }
       </S.HeaderBox>
+
       {isOpenMenu && (
         <div
           style={{
@@ -96,5 +85,7 @@ function Header() {
     </div>
   );
 }
+
+
 
 export default Header;

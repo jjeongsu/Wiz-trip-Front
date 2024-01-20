@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { deleteTrip } from '../../apis/api/trip';
 import dayjs from 'dayjs';
 import { useMutation, useQueryClient } from 'react-query';
+import { useSelector } from 'react-redux';
 
 function PlanningItemList({myTripData}) {
 
     const navigate = useNavigate();
-
+    const userIdx = useSelector(state=>state.User.userIdx);
     const queryClient = useQueryClient();
     const deleteMutation = useMutation(deleteTrip, {
       onSuccess: () => {
@@ -27,7 +28,7 @@ function PlanningItemList({myTripData}) {
             <T.TripItemBox>
             {myTripData.map((trip, index)=>(
             <T.TripItem key={index}>
-                <div className='d-day'>D-{dayjs(trip.startDate).diff(dayjs(), 'day')}</div>
+                    <div className='d-day'>D{dayjs().diff(trip.startDate, 'day') > 0 ? '+' : ''}{dayjs().diff(trip.startDate, 'day')}</div>
                 <span className='place-text'>
                 {trip.destination}
                 </span> 
@@ -36,7 +37,7 @@ function PlanningItemList({myTripData}) {
                 </span> 
                 <T.ButtonWrapper>
                     <T.StyleButton $category='revise' onClick={()=>navigate(`/plan/${trip.tripId}`)}>계획 편집하기</T.StyleButton>
-                    <T.StyleButton $category='delete' onClick={()=>handleDelete(trip.tripId)} >계획 삭제하기</T.StyleButton>
+                    {trip.ownerId==userIdx &&<T.StyleButton $category='delete' onClick={()=>handleDelete(trip.tripId)} >계획 삭제하기</T.StyleButton>} 
                 </T.ButtonWrapper> 
             </T.TripItem>
             ))}

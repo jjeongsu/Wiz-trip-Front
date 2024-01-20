@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import { createDatesArr } from '../utils/createDaysArr';
 import KakaoMap from '../components/Plan/KakaoMap';
 import { setDailyPlan } from '../services/plan';
+import { getCookie, removeCookie } from '../utils/cookies';
 function Plan() {
   const tripId = useParams().tripId;
 
@@ -51,6 +52,10 @@ function Plan() {
       //trip 내 모든 날짜 정보 array 만들기
       const newDatesArray = createDatesArr({ ...trips });
       setDatesArr(newDatesArray);
+    }
+
+    if(getCookie('tripId')==tripId){
+      removeCookie('tripId');
     }
   }, [tripData]);
 

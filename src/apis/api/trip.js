@@ -49,7 +49,7 @@ export async function finishTrip(tripId){
 
 }
 
-export async function getTrip(tripId, userId){
+export async function getTrip(tripId){
 
     try{
         const res = await api.get(`/trips?tripId=${tripId}`);
@@ -62,14 +62,14 @@ export async function getTrip(tripId, userId){
         console.log(`${statusCode} - ${statusText} : ${message}`);
 
         if(statusCode===403){
-            alert("접근 권한이 없는 사용자 입니다.")
+            return statusCode;
         }
 
     }
 
 }
 
-export async function getMyTrip(pageNum){ //내 여행계획 2개씩 조회 
+export async function getMyTrip(){ 
 
     try{
         const res = await api.get(`/trips/with-details/page`)
@@ -119,10 +119,7 @@ export async function createUrl(tripId){
         if(statusCode==409){
             alert("이미 종료된 전체 여행 계획입니다.")
         }
-
     }
-
-
 }
 
 //trip 공유 url에서 tripId 조회
@@ -132,13 +129,30 @@ export async function getTripId(id){
         return res;
     }
     catch(error){
-        console.log('url 생성 Error', error);
+        console.log('url 조회 Error', error);
         const statusCode = error.response.status;
         const statusText = error.response.statusText;
         const message = error.response.data.message;
         console.log(`${statusCode} - ${statusText} : ${message}`);
 
+        return alert(error.response.data.message);
+        
     }
 
+}
 
+export async function addUserToTrip(tripId, userId) {
+    try {
+        const res = await api.post(`/trips/${tripId}/users/${userId}`)
+        return res.data;
+    }
+    catch (error) {
+        console.log('user trip 추가 Error', error);
+        const statusCode = error.response.status;
+        const statusText = error.response.statusText;
+        const message = error.response.data.message;
+        console.log(`${statusCode} - ${statusText} : ${message}`);
+
+        return alert(error.response.data.message);
+    }
 }

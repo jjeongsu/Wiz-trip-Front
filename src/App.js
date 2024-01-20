@@ -1,10 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import React, {useState, useEffect} from 'react';
 import Main from './pages/Main';
 import Login from './pages/Login';
 import Join from './pages/Join';
 import Plan from './pages/Plan';
-import Plantest from './pages/Plantest';
 import NotFound from './pages/NotFound';
 import Mypage from './pages/Mypage';
 import Review from './pages/Review';
@@ -13,8 +12,12 @@ import Share from './pages/Share';
 import { Navigate, Outlet } from 'react-router-dom';
 import CheckLogin from './utils/checklogin';
 function App() {
-  const isLogin = CheckLogin();
-  console.log(isLogin);
+  const [isLogin, setIsLogin] = useState(CheckLogin());
+  
+  useEffect(() => {
+    setIsLogin(CheckLogin());
+  }, [isLogin]);
+
 
   //로그인한 회원은 들어갈 수 없는 페이지
   const PublicRoute = () => {
@@ -40,12 +43,11 @@ function App() {
           </Route>
 
           <Route element={<PublicRoute />}>
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
             <Route path="/join" element={<Join />} />
           </Route>
-
+          <Route path="/trips/share/:tripId" element={<Share />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/share/*" element={<Share />} />
         </Routes>
       </BrowserRouter>
     </>

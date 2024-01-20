@@ -3,11 +3,11 @@ import * as R from '../../styles/revise-profile.style'
 import CloseIcon from '../../assets/close-icon'
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
-import { getUser } from '../../apis/api/user';
+import { getUser, patchUser } from '../../apis/api/user';
 import DefaultImage from '../../assets/default_profileimg.png'
 import { useForm } from 'react-hook-form';
 import { emailRegex } from '../../utils/regex';
-import { sendCode, checkCode } from '../../apis/api/join';
+import { sendCode, checkCode, checkNickname } from '../../apis/api/join';
 import { reviseUser } from '../../services/user';
 
 function ReviseProfileForm({setIsOpen}) {
@@ -88,30 +88,27 @@ function ReviseProfileForm({setIsOpen}) {
           email,
         };
 
-        // Check if a new profile image is selected
-        // if (imgFile !== DefaultImage) {
-        //     updatedUserData.image= {
-        //         imageName :'profile',
-        //         imagePath : imgFile
-        //     }
-        // }
-        // console.log("imgFile:", imgFile);
 
-        // dispatch(reviseUser({
-        //     userIdx: user.userIdx,
-        //     nickname: nickname,
-        //     userProfile: imgFile
-        // }))
+        if (imgFile !== DefaultImage) {
+            const formdata = new FormData();
+            formdata.append('fileName', file);
+            console.log(formdata);
+            updatedUserData.fileName= file.name; 
+        }
+
+        console.log(updatedUserData);
+
+        const res = await patchUser(user.userIdx, updatedUserData);
+        console.log(res);
         
-        // //updatedUserData post 요청 추가 
+        //updatedUserData post 요청 추가 
         // console.log(updatedUserData);
 
-        const formdata = new FormData();
-        formdata.append('image', file);
-        console.log(formdata);
-      };
+  
    
-    if(isLoading) return<div>is loading...</div>
+    };
+   
+    if(isLoading) return<div></div>
 
     return (
         <R.FormLayout>
@@ -133,6 +130,7 @@ function ReviseProfileForm({setIsOpen}) {
             <input style={{display: 'none'}} type='file' accept="image/jpeg, image/png, image/jpg" id="profileImg" ref={imgRef} onChange={saveImgFile} />
 
             <R.InputForm onSubmit={handleSubmit(onSubmit)}  >
+
                 <span className='text-label'>닉네임 수정</span>
                 <div className='form-component'>
                     <input
@@ -149,9 +147,14 @@ function ReviseProfileForm({setIsOpen}) {
                 />
                 <R.FormBtn  
                     disabled={nicknameValue === userData.nickname}
-                    onClick = {()=>console.log("click")}>
+                    onClick = { () =>{
+                        const { nickname } = getValues();
+                        checkNickname(nickname, setIsNicknameChecked);
+                        }
+                    }>
                     중복확인
                 </R.FormBtn>
+            
                 </div>
                 {errors.nickname && (
                     <span className="error-message">{errors.nickname.message}</span>

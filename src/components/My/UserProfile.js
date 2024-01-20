@@ -43,16 +43,13 @@ function UserProfile() {
 
 
     const [isOpen, setIsOpen] = useState(false);
-    console.log(userId);
-    console.log(userData);   
-
-    console.log(toReviewData);
+  
     return (
         <>
             <U.ProfileWrapper>
             {isSuccessUser && 
                 <U.UserInfoLayout>
-                    <img src={userData.image? userData.image: DefaultImage} alt='profile'></img>
+                    <img src={userData.image? userData.image: DefaultImage} alt='profile' style={{ borderRadius: '50%', width: '90px', height: '90px', border: '2px solid #E8EBED'}} ></img>
                     <span className='nickname-text'>{userData.nickname}</span>
                     <span className='email-text'>{userData.email}</span>
                 </U.UserInfoLayout>

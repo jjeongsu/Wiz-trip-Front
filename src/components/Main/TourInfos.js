@@ -33,7 +33,6 @@ function TourInfo() {
     console.log('선택된 city', event.target.textContent);
     setCity(event.target.textContent);
   };
-
   if (isLoading && fetchedLandmarks === undefined) {
     return <> 로딩중 </>;
   } else if (fetchedLandmarks.name === 'AxiosError') {
