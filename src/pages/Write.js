@@ -40,7 +40,7 @@ function Write() {
       console.log(pair[0], '그리고', pair[1]);
     }
   }
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     console.log('현재file', file);
     const formData = new FormData();
     file.forEach((file) => {
@@ -48,11 +48,11 @@ function Write() {
     });
     checkFormData(formData);
 
-    const textResponse = addReviewText(tripId, {
+    const textResponse = await addReviewText(tripId, {
       content: text,
     });
-    console.log('text 보낸 결과', textResponse);
-    //const imageResponse = addReviewImage(tripId, formData);
+    const reviewId = textResponse.reviewId;
+    const imageResponse = await addReviewImage(reviewId, formData);
 
     const condition = false;
     //둘다 결과 true이면 홈으로 이동

@@ -41,7 +41,7 @@ function Planheader({ userIdList }) {
     if (res.status == 200) {
       alert('trip이 종료되었습니다.');
       //메인페이지 이동
-      navigate('/');
+      navigate(`/write/${tripId}`);
     }
   };
   return (
@@ -62,22 +62,24 @@ function Planheader({ userIdList }) {
               {startDate} ~ {endDate}
             </span>
             <div className="vertical-line" />
-            {userIdList && <span className="text-container">{userIdList.length}명</span>}
+            {userIdList && (
+              <span className="text-container">{userIdList.length}명</span>
+            )}
           </P.PlanInfoLayout>
         )}
 
-      {/* 접속 중인 사용자 */}
-      <ConnectedUsers userIdList={userIdList} />
-    </div>
-    <div className="button-container">
-      <P.InviteBtn onClick={handleUrl}>
-        <LinkIcon />
-        <span className="text">초대링크 복사</span>
-      </P.InviteBtn>
-      <P.CompleteBtn onClick={handleFinishTrip}>여행 완료</P.CompleteBtn>
-    </div>
-  </P.HeaderWrapper>
-);
+        {/* 접속 중인 사용자 */}
+        <ConnectedUsers userIdList={userIdList} />
+      </div>
+      <div className="button-container">
+        <P.InviteBtn onClick={handleUrl}>
+          <LinkIcon />
+          <span className="text">초대링크 복사</span>
+        </P.InviteBtn>
+        <P.CompleteBtn onClick={handleFinishTrip}>여행 완료</P.CompleteBtn>
+      </div>
+    </P.HeaderWrapper>
+  );
 }
 
 export default Planheader;
