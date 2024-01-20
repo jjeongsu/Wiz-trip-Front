@@ -7,6 +7,8 @@ import Plan from './pages/Plan';
 import Plantest from './pages/Plantest';
 import NotFound from './pages/NotFound';
 import Mypage from './pages/Mypage';
+import Review from './pages/Review';
+import Write from './pages/Write';
 import Share from './pages/Share';
 import { Navigate, Outlet } from 'react-router-dom';
 import CheckLogin from './utils/checklogin';
@@ -33,6 +35,8 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route path="/plan/:tripId" element={<Plan />} />
             <Route path="/mypage" element={<Mypage />} />
+            <Route path="/write/:tripId" element={<Write />} />
+            <Route path="/review/:tripId" element={<Review />} />
           </Route>
 
           <Route element={<PublicRoute />}>

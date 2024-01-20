@@ -4,6 +4,7 @@ import UpdatePlanInfo from './UpdatePlanInfo';
 import ConnectedUsers from './ConnectedUsers';
 import { useDispatch, useSelector } from 'react-redux';
 import LinkIcon from '../../assets/link-icon';
+<<<<<<< HEAD
 import { createUrl, finishTrip } from '../../apis/api/trip';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +15,13 @@ function Planheader({userIdList}) {
   const tripId = useParams().tripId;
   const navigate = useNavigate();
 
+=======
+import { useNavigate } from 'react-router-dom';
+function Planheader({ userIdList, tripId }) {
+  const planinfo = useSelector((state) => state.Schedule);
+  const [updateform, setUpdateForm] = useState(false);
+  const navigate = useNavigate();
+>>>>>>> review
   const formatDate = (date) => {
     // 월과 일만 표시하도록 설정
     const options = { month: 'long', day: 'numeric' };
@@ -23,6 +31,7 @@ function Planheader({userIdList}) {
   const startDate = formatDate(new Date(planinfo.startDate));
   const endDate = formatDate(new Date(planinfo.endDate));
 
+<<<<<<< HEAD
 
   //초대 url 생성 및 클립보드 복사 
   const handleUrl = async() =>{
@@ -46,15 +55,20 @@ function Planheader({userIdList}) {
       navigate('/')
     }
   }
+=======
+  const handleDoneClick = () => {
+    // 여행을 완료 확인 모달
+
+    navigate(`/write/${tripId}`);
+  };
+>>>>>>> review
   return (
     <P.HeaderWrapper>
       <div className="left-container">
         {/* 여행개요 */}
         {updateform ? (
-          <UpdatePlanInfo
-            setUpdateForm={setUpdateForm}
-          />
-          ) : (
+          <UpdatePlanInfo setUpdateForm={setUpdateForm} />
+        ) : (
           <P.PlanInfoLayout
             onClick={() => {
               setUpdateForm(true);
@@ -71,9 +85,10 @@ function Planheader({userIdList}) {
         )}
 
         {/* 접속 중인 사용자 */}
-        <ConnectedUsers userIdList={userIdList}/>
+        <ConnectedUsers userIdList={userIdList} />
       </div>
       <div className="button-container">
+<<<<<<< HEAD
         <P.InviteBtn onClick={handleUrl}>
           <LinkIcon/>
           <span className='text'>초대링크 복사</span> 
@@ -81,6 +96,13 @@ function Planheader({userIdList}) {
         <P.CompleteBtn onClick={handleFinishTrip}>
           여행 완료
         </P.CompleteBtn>
+=======
+        <P.InviteBtn>
+          <LinkIcon />
+          <span className="text">초대링크 복사</span>
+        </P.InviteBtn>
+        <P.CompleteBtn onClick={handleDoneClick}>여행 완료</P.CompleteBtn>
+>>>>>>> review
       </div>
     </P.HeaderWrapper>
   );
