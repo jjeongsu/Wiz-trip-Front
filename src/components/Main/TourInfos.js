@@ -4,18 +4,25 @@ import * as S from '../../styles/tourinfo.style';
 import SlidePrevIcon from '../../assets/slide-prev-icon';
 import SlideNextIcon from '../../assets/slide-next-icon';
 import { useState, useEffect } from 'react';
-import { useQuery } from 'react-query';
-import { getLandmarks } from '../../apis/api/landmark';
+import { useQuery, useQueryClient } from 'react-query';
+import { getLandmarkPage, getLandmarks } from '../../apis/api/landmark';
 import LandmarkCard from './LandmarkCard';
 import axios from 'axios';
 function TourInfo() {
   const [slidePx, setSlidePx] = useState(0);
-  const [city, setCity] = useState('');
-  const { isLoading, fetchedLandmarks } = useQuery(
-    'allLandmarks',
-    getLandmarks,
-  );
+  const [city, setCity] = useState('전체');
+  const {
+    isLoading,
+    data: fetchedLandmarks,
+    isSuccess,
+  } = useQuery({
+    queryKey: ['allLandmarks'],
+    queryFn: getLandmarks,
+    staleTime: 60 * 1000,
+  });
+  const queryClient = useQueryClient();
 
+  console.log('fetchdata', fetchedLandmarks);
   const toPrev = () => {
     if (slidePx < 0) setSlidePx(slidePx + 1000);
   };
@@ -23,15 +30,15 @@ function TourInfo() {
     if (slidePx > -2000) setSlidePx(slidePx - 1000);
   };
   const onCityClick = (event) => {
-    setCity(event.target.value);
+    console.log('선택된 city', event.target.textContent);
+    setCity(event.target.textContent);
   };
-  const test = async () =>
-    await axios
-      .get('landmarks/page?page=0&size=10&sort=id')
-      .then((res) => console.log(res));
-  useEffect(() => {
-    test();
-  }, []);
+
+  if (isLoading && fetchedLandmarks === undefined) {
+    return <> 로딩중 </>;
+  } else if (fetchedLandmarks.name === 'AxiosError') {
+    queryClient.invalidateQueries();
+  }
   return (
     <>
       <S.TourCityBox slide={slidePx}>
@@ -41,9 +48,14 @@ function TourInfo() {
           </button>
 
           <ul className="slide-item-wrapper">
-            {cities.map((city, index) => (
+            {cities.map((c, index) => (
               <li key={index} className="slide-item">
-                <button onClick={onCityClick}>{city}</button>
+                <button
+                  onClick={onCityClick}
+                  style={{ color: city == c ? '#6446FF' : '#C9CDD2' }}
+                >
+                  {c}
+                </button>
               </li>
             ))}
           </ul>
@@ -53,10 +65,18 @@ function TourInfo() {
           </button>
         </div>
       </S.TourCityBox>
+
       <S.TourCardBox>
-        {landmarks.map((data, index) => (
-          <LandmarkCard data={data} key={index} />
-        ))}
+        {fetchedLandmarks.name === 'AxiosError' ? (
+          <>
+            데이터를 불러오는 중 에러가 발생하였습니다. 리패치 될때까지
+            기다리거나 새로고침 버튼을 눌러주세요
+          </>
+        ) : (
+          fetchedLandmarks?.map((data, index) => (
+            <LandmarkCard data={data} key={index} />
+          ))
+        )}
       </S.TourCardBox>
     </>
   );
