@@ -15,10 +15,14 @@ export async function getLandmarks() {
   }
 }
 
-export async function getLandmarkPage(pageNo, pageRow, sort) {
+export async function getLandmarkPage(pageParam) {
   try {
+    console.log('pageparma', pageParam);
+    // const response = await axios.get(
+    //   `/landmarks/paging?pageNo=${pageParam}&numOfRows=16&sort=id`,
+    // );
     const response = await axios.get(
-      `/landmarks/paging?pageNo=${pageNo}&numOfRows=${pageRow}&sort=${sort}`,
+      `/landmarks/landmarks/paging?numOfRows=24&pageNo=${pageParam}`,
     );
     return response.data;
   } catch (error) {
