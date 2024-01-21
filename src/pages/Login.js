@@ -45,15 +45,9 @@ function Login({setIsLogin}) {
       //userId 추출 
       let userId = decodingInfo.id;
 
-      //사용자 정보 API 요청 
-      const userData = await getUser(userId);
-      console.log(userData);
-
       //사용자 정보 리덕스 저장 
       dispatch(authUser({
         userIdx: userId,
-        userProfile: userData.image,
-        nickname: userData.nickname,
       }));
 
       //쿠키에 저장된 tripId가 있는 경우

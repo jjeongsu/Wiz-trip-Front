@@ -7,7 +7,7 @@ export const HeaderBox = styled.header`
   align-items: center;
   width: 1100px;
   /* width: 77.5%; */
-  height: 80px;
+  height: 70px;
   margin: auto;
   margin-top: 29px;
   margin-bottom: 15px;

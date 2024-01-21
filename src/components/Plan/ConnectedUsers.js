@@ -17,12 +17,12 @@ function ConnectedUsers({ userIdList }) {
 
   const colors = ['#D35344', '#FF73CB', '#53ABF7', '#01C99B', '#D88435'];
 
-    
+
   return (
     <ImgWrapper>
       {userProfile.length > 0 && userProfile.map((user, index) => (
         <ProfileImg
-          src={user ? user : DefaultImage}
+          src={user ? `data:image/webp;base64,${user.content}` : DefaultImage}
           alt="profile"
           color={colors[index % colors.length]}
           width={40}

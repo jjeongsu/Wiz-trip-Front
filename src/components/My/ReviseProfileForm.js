@@ -1,24 +1,51 @@
-import React, { useRef, useState} from 'react'
+import React, { useEffect, useRef, useState} from 'react'
 import * as R from '../../styles/revise-profile.style'
 import CloseIcon from '../../assets/close-icon'
 import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from 'react-query';
-import { getUser, patchUser } from '../../apis/api/user';
+import { createUserProfile, deleteUserProfile, getUser, patchUser } from '../../apis/api/user';
 import DefaultImage from '../../assets/default_profileimg.png'
 import { useForm } from 'react-hook-form';
 import { emailRegex } from '../../utils/regex';
 import { sendCode, checkCode, checkNickname } from '../../apis/api/join';
-import { reviseUser } from '../../services/user';
+import { useQueryClient, useMutation} from 'react-query';
 
 function ReviseProfileForm({setIsOpen}) {
 
     const user = useSelector(state=>state.User);
-    const [imgFile, setImgFile] = useState(user.userProfile? user.userProfile: DefaultImage);
+
     const [isEmailChecked, setIsEmailChecked] = useState(false);
     const [isNicknameChecked, setIsNicknameChecked] = useState(false); //닉네임 중복확인 api 연결후 false로 바꾸기
     const { isLoading, data: userData } = useQuery('getUserInfo', () => getUser(user.userIdx));
+    const [imgFile, setImgFile] = useState(null);
     const [file, setFile] = useState();
-    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        if (!isLoading && userData.image){
+            setImgFile(userData.image)
+        }
+    },[isLoading, userData.image])
+
+
+    const queryClient = useQueryClient();
+    const updatePicMutation = useMutation(createUserProfile, {
+        onSuccess: () => {
+            queryClient.invalidateQueries('getUserInfo');
+        },
+    });
+
+    const updateMutation = useMutation(patchUser, {
+        onSuccess: () => {
+            queryClient.invalidateQueries('getUserInfo');
+        },
+    });
+    const deleteMutation = useMutation(deleteUserProfile, {
+        onSuccess: () => {
+            queryClient.invalidateQueries('getUserInfo');
+        },
+    });
+    console.log(imgFile);
+
 
     const imgRef = useRef();
     const {
@@ -55,13 +82,19 @@ function ReviseProfileForm({setIsOpen}) {
             alert('파일 크기는 2MB를 초과할 수 없습니다.');
             return;
         }
+
         setFile(file);
         
         reader.readAsDataURL(file);
         reader.onload= () => {
-            setImgFile(reader.result);
+            setImgFile({
+                fileName: file.name,
+                content: reader.result
+            });
         };
+  
     }
+
     const handleCheckCode=()=>{
         const { emailcheck, email } = getValues();
         console.log(emailcheck, email);
@@ -88,25 +121,23 @@ function ReviseProfileForm({setIsOpen}) {
           email,
         };
 
-
-        if (imgFile !== DefaultImage) {
+        if(imgFile==null && userData.image){
+            await deleteMutation.mutateAsync({userId: user.userIdx});
+        }else if (imgFile !== userData.image) {
             const formdata = new FormData();
-            formdata.append('fileName', file);
-            console.log(formdata);
-            updatedUserData.fileName= file.name; 
+            formdata.append('image', file);
+            console.log(formdata);  
+            await updatePicMutation.mutateAsync({userId: user.userIdx, file: formdata});
         }
 
-        console.log(updatedUserData);
+        await updateMutation.mutateAsync({userId: user.userIdx, data: updatedUserData});
+      
 
-        const res = await patchUser(user.userIdx, updatedUserData);
-        console.log(res);
+        setIsOpen(false);
         
-        //updatedUserData post 요청 추가 
-        // console.log(updatedUserData);
-
-  
-   
     };
+
+
    
     if(isLoading) return<div></div>
 
@@ -118,16 +149,32 @@ function ReviseProfileForm({setIsOpen}) {
             >
                 <CloseIcon width={30} height={30} fill={'#6446FF'} style={{marginTop: '20px'}}/>
             </button>
-            <div className='profile-image-icon'>
-                <img src={imgFile} alt='profile' style={{borderRadius: '50%', width:'100px', height: '100px', border: '1px solid #878EA1'}}/>
-            </div>
-    
-            <R.RevImgBtn>
-                <label className='revise-img-label' htmlFor="profileImg">
-                    프로필사진 수정
-                </label>
-            </R.RevImgBtn>
-            <input style={{display: 'none'}} type='file' accept="image/jpeg, image/png, image/jpg" id="profileImg" ref={imgRef} onChange={saveImgFile} />
+            <label className='profile-image-icon' htmlFor='profileImg'>
+                {imgFile && imgFile.fileName.endsWith('.webp')?
+                    <img src={`data:image/webp;base64,${imgFile.content}`}
+                        alt='profile'
+                        style={{ borderRadius: '50%', width: '100px', height: '100px', border: '1px solid #878EA1' }}
+                    />
+                    :
+                    <img src={imgFile ? imgFile.content : DefaultImage}
+                        alt='profile'
+                        style={{ borderRadius: '50%', width: '100px', height: '100px', border: '1px solid #878EA1' }}
+                    />
+                }
+            </label>
+            <input style={{display: 'none'}} 
+                type='file' 
+                accept="image/jpeg, image/png, image/jpg" 
+                id="profileImg" 
+                ref={imgRef} 
+                onChange={saveImgFile} />
+
+            {imgFile && 
+                <R.RevImgBtn onClick={()=> setImgFile(null)}>
+                    기본이미지로 변경
+                </R.RevImgBtn>
+            }
+ 
 
             <R.InputForm onSubmit={handleSubmit(onSubmit)}  >
 

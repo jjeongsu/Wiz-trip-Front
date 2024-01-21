@@ -28,7 +28,7 @@ function PlanningItemList({myTripData}) {
             <T.TripItemBox>
             {myTripData.map((trip, index)=>(
             <T.TripItem key={index}>
-                    <div className='d-day'>D{dayjs().diff(trip.startDate, 'day') > 0 ? '+' : ''}{dayjs().diff(trip.startDate, 'day')}</div>
+                    <div className='d-day'>D{dayjs().diff(trip.startDate, 'day') >= 0 ? '+' : ''}{dayjs().diff(trip.startDate, 'day')}</div>
                 <span className='place-text'>
                 {trip.destination}
                 </span> 

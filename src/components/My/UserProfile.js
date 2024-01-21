@@ -14,13 +14,13 @@ import { getMyReviewLength, getToReviewLength } from '../../apis/api/review'
 
 function UserProfile() {
 
-    const userId = useSelector(state=>state.User.userIdx);
+    const user = useSelector(state=>state.User);
 
     const { 
         isLoading: isLoadingUser,
         isSuccess: isSuccessUser,
         data: userData 
-    } = useQuery('getUserInfo', () => getUser(userId));
+    } = useQuery('getUserInfo', () => getUser(user.userIdx));
 
     //예정된 여행 데이터 가져오기 
     const{
@@ -43,13 +43,14 @@ function UserProfile() {
 
 
     const [isOpen, setIsOpen] = useState(false);
-  
+
+   
     return (
         <>
             <U.ProfileWrapper>
             {isSuccessUser && 
                 <U.UserInfoLayout>
-                    <img src={userData.image? userData.image: DefaultImage} alt='profile' style={{ borderRadius: '50%', width: '90px', height: '90px', border: '2px solid #E8EBED'}} ></img>
+                    <img src={userData.image ? `data:image/webp;base64,${userData.image.content}` : DefaultImage} alt='profile' style={{ borderRadius: '50%', width: '90px', height: '90px', border: '2px solid #E8EBED' }}/>
                     <span className='nickname-text'>{userData.nickname}</span>
                     <span className='email-text'>{userData.email}</span>
                 </U.UserInfoLayout>
