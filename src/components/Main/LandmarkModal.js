@@ -8,8 +8,8 @@ function LandmarkModal({ setIsModalOpen, data }) {
     data: detailData,
     isLoading,
     isError,
-  } = useQuery(['detail', data.contentId], () =>
-    getLandmarkDetail(data.contentId),
+  } = useQuery(['detail', data.contentid], () =>
+    getLandmarkDetail(data.contentid),
   );
   const queryClient = useQueryClient();
   /** {
@@ -42,7 +42,7 @@ function LandmarkModal({ setIsModalOpen, data }) {
           </button>
           <div className="modal-contents">
             <img
-              src={data?.imagePath ? data.imagePath : card}
+              src={data?.firstimage ? data.firstimage : card}
               alt="landmark-img"
               className="modal-image"
             />

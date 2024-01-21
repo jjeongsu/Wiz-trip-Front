@@ -4,7 +4,7 @@ import * as S from '../../styles/tourinfo.style';
 import SlidePrevIcon from '../../assets/slide-prev-icon';
 import SlideNextIcon from '../../assets/slide-next-icon';
 import { useState, useEffect } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query';
 import Spinner from '../../assets/loading-spinner.gif';
 import {
   getLandmarkPage,
@@ -13,19 +13,21 @@ import {
 } from '../../apis/api/landmark';
 import LandmarkCard from './LandmarkCard';
 import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroller';
 
 function TourInfo() {
   const [slidePx, setSlidePx] = useState(0);
   const [city, setCity] = useState('전체');
-  const {
-    isLoading,
-    data: fetchedLandmarks,
-    isSuccess,
-  } = useQuery({
-    queryKey: ['allLandmarks'],
-    queryFn: getLandmarks,
-    staleTime: 60 * 1000,
-  });
+  //모든 랜드마크 데이터 불러오기 :
+  // const {
+  //   isLoading,
+  //   data: fetchedLandmarks,
+  //   isSuccess,
+  // } = useQuery({
+  //   queryKey: ['allLandmarks'],
+  //   queryFn: getLandmarks,
+  //   staleTime: 60 * 1000,
+  // });
   const queryClient = useQueryClient();
 
   //도시별로 데이터 불러오기
@@ -36,7 +38,21 @@ function TourInfo() {
     enabled: city != '전체',
   });
 
-  console.log('fetchdata', fetchedLandmarks);
+  //페이징 처리된 랜드마크 불러오기
+  const {
+    data: paging,
+    isLoading,
+    isSuccess,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
+    ['page'],
+    ({ pageParam = 1 }) => getLandmarkPage(pageParam),
+    {
+      getNextPageParam: (lastPage) => lastPage.totalPages + 1,
+    },
+  );
+
   const toPrev = () => {
     if (slidePx < 0) setSlidePx(slidePx + 1000);
   };
@@ -47,7 +63,7 @@ function TourInfo() {
     console.log('선택된 city', event.target.textContent);
     setCity(event.target.textContent);
   };
-  if (isLoading && fetchedLandmarks === undefined) {
+  if (isLoading && paging === undefined) {
     return (
       <S.SpinnerContainer>
         <img src={Spinner} alt="loading-spinner" />{' '}
@@ -93,12 +109,27 @@ function TourInfo() {
           </button>
         </div>
       </S.TourCityBox>
-
+      <div>
+        <button onClick={fetchNextPage}>더 불러오기</button>
+      </div>
       <S.TourCardBox>
         {city === '전체' ? (
-          fetchedLandmarks?.map((data, index) => (
-            <LandmarkCard data={data} key={index} />
-          ))
+          // fetchedLandmarks?.map((data, index) => (
+          //   <LandmarkCard data={data} key={index} />
+          // ))
+          <InfiniteScroll
+            hasMore={hasNextPage}
+            loadMore={() => fetchNextPage()}
+          >
+            {' '}
+            <S.TourCardBox>
+              {paging?.pages.map((page, index) =>
+                page?.content.map((data, index) => (
+                  <LandmarkCard data={data} key={index} />
+                )),
+              )}
+            </S.TourCardBox>
+          </InfiniteScroll>
         ) : isLoadingCity ? (
           <S.SpinnerContainer>
             <img src={Spinner} alt="loading-spinner" />

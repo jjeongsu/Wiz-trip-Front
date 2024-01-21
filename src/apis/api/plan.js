@@ -75,7 +75,7 @@ export const updatePlan = async (tripId, data) => {
 //Plan 수정 가능한 상태로 바꾸기
 export const unlockPlan = async (tripId, planId) => {
   try {
-    const response = await api.get(
+    const response = await api.post(
       `/trips/${tripId}/plans/unlock?planId=${planId}`,
     );
     return response;
@@ -91,7 +91,7 @@ export const unlockPlan = async (tripId, planId) => {
 //Plan 수정 불가능한 상태로 바꾸기
 export const lockPlan = async (tripId, planId) => {
   try {
-    const response = await api.get(
+    const response = await api.post(
       `/trips/${tripId}/plans/lock?planId=${planId}`,
     );
     return response;
@@ -109,7 +109,7 @@ export const checkLockStatus = async (tripId, planId) => {
     const response = await api.get(
       `/trips/${tripId}/plans/check-lock-status?planId=${planId}`,
     );
-    return response;
+    return response.data;
   } catch (error) {
     console.log('Plan Lock 상태확인 Error', error);
     const statusCode = error.response.status;

@@ -31,7 +31,7 @@ title: "가거도(소흑산도)"
       <S.Card>
         <button className="image-container" onClick={onImageClick}>
           <img
-            src={data?.imagePath ? data.imagePath : card}
+            src={data?.firstimage ? data.firstimage : card}
             alt="landmark-img"
             className="card-image"
           />
@@ -41,7 +41,7 @@ title: "가거도(소흑산도)"
         </button>
         <div className="text-container">
           <h2>{data.title}</h2>
-          <p>{data?.address}</p>
+          <p>{data?.addr1}</p>
         </div>
       </S.Card>
       {isModalOpen ? (

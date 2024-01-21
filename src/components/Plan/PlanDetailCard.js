@@ -5,7 +5,7 @@ import { getUserProfile } from '../../apis/api/plan-userinfo';
 import ModifyDetailIcon from '../../assets/plan-modi-detail-icon';
 import DefaultProfileIcon from '../../assets/default-profile-icon';
 import { useState, useRef, useEffect } from 'react';
-import { deletePlan } from '../../apis/api/plan';
+import { checkLockStatus, deletePlan } from '../../apis/api/plan';
 import { getUser } from '../../apis/api/user';
 import { useQueryClient } from 'react-query';
 function PlanDetailCard({
@@ -17,6 +17,7 @@ function PlanDetailCard({
   setIsOpenFormModal,
   planId,
   tripId,
+  setIsDraggable,
 }) {
   const Color = category_palette[category];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,6 +45,23 @@ function PlanDetailCard({
     },
   });
 
+  const checkCardLockStatus = async () => {
+    //마우스가 카드위로 올라가는 순간 수정가능하지 여부 check
+    const response = await checkLockStatus(tripId, planId);
+    console.log('카드 Lock 여부 확인', response);
+    if (response === true) {
+      //현재는 Lock인 상태
+      // const c_mylayout = [...mylayout];
+      // const new_layout = c_mylayout.map((l, i) => {
+      //   if (~~l.i == planId) {
+      //     l.static = true;
+      //   }
+      //   return l;
+      // });
+      // setMyLayout(new_layout);
+      setIsDraggable(false);
+    }
+  };
   useEffect(() => {
     const parentHeight = cardRef.current.clientHeight;
     const childHeight = parentHeight - 40;
@@ -61,6 +79,7 @@ function PlanDetailCard({
       tag={Color.tag}
       ref={cardRef}
       onMouseDown={(e) => setCurrentSpot(address)}
+      onMouseOver={checkCardLockStatus}
     >
       <div className="horizental ">
         <div className="category-tag">{categoryToKo[category]}</div>
