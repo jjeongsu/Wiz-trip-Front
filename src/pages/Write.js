@@ -43,9 +43,13 @@ function Write() {
   const onSubmit = async (e) => {
     console.log('현재file', file);
     const formData = new FormData();
-    file.forEach((file, index) => {
-      formData.append(`fileNo.${index}`, file);
-    });
+
+    for (let i = 0; i < file.length; i++) {
+      formData.append('files', file[i]);
+    }
+    // file.forEach((file, index) => {
+    //   formData.append(`fileNo.${index}`, file[index]);
+    // });
     checkFormData(formData);
 
     const textResponse = await addReviewText(tripId, {

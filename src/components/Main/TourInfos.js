@@ -17,6 +17,7 @@ import axios from 'axios';
 function TourInfo() {
   const [slidePx, setSlidePx] = useState(0);
   const [city, setCity] = useState('전체');
+  //모든 랜드마크 데이터 불러오기 :
   const {
     isLoading,
     data: fetchedLandmarks,

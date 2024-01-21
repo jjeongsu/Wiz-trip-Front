@@ -17,8 +17,7 @@ function PlanDetailCard({
   setIsOpenFormModal,
   planId,
   tripId,
-  setMyLayout,
-  mylayout,
+  setIsDraggable,
 }) {
   const Color = category_palette[category];
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,6 +59,7 @@ function PlanDetailCard({
       //   return l;
       // });
       // setMyLayout(new_layout);
+      setIsDraggable(false);
     }
   };
   useEffect(() => {

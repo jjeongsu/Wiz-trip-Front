@@ -176,6 +176,7 @@ function PlanBoard({
                       setCurrentSpot={setCurrentSpot}
                       planId={p.planId}
                       tripId={p.tripId}
+                      setIsDraggable={setIsDraggable}
                     />
                   </div>
                 );
