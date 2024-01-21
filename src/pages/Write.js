@@ -54,11 +54,14 @@ function Write() {
       content: text,
     });
     const reviewId = textResponse.reviewId;
-    // if (file) {
-    //   const imageResponse = await addReviewImage(tripId, reviewId, formData);
-    //   console.log('이미지 전달, ', imageResponse);
-    // }
-
+    if (file) {
+      const imageResponse = await addReviewImage(tripId, reviewId, formData);
+      console.log('이미지 전달, ', imageResponse);
+      if (imageResponse.status === 200) {
+        console.log('이미지 전달까지 완료 되었습니다.');
+        navigate('/mypage');
+      }
+    }
     if (reviewId) {
       navigate('/mypage');
     }
