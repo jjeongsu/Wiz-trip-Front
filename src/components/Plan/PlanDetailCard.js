@@ -17,6 +17,8 @@ function PlanDetailCard({
   setIsOpenFormModal,
   planId,
   tripId,
+  mylayout,
+  setMyLayout,
   setIsDraggable,
 }) {
   const Color = category_palette[category];
@@ -49,17 +51,19 @@ function PlanDetailCard({
     //마우스가 카드위로 올라가는 순간 수정가능하지 여부 check
     const response = await checkLockStatus(tripId, planId);
     console.log('카드 Lock 여부 확인', response);
-    if (response === true) {
-      //현재는 Lock인 상태
-      // const c_mylayout = [...mylayout];
-      // const new_layout = c_mylayout.map((l, i) => {
+    // if (response === true) {
+    const test = true;
+    if (test) {
+      // //현재는 Lock인 상태
+      // const new_layout = mylayout?.map((l, i) => {
       //   if (~~l.i == planId) {
-      //     l.static = true;
+      //     l.isDraggable = false;
       //   }
       //   return l;
       // });
+
       // setMyLayout(new_layout);
-      setIsDraggable(false);
+      setIsDraggable(true);
     }
   };
   useEffect(() => {

@@ -109,9 +109,6 @@ function TourInfo() {
           </button>
         </div>
       </S.TourCityBox>
-      <div>
-        <button onClick={fetchNextPage}>더 불러오기</button>
-      </div>
       <S.TourCardBox>
         {city === '전체' ? (
           // fetchedLandmarks?.map((data, index) => (

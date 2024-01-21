@@ -58,12 +58,18 @@ export async function addReviewText(tripId, data) {
 export async function addReviewImage(tripId, reviewId, data) {
   try {
     const jwtToken = getCookie('jwtToken');
-    const res = await axios.post(`/trips/${tripId}/reviews/${reviewId}`, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${jwtToken}`,
+    const res = await axios.post(
+      `/trips/${tripId}/reviews/${reviewId}`,
+      {
+        mulipartFileList: data,
       },
-    });
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      },
+    );
     return res;
   } catch (error) {
     console.log('Review 이미지 추가 Error', error);

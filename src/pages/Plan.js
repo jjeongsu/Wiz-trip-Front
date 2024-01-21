@@ -26,7 +26,6 @@ function Plan() {
   const [currentSpot, setCurrentSpot] = useState(''); //focus된 card의 도로명주소
   const [plans, setPlans] = useState([]);
   const [datesArr, setDatesArr] = useState([]);
-
   const trips = useSelector((state) => state.Schedule);
   const dispatch = useDispatch();
   const {
@@ -54,7 +53,7 @@ function Plan() {
       setDatesArr(newDatesArray);
     }
 
-    if(getCookie('tripId')==tripId){
+    if (getCookie('tripId') == tripId) {
       removeCookie('tripId');
     }
   }, [tripData]);
@@ -74,7 +73,9 @@ function Plan() {
   } else if (isSuccess) {
     return (
       <Layout fullWidth={true}>
-        {isTripSuccess && <Planheader userIdList={tripData?.userIdList} tripId={tripId} />}
+        {isTripSuccess && (
+          <Planheader userIdList={tripData?.userIdList} tripId={tripId} />
+        )}
         <PlanLayout>
           <PlanBoard
             days={datesArr}

@@ -22,7 +22,8 @@ function Write() {
       return;
     }
     const files = e.target.files;
-    setFiles([...files]);
+    console.log('바로 잡아온 FIle', files);
+    setFiles(files); //...files
     const reader = new FileReader();
     const thumbnailList = [];
     for (let i = 0; i < files.length; i++) {
@@ -43,28 +44,23 @@ function Write() {
   const onSubmit = async (e) => {
     console.log('현재file', file);
     const formData = new FormData();
-
     for (let i = 0; i < file.length; i++) {
-      formData.append('files', file[i]);
+      formData.append('multipartFileList', file[i]);
     }
-    // file.forEach((file, index) => {
-    //   formData.append(`fileNo.${index}`, file[index]);
-    // });
+    //formData.append('multipartFileList', file);
     checkFormData(formData);
 
     const textResponse = await addReviewText(tripId, {
       content: text,
     });
     const reviewId = textResponse.reviewId;
-    if (file) {
-      const imageResponse = await addReviewImage(tripId, reviewId, formData);
+    // if (file) {
+    //   const imageResponse = await addReviewImage(tripId, reviewId, formData);
+    //   console.log('이미지 전달, ', imageResponse);
+    // }
 
-      console.log('이미지 전달, ', imageResponse);
-    }
-    const condition = false;
-    //둘다 결과 true이면 홈으로 이동
-    if (condition) {
-      navigate('/');
+    if (reviewId) {
+      navigate('/mypage');
     }
   };
 
