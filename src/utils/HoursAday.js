@@ -35,6 +35,7 @@ function create24HoursClock() {
     const item = {
       hour,
     };
+    hours.push(item);
   }
   return hours;
 }

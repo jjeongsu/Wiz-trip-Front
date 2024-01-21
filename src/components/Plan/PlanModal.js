@@ -48,6 +48,7 @@ function PlanModal({
   const onSubmit = (data) => {
     //실제 plan 생성
     const cur_date = days[data.selectDay];
+    console.log('data', data);
     const obj = createTimestamp(
       cur_date.date_full,
       data.startTime,
