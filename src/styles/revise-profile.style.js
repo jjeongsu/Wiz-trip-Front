@@ -79,7 +79,7 @@ export const StyledButton= styled.button`
 
 export const RevImgBtn = styled(StyledButton)`
     margin-top: 9px;
-    width: 135px;
+    width: 120px;
     height: 26px;
     line-height: 26px;
     margin-bottom: 10px;

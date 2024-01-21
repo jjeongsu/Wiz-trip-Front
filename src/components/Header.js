@@ -9,13 +9,20 @@ import Profileimg from '../assets/default_profileimg.png';
 import { removeCookie } from '../utils/cookies';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser } from '../services/user';
+import { getUser } from '../apis/api/user';
+import { useQuery } from 'react-query';
 
 function Header() {
   const navigate = useNavigate();
 
   //로그인 여부 확인
   const isLogin = CheckLogin();
-  const userInfo = useSelector((state) => state.User);
+  const user = useSelector((state) => state.User);
+  const {
+    isLoading: isLoadingUser,
+    isSuccess: isSuccessUser,
+    data: userData
+  } = useQuery('getUserInfo', () => getUser(user.userIdx));
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const dispatch = useDispatch();
 
@@ -44,11 +51,11 @@ function Header() {
             </div>
           </S.FlipBox>
         </Link>
-        {isLogin ?
+        {isLogin && userData ?
           <div className='user-info'>
-            <span>{userInfo.nickname}</span>
+            <span>{userData.nickname}</span>
             <button onClick={() => setIsOpenMenu(!isOpenMenu)} style={{ background: 'none', border: 'none', padding: 0, cursor: 'default' }}>
-              <img src={userInfo.userProfile ? userInfo.userProfile : Profileimg} alt='profile' style={{ borderRadius: '50%', width: '50px', height: '50px', border: '2px solid #878EA1' }} />
+              <img src={userData.image ? `data:image/webp;base64,${userData.image.content}` : Profileimg} alt='profile' style={{ borderRadius: '50%', width: '50px', height: '50px', border: '2px solid #E8EBED' }} />
             </button>
           </div>
           :
@@ -61,7 +68,7 @@ function Header() {
           </button>
         }
       </S.HeaderBox>
-
+   
       {isOpenMenu && (
         <div
           style={{
@@ -82,6 +89,7 @@ function Header() {
           </S.MenuBox>
         </div>
       )}
+
     </div>
   );
 }

@@ -15,7 +15,7 @@ function MyTrip() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && myTripData) {
       setItems(
         myTripData.filter((item) => item.finished === (Menu === 'finished')),
       );

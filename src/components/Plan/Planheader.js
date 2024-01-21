@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import * as P from '../../styles/planheader.style';
 import UpdatePlanInfo from './UpdatePlanInfo';
 import ConnectedUsers from './ConnectedUsers';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import LinkIcon from '../../assets/link-icon';
 import { createUrl, finishTrip } from '../../apis/api/trip';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+
 const domain = 'http://localhost:3000';
 
 function Planheader({ userIdList }) {
