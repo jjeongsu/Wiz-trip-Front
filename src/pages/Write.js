@@ -43,8 +43,8 @@ function Write() {
   const onSubmit = async (e) => {
     console.log('현재file', file);
     const formData = new FormData();
-    file.forEach((file) => {
-      formData.append('files', file);
+    file.forEach((file, index) => {
+      formData.append(`fileNo.${index}`, file);
     });
     checkFormData(formData);
 
@@ -52,8 +52,11 @@ function Write() {
       content: text,
     });
     const reviewId = textResponse.reviewId;
-    const imageResponse = await addReviewImage(reviewId, formData);
+    if (file) {
+      const imageResponse = await addReviewImage(tripId, reviewId, formData);
 
+      console.log('이미지 전달, ', imageResponse);
+    }
     const condition = false;
     //둘다 결과 true이면 홈으로 이동
     if (condition) {

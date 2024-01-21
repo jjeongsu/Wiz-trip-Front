@@ -13,7 +13,7 @@ import {
 } from '../../apis/api/landmark';
 import LandmarkCard from './LandmarkCard';
 import axios from 'axios';
-import LoadingIcon from '../../assets/loading';
+
 function TourInfo() {
   const [slidePx, setSlidePx] = useState(0);
   const [city, setCity] = useState('전체');

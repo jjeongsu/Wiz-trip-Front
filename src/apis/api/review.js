@@ -55,19 +55,15 @@ export async function addReviewText(tripId, data) {
   }
 }
 //text를 먼저 보낸 후 ReviewId를 반환받아 요청
-export async function addReviewImage(reviewId, data) {
+export async function addReviewImage(tripId, reviewId, data) {
   try {
     const jwtToken = getCookie('jwtToken');
-    const res = await axios.post(
-      `/reviews/${reviewId}?reviewId=${reviewId}`,
-      data,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${jwtToken}`,
-        },
+    const res = await axios.post(`/trips/${tripId}/reviews/${reviewId}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${jwtToken}`,
       },
-    );
+    });
     return res;
   } catch (error) {
     console.log('Review 이미지 추가 Error', error);

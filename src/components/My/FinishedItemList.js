@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 function FinishedItemList({ myTripData }) {
-  const tripId = useParams().tripId;
+  console.log('mytripdata', myTripData);
   const navigate = useNavigate();
   return (
     <>
@@ -15,7 +15,7 @@ function FinishedItemList({ myTripData }) {
               <div className="d-day">
                 D+{dayjs().diff(dayjs(trip.finishDate), 'day')}
               </div>
-              <span className="place-text">{trip.destination}</span>
+              <span className="place-text">{trip?.destination}</span>
               <span className="period-text">
                 {dayjs(trip.startDate).format('YYYY-MM-DD')}~
                 {dayjs(trip.finishDate).format('YYYY-MM-DD')}
@@ -23,7 +23,10 @@ function FinishedItemList({ myTripData }) {
               <T.ButtonWrapper>
                 <T.StyleButton
                   $category="review"
-                  onClick={() => navigate(`/write/${tripId}}`)}
+                  onClick={() => {
+                    const tripId = trip?.tripId;
+                    navigate(`/write/${~~tripId}`);
+                  }}
                 >
                   리뷰 작성하기
                 </T.StyleButton>
