@@ -1,10 +1,12 @@
 import axios from 'axios';
 import useNavigate from 'react-router-dom';
-
+const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
 //1. 이메일 인증용 코드발송을 요청
 export const sendCode = async (email) => {
   try {
-    const response = await axios.post(`/email-verification?email=${email}`);
+    const response = await axios.post(
+      `${PROXY}/email-verification?email=${email}`,
+    );
     if (response.status === 200) {
       alert(`${email}로 인증코드가 전송되었습니다.`);
     }

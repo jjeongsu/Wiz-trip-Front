@@ -1,4 +1,10 @@
 [[redirects]]
+
+from = "/proxy/*"
+to = "https://wiztrip.o-r.kr"
+status = 200
+force = true
+
 from = "/*"
 to = "index.html"
 status = 200
