@@ -47,7 +47,7 @@ function Write() {
     for (let i = 0; i < file.length; i++) {
       formData.append('multipartFileList', file[i]);
     }
-    //formData.append('multipartFileList', file);
+
     checkFormData(formData);
 
     const textResponse = await addReviewText(tripId, {
@@ -56,7 +56,6 @@ function Write() {
     const reviewId = textResponse.reviewId;
     if (file) {
       const imageResponse = await addReviewImage(tripId, reviewId, formData);
-      console.log('이미지 전달, ', imageResponse);
       if (imageResponse.status === 200) {
         console.log('이미지 전달까지 완료 되었습니다.');
         navigate('/mypage');
@@ -79,8 +78,8 @@ function Write() {
                 <strong>여행기록</strong>을 남겨 추억을 더 오래 기억해 보세요.
               </h1>
               <span>
-                from <strong> 2024-01-10 </strong> to{' '}
-                <strong> 2024-01-12</strong>
+                from <strong> {tripData.startDate} </strong> to{' '}
+                <strong> {tripData.finishDate}</strong>
               </span>
               <span>
                 at <strong> {tripData.destination}</strong>
