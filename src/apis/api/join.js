@@ -4,9 +4,11 @@ const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
 //1. 이메일 인증용 코드발송을 요청
 export const sendCode = async (email) => {
   try {
+    console.log('proxy', PROXY);
     const response = await axios.post(
-      `http://wiztrip.o-r.kr/email-verification?email=${email}`,
+      `${PROXY}/email-verification?email=${email}`,
     );
+    console.log('response', response);
     if (response.status === 200) {
       alert(`${email}로 인증코드가 전송되었습니다.`);
     }
