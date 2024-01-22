@@ -2,6 +2,7 @@
 import api from '../../axiosConfig';
 import { getCookie } from '../../utils/cookies';
 const PROXY = window.location.hostname === 'localhost' ? '' : 'proxy';
+
 export async function loginUser(username, password) {
   try {
     const res = await api.post(`${PROXY}/login`, {
