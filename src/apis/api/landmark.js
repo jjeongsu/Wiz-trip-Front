@@ -38,7 +38,7 @@ export async function getLandmarkPage(pageParam) {
 export async function getLandmarkDetail(contentId) {
   try {
     const response = await axios.get(
-      `https://wiztrip.o-r.kr/landmarks/landmarks?contentId=${contentId}`,
+      `${PROXY}/landmarks/landmarks?contentId=${contentId}`,
     );
     return response.data;
   } catch (error) {
@@ -55,7 +55,7 @@ export async function getLandmarkDetail(contentId) {
 export async function getCityLandmark(cityCode) {
   try {
     const response = await axios.get(`
-    /landmarks/landmarksAreaCode?areaCode=${cityCode}`);
+    ${PROXY}/landmarks/landmarksAreaCode?areaCode=${cityCode}`);
     return response.data;
   } catch (error) {
     console.log('도시별 조회 Error', error);
