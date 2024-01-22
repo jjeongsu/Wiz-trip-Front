@@ -26,14 +26,14 @@ function PlanDetailCard({
   const cardRef = useRef(null);
   const contentRef = useRef(null);
 
-  const {
-    data: userProfileData,
-    isLoading,
-    isSuccess,
-  } = useQuery(['user', userId], () => getUser(userId), {
-    select: (data) => data.image, // 원하는 필드 선택
-  });
-  const userProfile = '';
+  // const {
+  //   data: userProfileData,
+  //   isLoading,
+  //   isSuccess,
+  // } = useQuery(['user', userId], () => getUser(userId), {
+  //   select: (data) => data.image, // 원하는 필드 선택
+  // });
+  // const userProfile = '';
   const queryClient = useQueryClient();
   const handleDelete = (e) => {
     e.preventDefault();
@@ -71,9 +71,7 @@ function PlanDetailCard({
     const childHeight = parentHeight - 40;
     contentRef.current.style.maxHeight = `${childHeight}px`;
 
-    if (userProfileData !== null) {
-      //유저 프로필 데이터 복호화 코드 추가
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -88,7 +86,7 @@ function PlanDetailCard({
       <div className="horizental ">
         <div className="category-tag">{categoryToKo[category]}</div>
         <div className="user-profile">
-          {userProfile !== '' ? userProfile : <DefaultProfileIcon />}
+          <DefaultProfileIcon />
         </div>
       </div>
       <div className="horizental content-button">

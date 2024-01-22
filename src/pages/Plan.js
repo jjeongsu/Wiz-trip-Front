@@ -56,7 +56,8 @@ function Plan() {
     if (getCookie('tripId') == tripId) {
       removeCookie('tripId');
     }
-  }, [dispatch, tripData, tripId, trips]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tripData]);
 
   useEffect(() => {
     const newDatesArray = createDatesArr({ ...trips });
