@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
 export async function getLandmarks() {
   try {
     const response = await axios.get('/landmarks');
@@ -22,7 +22,7 @@ export async function getLandmarkPage(pageParam) {
     //   `/landmarks/paging?pageNo=${pageParam}&numOfRows=16&sort=id`,
     // );
     const response = await axios.get(
-      `https://wiztrip.o-r.kr/landmarks/landmarks/paging?numOfRows=24&pageNo=${pageParam}`,
+      `${PROXY}/landmarks/landmarks/paging?numOfRows=24&pageNo=${pageParam}`,
     );
     return response.data;
   } catch (error) {
