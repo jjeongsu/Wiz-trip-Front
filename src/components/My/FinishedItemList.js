@@ -20,7 +20,7 @@ function FinishedItemList({ myTripData }) {
                 {dayjs(trip.startDate).format('YYYY-MM-DD')}~
                 {dayjs(trip.finishDate).format('YYYY-MM-DD')}
               </span>
-              <T.ButtonWrapper>
+              {/* <T.ButtonWrapper>
                 <T.StyleButton
                   $category="review"
                   onClick={() => {
@@ -30,7 +30,7 @@ function FinishedItemList({ myTripData }) {
                 >
                   리뷰 작성하기
                 </T.StyleButton>
-              </T.ButtonWrapper>
+              </T.ButtonWrapper> */}
             </T.TripItem>
           ))}
         </T.TripItemBox>

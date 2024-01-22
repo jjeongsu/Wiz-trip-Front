@@ -13,7 +13,12 @@ import SlideNextIcon from '../../assets/slide-next-icon';
 import { element } from 'prop-types';
 import { createTimestamp } from '../../utils/createTimestamp';
 import { useMutation, useQueryClient } from 'react-query';
-import { updatePlan, lockPlan, unlockPlan } from '../../apis/api/plan';
+import {
+  updatePlan,
+  lockPlan,
+  unlockPlan,
+  checkLockStatus,
+} from '../../apis/api/plan';
 import { createDatesArr } from '../../utils/createDaysArr';
 function PlanBoard({
   days,
@@ -27,12 +32,11 @@ function PlanBoard({
   const [slidePx, setSlidePx] = useState(0); //day수가 3이상일 경우 slide
   const [mylayout, setMyLayout] = useState([]);
   const [dragElement, setDragElement] = useState({});
-  const [isDraggable, setIsDraggable] = useState(true); //수정 가능한지 여부
+  const [isDraggable, setIsDraggable] = useState(false); //수정 가능한지 여부
   useEffect(() => {
     const l = [];
-    plans.forEach((p, index) => {
-      //timestamp를 index로 변환하기
-      //console.log('현재 p', p, '현재 days', days);
+    plans.forEach(async (p, index) => {
+      const status = checkLockStatus(tripId, p.planId).then((value) => value);
       const today = p.startTime?.slice(0, 8);
       const todayIndex = days.findIndex(
         (date) => date.date_full.replaceAll('-', '') == today,
@@ -45,8 +49,8 @@ function PlanBoard({
       const endIndex = clockTimes.findIndex(
         (time) => time.text == trim_endTime,
       );
-      console.log('trimed', startIndex, endIndex);
       const gap = ~~endIndex - ~~startIndex;
+      //const status = await checkLockStatus(tripId, p.planId);
       // { i: 'random', x: plans.day, y: palns.startIndex, w:1, h: ~~endIndex, static: false }
       const newPlan = {
         i: p.planId.toString(),
@@ -54,7 +58,7 @@ function PlanBoard({
         y: ~~startIndex,
         w: 1,
         h: gap,
-        static: false,
+        isDraggable: isDraggable,
       };
       l.push(newPlan);
     });
@@ -103,7 +107,7 @@ function PlanBoard({
   if (days === [] && mylayout === []) {
     return <div> is Loading</div>;
   }
-  console.log('mylayout', mylayout);
+  console.log('mylayout', mylayout[0]);
   return (
     <S.BoardBox>
       <div className="timeline">
@@ -148,7 +152,9 @@ function PlanBoard({
                 </div>
               ))}
           </div>
-          {mylayout && (
+          {mylayout.length == 0 ? (
+            <>로딩중</>
+          ) : (
             <GridLayout
               className="grid-drag-board"
               cols={days.length}
@@ -176,8 +182,10 @@ function PlanBoard({
                       setCurrentSpot={setCurrentSpot}
                       planId={p.planId}
                       tripId={p.tripId}
+                      setMyLayout={setMyLayout}
+                      mylayout={mylayout}
                       setIsDraggable={setIsDraggable}
-                    />
+                    ></PlanDetailCard>
                   </div>
                 );
               })}

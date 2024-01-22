@@ -6,6 +6,7 @@ import SlideNextIcon from '../../assets/slide-next-icon';
 import { useState, useEffect } from 'react';
 import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query';
 import Spinner from '../../assets/loading-spinner.gif';
+
 import {
   getLandmarkPage,
   getLandmarks,
@@ -18,17 +19,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 function TourInfo() {
   const [slidePx, setSlidePx] = useState(0);
   const [city, setCity] = useState('전체');
-  //모든 랜드마크 데이터 불러오기 :
-  // const {
-  //   isLoading,
-  //   data: fetchedLandmarks,
-  //   isSuccess,
-  // } = useQuery({
-  //   queryKey: ['allLandmarks'],
-  //   queryFn: getLandmarks,
-  //   staleTime: 60 * 1000,
-  // });
-  const queryClient = useQueryClient();
 
   //도시별로 데이터 불러오기
   const { data: fetchedLandmarksCity, isLoading: isLoadingCity } = useQuery({
@@ -49,20 +39,28 @@ function TourInfo() {
     ['page'],
     ({ pageParam = 1 }) => getLandmarkPage(pageParam),
     {
-      getNextPageParam: (lastPage) => lastPage.totalPages + 1,
+      getNextPageParam: (lastPage) => {
+        const totalPage = lastPage.totalPage;
+        const currentPage = lastPage.pageable.pageNumber;
+        return currentPage + 1 !== totalPage ? currentPage + 1 : totalPage;
+      },
     },
   );
 
+  //캐러셀 버튼 조작
   const toPrev = () => {
     if (slidePx < 0) setSlidePx(slidePx + 1000);
   };
   const toNext = () => {
     if (slidePx > -2000) setSlidePx(slidePx - 1000);
   };
+
+  //도시 선택시
   const onCityClick = (event) => {
-    console.log('선택된 city', event.target.textContent);
     setCity(event.target.textContent);
   };
+
+  //로딩처리
   if (isLoading && paging === undefined) {
     return (
       <S.SpinnerContainer>
@@ -80,9 +78,7 @@ function TourInfo() {
       </S.SpinnerContainer>
     );
   }
-  //  else if (fetchedLandmarks.name === 'AxiosError') {
-  // queryClient.invalidateQueries();
-  // }
+
   return (
     <>
       <S.TourCityBox slide={slidePx}>
@@ -109,14 +105,8 @@ function TourInfo() {
           </button>
         </div>
       </S.TourCityBox>
-      <div>
-        <button onClick={fetchNextPage}>더 불러오기</button>
-      </div>
       <S.TourCardBox>
         {city === '전체' ? (
-          // fetchedLandmarks?.map((data, index) => (
-          //   <LandmarkCard data={data} key={index} />
-          // ))
           <InfiniteScroll
             hasMore={hasNextPage}
             loadMore={() => fetchNextPage()}

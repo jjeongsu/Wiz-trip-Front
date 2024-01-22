@@ -8,32 +8,33 @@ function LandmarkModal({ setIsModalOpen, data }) {
     data: detailData,
     isLoading,
     isError,
-  } = useQuery(['detail', data.contentid], () =>
-    getLandmarkDetail(data.contentid),
+  } = useQuery(['detail', data.contentId], () =>
+    getLandmarkDetail(data.contentId),
   );
   const queryClient = useQueryClient();
   /** {
-        "contentId": 2994116,
-        "infocenter": "033-572-1800",
-        "restDate": "매월 마지막 주 월요일",
-        "accomcount": "일 800명",
-        "useTime": "사우나, 욕장 07:00~19:00<br>\n스파월드 10:00~18:00",
-        "parking": "가능 (소형 61대 / 대형 4대 / 장애인 4대)",
-        "checkPet": "불가",
-        "checkCreditCard": "가능"
+            "contentId": 2524116,
+    "infocenter": "033-332-5337",
+    "restDate": "",
+    "accomcount": "",
+    "useTime": "",
+    "parking": "가능",
+    "checkPet": "없음",
+    "checkCreditCard": "없음"
+}
     } */
   const onClose = () => {
     setIsModalOpen(false);
   };
 
   if (isLoading && detailData === undefined) {
-    return <> </>;
+    return <>loading </>;
   }
   if (isError) {
     console.log('에러발생');
     queryClient.invalidateQueries();
   } else {
-    console.log('detil data', detailData);
+    console.log('detil data', detailData.infocenter);
     return (
       <S.Modal>
         <div className="modal-body">
@@ -42,33 +43,31 @@ function LandmarkModal({ setIsModalOpen, data }) {
           </button>
           <div className="modal-contents">
             <img
-              src={data?.firstimage ? data.firstimage : card}
+              src={data?.imagePath ? data.imagePath : card}
               alt="landmark-img"
               className="modal-image"
             />
             <div className="modal-text">
               <h2>{data.title}</h2>
               <>
-                {detailData[0]?.infocenter && (
-                  <span> call 📞 : {detailData[0]?.infocenter}</span>
+                {detailData?.infocenter && (
+                  <span> call 📞 : {detailData?.infocenter}</span>
                 )}
-                {detailData[0]?.restDate && (
-                  <p> 😐 휴무일 : {detailData[0]?.restDate}</p>
+                {detailData?.restDate && (
+                  <p> 😐 휴무일 : {detailData?.restDate}</p>
                 )}
-                {detailData[0]?.accomcount && (
-                  <p> 🫂 수용인원 : {detailData[0]?.accomcount}</p>
+                {detailData?.accomcount && (
+                  <p> 🫂 수용인원 : {detailData?.accomcount}</p>
                 )}
-                {detailData[0]?.parking && (
-                  <p> 🚗 주차 : {detailData[0]?.parking}</p>
+                {detailData?.parking && <p> 🚗 주차 : {detailData?.parking}</p>}
+                {detailData?.useTime && (
+                  <p> 🕙 이용시간 : {detailData?.useTime} </p>
                 )}
-                {detailData[0]?.useTime && (
-                  <p> 🕙 이용시간 : {detailData[0]?.useTime} </p>
+                {detailData?.checkPet && (
+                  <p> 🐕 반려동물 동반 : {detailData?.checkPet}</p>
                 )}
-                {detailData[0]?.checkPet && (
-                  <p> 🐕 반려동물 동반 : {detailData[0]?.checkPet}</p>
-                )}
-                {detailData[0]?.checkCreditCard && (
-                  <p> 💳 카드 사용 : {detailData[0]?.checkCreditCard}</p>
+                {detailData?.checkCreditCard && (
+                  <p> 💳 카드 사용 : {detailData?.checkCreditCard}</p>
                 )}
               </>
             </div>

@@ -55,6 +55,7 @@ function Join() {
       <S.JoinForm onSubmit={handleSubmit(onSubmit)}>
         <div className="container">
           <input
+            inputMode="email"
             name="email"
             placeholder="이메일"
             type="email"
@@ -84,6 +85,7 @@ function Join() {
             <span className="error-message">{errors.email.message}</span>
           )}
           <input
+            inputMode="numeric"
             className="input-check"
             type="text"
             placeholder="인증코드를 입력하세요"

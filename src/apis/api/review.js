@@ -5,7 +5,7 @@ import { setCookie, getCookie } from '../../utils/cookies';
 export async function getReview() {
   try {
     const res = await api.get('/my-reviews');
-    return res;
+    return res.data;
   } catch (error) {
     console.log('Review 조회 Error', error);
     const statusCode = error.response.status;
@@ -40,7 +40,18 @@ export async function getMyReviewLength() {
     console.log(`${statusCode} - ${statusText} : ${message}`);
   }
 }
-
+export async function getTargetReview(tripId, reviewId) {
+  try {
+    const res = await api.get(`/trips/${tripId}/reviews?reviewId=${reviewId}`);
+    return res.data;
+  } catch (error) {
+    console.log('타겟 리뷰 조회 Error', error);
+    const statusCode = error.response.status;
+    const statusText = error.response.statusText;
+    const message = error.response.data.message;
+    console.log(`${statusCode} - ${statusText} : ${message}`);
+  }
+}
 //Textreview 보내기
 export async function addReviewText(tripId, data) {
   try {
@@ -67,6 +78,21 @@ export async function addReviewImage(tripId, reviewId, data) {
     return res;
   } catch (error) {
     console.log('Review 이미지 추가 Error', error);
+    const statusCode = error.response.status;
+    const statusText = error.response.statusText;
+    const message = error.response.data.message;
+    console.log(`${statusCode} - ${statusText} : ${message}`);
+  }
+}
+
+export async function deleteReview(tripId, reviewId) {
+  try {
+    const res = await api.delete(
+      `/trips/${tripId}/reviews?reviewId=${reviewId}`,
+    );
+    return res;
+  } catch (error) {
+    console.log('Review 삭제 Error', error);
     const statusCode = error.response.status;
     const statusText = error.response.statusText;
     const message = error.response.data.message;
