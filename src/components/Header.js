@@ -3,7 +3,7 @@ import * as S from '../styles/header.style';
 import LogoWhite from '../assets/header-logo-white-min.png';
 import LogoBlack from '../assets/header-logo-black-min.png';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CheckLogin from '../utils/checklogin';
 import Profileimg from '../assets/default_profileimg.png';
 import { removeCookie } from '../utils/cookies';
@@ -17,12 +17,13 @@ function Header() {
 
   //로그인 여부 확인
   const isLogin = CheckLogin();
+
   const user = useSelector((state) => state.User);
   const {
     isLoading: isLoadingUser,
     isSuccess: isSuccessUser,
     data: userData
-  } = useQuery('getUserInfo', () => getUser(user.userIdx));
+  } = useQuery('getUserInfo', () => getUser(user.userIdx), { enabled: isLogin });
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const dispatch = useDispatch();
 
