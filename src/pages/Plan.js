@@ -18,6 +18,7 @@ import { createDatesArr } from '../utils/createDaysArr';
 import KakaoMap from '../components/Plan/KakaoMap';
 import { setDailyPlan } from '../services/plan';
 import { getCookie, removeCookie } from '../utils/cookies';
+
 function Plan() {
   const tripId = useParams().tripId;
 
@@ -64,17 +65,17 @@ function Plan() {
     setDatesArr(newDatesArray);
   }, [trips]);
   useEffect(() => {
-    if (isSuccess) {
+    if (planData) {
       setPlans(Array.from(planData?.list));
     }
-  }, [planData, isSuccess]);
+  }, [planData]);
   console.log('dates', datesArr);
   if (isLoadingTrip && isLoadingPlan && datesArr.length === 0) {
     return <div>loading....</div>;
   } else if (isSuccess) {
     return (
       <Layout fullWidth={true}>
-        {isTripSuccess && (
+        {tripData && (
           <Planheader userIdList={tripData?.userIdList} tripId={tripId} />
         )}
         <PlanLayout>

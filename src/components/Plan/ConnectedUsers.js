@@ -9,9 +9,11 @@ function ConnectedUsers({ userIdList }) {
   console.log(userIdList);
 
   useEffect(() => {
-    Promise.all(userIdList.map(async user => {
-      return await getUserProfile(user);
-    })).then(setUserProfile);
+    if(userIdList){
+      Promise.all(userIdList.map(async user => {
+        return await getUserProfile(user);
+      })).then(setUserProfile);
+    }
 
   }, [userIdList])
 
