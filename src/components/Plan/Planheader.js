@@ -39,7 +39,7 @@ function Planheader({ userIdList }) {
   //트립 종료
   const handleFinishTrip = async () => {
     const res = await finishTrip(tripId);
-    if (res.status == 200) {
+    if (res) {
       alert('trip이 종료되었습니다.');
       //메인페이지 이동
       navigate(`/write/${tripId}`);
