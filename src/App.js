@@ -31,7 +31,7 @@ function App() {
   };
   return (
     <>
-      <BrowserRouter basename="https://wiz-trip.netlify.app/">
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />
           <Route element={<PrivateRoute />}>
