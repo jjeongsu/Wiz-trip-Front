@@ -22,7 +22,7 @@ export async function getLandmarkPage(pageParam) {
     //   `/landmarks/paging?pageNo=${pageParam}&numOfRows=16&sort=id`,
     // );
     const response = await axios.get(
-      `/landmarks/landmarks/paging?numOfRows=24&pageNo=${pageParam}`,
+      `https://wiztrip.o-r.kr/landmarks/landmarks/paging?numOfRows=24&pageNo=${pageParam}`,
     );
     return response.data;
   } catch (error) {
@@ -38,7 +38,7 @@ export async function getLandmarkPage(pageParam) {
 export async function getLandmarkDetail(contentId) {
   try {
     const response = await axios.get(
-      `/landmarks/landmarks?contentId=${contentId}`,
+      `https://wiztrip.o-r.kr/landmarks/landmarks?contentId=${contentId}`,
     );
     return response.data;
   } catch (error) {
