@@ -1,4 +1,4 @@
 [[redirects]]
 from = "/*"
-to = "https://wiz-trip.netlify.app/:splat"
+to = "index.html"
 status = 200
