@@ -30,7 +30,8 @@ function Join() {
   const onSubmit = async (data) => {
     onRegister(data, isEmailChecked, isNicknameChecked, navigate);
   };
-
+  const password_watch = watch('password');
+  const passwordcheck_watch = watch('passwordcheck');
   useEffect(() => {
     if (
       watch('password') !== watch('passwordCheck') &&
@@ -44,7 +45,7 @@ function Join() {
       // 비밀번호 일치시 오류 제거
       clearErrors('passwordCheck');
     }
-  }, [watch('password'), watch('passwordcheck')]);
+  }, [password_watch, passwordcheck_watch, watch, setError, clearErrors]);
 
   console.log(watch());
   console.log(errors);

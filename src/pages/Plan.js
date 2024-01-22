@@ -56,7 +56,7 @@ function Plan() {
     if (getCookie('tripId') == tripId) {
       removeCookie('tripId');
     }
-  }, [tripData]);
+  }, [dispatch, tripData, tripId, trips]);
 
   useEffect(() => {
     const newDatesArray = createDatesArr({ ...trips });
