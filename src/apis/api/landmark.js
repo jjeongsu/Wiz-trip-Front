@@ -1,5 +1,5 @@
 import axios from 'axios';
-const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+const PROXY = window.location.hostname === 'localhost' ? '' : 'proxy';
 export async function getLandmarks() {
   try {
     const response = await axios.get('/landmarks');
