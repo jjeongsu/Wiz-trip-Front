@@ -5,7 +5,7 @@ const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
 export const sendCode = async (email) => {
   try {
     const response = await axios.post(
-      `${PROXY}/email-verification?email=${email}`,
+      `https://wiztrip.o-r.kr/email-verification?email=${email}`,
     );
     if (response.status === 200) {
       alert(`${email}로 인증코드가 전송되었습니다.`);
