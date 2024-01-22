@@ -65,7 +65,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://wiztrip.o-r.kr",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^8.54.0",
