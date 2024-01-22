@@ -1,6 +1,6 @@
 import axios from 'axios';
 import useNavigate from 'react-router-dom';
-const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+const PROXY = window.location.hostname === 'localhost' ? '' : 'proxy';
 //1. 이메일 인증용 코드발송을 요청
 export const sendCode = async (email) => {
   try {
@@ -25,7 +25,7 @@ export const sendCode = async (email) => {
 export const checkCode = async (emailcheck, email, setIsEmailChecked) => {
   try {
     const response = await axios.get(
-      `/email-verification?email=${email}&code=${emailcheck}`,
+      `${PROXY}/email-verification?email=${email}&code=${emailcheck}`,
     );
     if (response.data === true) {
       alert('이메일 인증에 성공하였습니다!');
@@ -47,7 +47,7 @@ export const checkNickname = async (nickname, setIsNicknameChecked) => {
   try {
     console.log('닉네임 확인중');
     const response = await axios.get(
-      `/users/nickname/exist?nickname=${nickname}`,
+      `${PROXY}/users/nickname/exist?nickname=${nickname}`,
     );
     if (response.data === false) {
       alert('사용가능한 닉네임 입니다.');
@@ -74,7 +74,7 @@ export const onRegister = async (
   const { email, password, nickname, passwordcheck, id } = data;
   if (isEmailChecked && isNicknameChecked) {
     try {
-      const response = await axios.post('/users/signup', {
+      const response = await axios.post(`${PROXY}/users/signup`, {
         username: id,
         email: email,
         password: password,
