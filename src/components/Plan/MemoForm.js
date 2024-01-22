@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import * as M from '../../styles/memo-form.style';
+import React, { useEffect, useCallback } from 'react'
+import * as M from '../../styles/memo-form.style'
 import SubmitIcon from '../../assets/submit-icon';
 import { useForm } from 'react-hook-form';
 import { addMemoData } from '../../apis/api/memo';
@@ -10,6 +10,16 @@ function MemoForm({ category }) {
 
   const tripId = useParams().tripId;
 
+  // 폼 초기화 함수
+  const resetForm = useCallback(() => {
+    reset({
+      title: "",
+      content: "",
+      url: "",
+    });
+  }, [reset]);
+
+  // useEffect 훅에 resetForm 함수를 의존성으로 추가
   useEffect(() => {
     resetForm();
   }, [category, resetForm]);
@@ -35,14 +45,6 @@ function MemoForm({ category }) {
     resetForm();
   };
 
-  // 폼 초기화 함수
-  const resetForm = () => {
-    reset({
-      title: '',
-      content: '',
-      url: '',
-    });
-  };
   return (
     <M.FormLayout onSubmit={handleSubmit(onSubmit)} $category={category}>
       <M.FormContainer>
