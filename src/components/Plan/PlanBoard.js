@@ -63,7 +63,7 @@ function PlanBoard({
       l.push(newPlan);
     });
     setMyLayout(() => [...l]);
-  }, [plans, days]);
+  }, [plans, days, tripId, isDraggable]);
 
   //drag and drop event
   const handleDragStart = (layout, e, element) => {

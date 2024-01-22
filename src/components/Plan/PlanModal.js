@@ -92,7 +92,7 @@ function PlanModal({
       setValue('category', categoryToKo[currentPlan.category]);
       setValue('content', currentPlan.content);
     }
-  }, [isOpenModal]);
+  }, [isOpenModal, setValue, tripId]);
   console.log('isOpenModal', isOpenModal);
   return (
     <div>
