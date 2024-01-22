@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Main from './pages/Main';
 import Login from './pages/Login';
 import Join from './pages/Join';
@@ -13,11 +13,10 @@ import { Navigate, Outlet } from 'react-router-dom';
 import CheckLogin from './utils/checklogin';
 function App() {
   const [isLogin, setIsLogin] = useState(CheckLogin());
-  
+
   useEffect(() => {
     setIsLogin(CheckLogin());
   }, [isLogin]);
-
 
   //로그인한 회원은 들어갈 수 없는 페이지
   const PublicRoute = () => {
@@ -32,7 +31,7 @@ function App() {
   };
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename="https://wiz-trip.netlify.app/">
         <Routes>
           <Route path="/" element={<Main />} />
           <Route element={<PrivateRoute />}>
