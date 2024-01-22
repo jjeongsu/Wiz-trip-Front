@@ -45,6 +45,8 @@ export async function finishTrip(tripId){
         const message = error.response.data.message;
         console.log(`${statusCode} - ${statusText} : ${message}`);
 
+        alert(message);
+
     }
 
 }
