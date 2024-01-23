@@ -50,9 +50,9 @@ function UserProfile() {
             <U.ProfileWrapper>
             {isSuccessUser && 
                 <U.UserInfoLayout>
-                    <img src={userData.image ? `data:image/webp;base64,${userData.image.content}` : DefaultImage} alt='profile' style={{ borderRadius: '50%', width: '90px', height: '90px', border: '2px solid #E8EBED' }}/>
-                    <span className='nickname-text'>{userData.nickname}</span>
-                    <span className='email-text'>{userData.email}</span>
+                    <img src={userData?.image ? `data:image/webp;base64,${userData?.image.content}` : DefaultImage} alt='profile' style={{ borderRadius: '50%', width: '90px', height: '90px', border: '2px solid #E8EBED' }}/>
+                    <span className='nickname-text'>{userData?.nickname}</span>
+                    <span className='email-text'>{userData?.email}</span>
                 </U.UserInfoLayout>
             }
                 <U.Line/>
