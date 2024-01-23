@@ -11,7 +11,7 @@ function Memo(){
 
   const tripId = useParams().tripId;
   const [selectedCategory, setSelectedCategory] = useState('ACCOM');
-  const { isLoading, data: memoData } = useQuery(['getMemoData', selectedCategory], () => getMemoData(tripId, selectedCategory));
+  const { isLoading, isSuccess, data: memoData } = useQuery(['getMemoData', selectedCategory], () => getMemoData(tripId, selectedCategory));
 
   return (
     <M.MemoLayout>
@@ -28,9 +28,10 @@ function Memo(){
         ))}
     </M.CategoryLayout>
     <M.MemoContainer $category={selectedCategory}>
-      {!isLoading && memoData.length > 0 && memoData.map((item, id)=>(
-        <MemoItem key={id} category={selectedCategory} item={item}/>
-      ))}
+      {!isLoading && isSuccess && memoData?.length > 0 &&
+        memoData.map((item, id) => (
+          <MemoItem key={id} category={selectedCategory} item={item} />
+        ))}
       <MemoForm category={selectedCategory}/>
     </M.MemoContainer>
     </M.MemoLayout>
