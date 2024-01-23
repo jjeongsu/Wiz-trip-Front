@@ -16,7 +16,7 @@ export const PlaceModalLayout = styled.div`
 `
 
 export const UpdateLayout = styled(PlaceModalLayout)`
-    top: 170px;
+    top: 190px;
     height: 300px;
     border: 1px solid #C9CDD2;
     margin-left: 30px;

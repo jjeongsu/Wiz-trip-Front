@@ -1,11 +1,24 @@
 import React from 'react';
 import * as T from '../../styles/mytrip.style';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
-
+import { useQueryClient, useMutation } from 'react-query';
+import { deleteTrip } from '../../apis/api/trip';
 function FinishedItemList({ myTripData }) {
   console.log('mytripdata', myTripData);
-  const navigate = useNavigate();
+  const userIdx = useSelector(state => state.User.userIdx);
+
+  const queryClient = useQueryClient();
+  const deleteMutation = useMutation(deleteTrip, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('getMyTrip');
+    },
+  });
+
+  const handleDelete = async (tripId) => {
+    await deleteMutation.mutateAsync(tripId);
+  }
   return (
     <>
       {myTripData.length > 0 ? (
@@ -31,6 +44,7 @@ function FinishedItemList({ myTripData }) {
                   리뷰 작성하기
                 </T.StyleButton>
               </T.ButtonWrapper> */}
+              {trip.ownerId == userIdx && <T.StyleButton $category='delete' onClick={() => handleDelete(trip.tripId)} >계획 삭제하기</T.StyleButton>} 
             </T.TripItem>
           ))}
         </T.TripItemBox>

@@ -15,7 +15,7 @@ export const DateModalLayout = styled.div`
 `
 
 export const UpdateModalLayout = styled(DateModalLayout)`
-    top: 170px;
+    top: 190px;
     width: 500px;
     height: 300px;
     border: 1px solid #C9CDD2;
