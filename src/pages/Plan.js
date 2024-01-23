@@ -52,6 +52,7 @@ function Plan() {
       //trip 내 모든 날짜 정보 array 만들기
       const newDatesArray = createDatesArr({ ...trips });
       setDatesArr(newDatesArray);
+    
     }
 
     if (getCookie('tripId') == tripId) {
@@ -63,12 +64,15 @@ function Plan() {
   useEffect(() => {
     const newDatesArray = createDatesArr({ ...trips });
     setDatesArr(newDatesArray);
+
   }, [trips]);
   useEffect(() => {
-    if (planData) {
+    if (isSuccess && planData && planData.list) {
       setPlans(Array.from(planData?.list));
+
     }
-  }, [planData]);
+  }, [planData, isSuccess]);
+
   console.log('dates', datesArr);
   if (isLoadingTrip && isLoadingPlan && datesArr.length === 0) {
     return <div>loading....</div>;
