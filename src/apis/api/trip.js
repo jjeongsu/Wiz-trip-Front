@@ -63,7 +63,7 @@ export async function getTrip(tripId) {
 
 export async function getMyTrip() {
   try {
-    const res = await api.get(`/trips/with-details/page`);
+    const res = await api.get(`${PROXY}/trips/with-details/page`);
     console.log(res.data);
     return res.data.content;
   } catch (error) {
@@ -77,7 +77,7 @@ export async function getMyTrip() {
 
 export async function getMyTripCount() {
   try {
-    const res = await api.get(`/my-trips/count`);
+    const res = await api.get(`${PROXY}/my-trips/count`);
     return res.data.tripNum;
   } catch (error) {
     console.log('계획중 여행 개수 조회 Error', error);
@@ -90,7 +90,7 @@ export async function getMyTripCount() {
 
 export async function deleteTrip(tripId) {
   try {
-    const res = await api.delete(`/trips?tripId=${tripId}`);
+    const res = await api.delete(`${PROXY}/trips?tripId=${tripId}`);
     return res;
   } catch (error) {
     console.log('내 Trip 삭제 Error', error);
@@ -104,7 +104,7 @@ export async function deleteTrip(tripId) {
 //trip 공유 url 생성
 export async function createUrl(tripId) {
   try {
-    const res = await api.post(`/trips/share?tripId=${tripId}`);
+    const res = await api.post(`${PROXY}/trips/share?tripId=${tripId}`);
     return res.data;
   } catch (error) {
     console.log('url 생성 Error', error);
@@ -122,7 +122,7 @@ export async function createUrl(tripId) {
 //trip 공유 url에서 tripId 조회
 export async function getTripId(id) {
   try {
-    const res = await axios.get(`/trips/share?url=${id}`);
+    const res = await axios.get(`${PROXY}/trips/share?url=${id}`);
     return res;
   } catch (error) {
     console.log('url 조회 Error', error);
@@ -138,7 +138,7 @@ export async function getTripId(id) {
 export async function addUserToTrip(tripId, userId) {
   try {
     const res = await api.post(
-      `/trips/${tripId}/users/${userId}?tripId=${tripId}&userId=${userId}`,
+      `${PROXY}/trips/${tripId}/users/${userId}?tripId=${tripId}&userId=${userId}`,
     );
     return res.data;
   } catch (error) {

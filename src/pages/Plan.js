@@ -39,10 +39,12 @@ function Plan() {
     isSuccess,
     data: planData,
   } = useQuery(['getAllPlan'], () => getAllPlans(tripId));
+
   useEffect(() => {
     //trip 정보 세팅
-    if (tripData) {
+    if (isTripSuccess && tripData) {
       const { destination, startDate, finishDate } = tripData;
+      console.log("des", destination, startDate, finishDate);
       const schedule = {
         place: destination,
         startDate: dayjs(startDate).format('YYYY-MM-DD'),
@@ -59,7 +61,7 @@ function Plan() {
       removeCookie('tripId');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tripData]);
+  }, [isTripSuccess, tripData]);
 
   useEffect(() => {
     const newDatesArray = createDatesArr({ ...trips });
@@ -79,7 +81,7 @@ function Plan() {
   } else if (isSuccess) {
     return (
       <Layout fullWidth={true}>
-        {tripData && (
+        {isTripSuccess && tripData && (
           <Planheader userIdList={tripData?.userIdList} tripId={tripId} />
         )}
         <PlanLayout>
