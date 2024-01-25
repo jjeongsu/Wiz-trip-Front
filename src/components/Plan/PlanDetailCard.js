@@ -56,25 +56,7 @@ function PlanDetailCard({
       setIsOpenFormModal(planId);
     }
   };
-  const checkCardLockStatus = async () => {
-    //마우스가 카드위로 올라가는 순간 수정가능하지 여부 check
-    const response = await checkLockStatus(tripId, planId);
-    console.log('카드 Lock 여부 확인', response);
-    // if (response === true) {
-    const test = true;
-    if (test) {
-      // //현재는 Lock인 상태
-      // const new_layout = mylayout?.map((l, i) => {
-      //   if (~~l.i == planId) {
-      //     l.isDraggable = false;
-      //   }
-      //   return l;
-      // });
 
-      // setMyLayout(new_layout);
-      setIsDraggable(true);
-    }
-  };
   useEffect(() => {
     const parentHeight = cardRef.current.clientHeight;
     const childHeight = parentHeight - 40;
@@ -90,7 +72,6 @@ function PlanDetailCard({
       tag={Color.tag}
       ref={cardRef}
       onMouseDown={(e) => setCurrentSpot(address)}
-      onMouseOver={checkCardLockStatus}
     >
       <div className="horizental ">
         <div className="category-tag">{categoryToKo[category]}</div>
