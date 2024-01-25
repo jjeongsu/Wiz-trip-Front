@@ -3,3 +3,13 @@ from = "/proxy/*"
 to = "https://wiztrip.o-r.kr/:splat"
 status = 200
 force = true
+
+[[redirects]]
+from = "/plan/*"
+to = "index.html"
+status = 200
+
+[[redirects]]
+from = "/*"
+to = "index.html"
+status = 200
