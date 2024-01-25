@@ -47,7 +47,7 @@ function PlanModal({
     isSuccess,
   } = useQuery(['plan'], () =>
     getTargetPlan((tripId, ~~isOpenModal), {
-      enabled: !!(isOpenModal !== true && isOpenModal !== false),
+      enabled: !!isOpenModal,
     }),
   );
   const queryClient = useQueryClient();
