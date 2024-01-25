@@ -17,6 +17,7 @@ function Share() {
         const res = await getTripId(id);
         if (res) {
             if (CheckLogin()) {
+                console.log('로그인 O');
                 const tripId = await GoToTrip(res.data.tripId, userId);
                 navigate(`/plan/${tripId}`);
             } else {
@@ -45,6 +46,8 @@ export async function GoToTrip(tripId, userId){
 
     // const navigate = useNavigate();
     const tripData = await getTrip(tripId);
+
+    console.log(tripData);
 
     //tripData 권한이 없는 유저라면 
     if(tripData===403){

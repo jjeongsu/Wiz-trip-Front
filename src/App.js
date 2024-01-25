@@ -45,7 +45,7 @@ function App() {
             <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
             <Route path="/join" element={<Join />} />
           </Route>
-          <Route path="/trips/share/:tripId" element={<Share />} />
+          <Route path="/share/:tripId" element={<Share />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
