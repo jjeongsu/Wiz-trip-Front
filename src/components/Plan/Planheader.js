@@ -8,7 +8,7 @@ import { createUrl, finishTrip } from '../../apis/api/trip';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const domain = 'http://localhost:3000';
+const domain = 'https://wiz-trip.netlify.app';
 
 function Planheader({ userIdList }) {
   const planinfo = useSelector((state) => state.Schedule);
