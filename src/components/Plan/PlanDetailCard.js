@@ -44,7 +44,7 @@ function PlanDetailCard({
     if (response === true) {
       //lock인 상태
       alert('다른 사용자가 해당 스케쥴을 편집중입니다.');
-    } else if (response === false) {
+    } else {
       //unlock인상태
       const lockRes = await lockPlan(tripId, planId);
       setIsOpenFormModal(planId);
