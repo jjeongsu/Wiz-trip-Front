@@ -5,6 +5,21 @@ status = 200
 force = true
 
 [[redirects]]
+from = "/write/proxy/*"
+to = "https://wiztrip.o-r.kr/:splat"
+status = 200
+force = true
+
+[[redirects]]
+from = "/review/proxy/*"
+to = "https://wiztrip.o-r.kr/:splat"
+status = 200
+force = true
+
+
+
+
+[[redirects]]
 from = "/proxy/*"
 to = "https://wiztrip.o-r.kr/:splat"
 status = 200
