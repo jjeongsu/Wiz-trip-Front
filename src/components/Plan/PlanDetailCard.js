@@ -46,7 +46,16 @@ function PlanDetailCard({
       queryClient.invalidateQueries({ queryKey: ['getAllPlan'] });
     },
   });
-
+  const onUpdateClick = async () => {
+    console.log('수정하기cliked');
+    const response = await checkLockStatus(tripId, planId);
+    if (response === true) {
+      //lock인 강태
+      alert('다른 사용자가 해당 스케쥴을 편집중입니다.');
+    } else if (response === false) {
+      setIsOpenFormModal(planId);
+    }
+  };
   const checkCardLockStatus = async () => {
     //마우스가 카드위로 올라가는 순간 수정가능하지 여부 check
     const response = await checkLockStatus(tripId, planId);
@@ -104,14 +113,7 @@ function PlanDetailCard({
         </button>
       </div>
       <ModiModal isOpen={isModalOpen}>
-        <button
-          onClick={() => {
-            console.log('수정하기cliked');
-            setIsOpenFormModal(planId);
-          }}
-        >
-          수정하기
-        </button>
+        <button onClick={onUpdateClick}>수정하기</button>
         <button className="delete" onClick={handleDelete}>
           삭제하기
         </button>
