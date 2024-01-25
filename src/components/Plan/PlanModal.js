@@ -11,8 +11,13 @@ import { createDatesArr } from '../../utils/createDaysArr';
 import { categoryToEng, categoryToKo } from '../../assets/category-palette';
 import { createTimestamp } from '../../utils/createTimestamp';
 import KakaoPostcode from './KakaoPostcode';
-import { createPlan, getTargetPlan } from '../../apis/api/plan';
-import { useMutation, useQueryClient } from 'react-query';
+import {
+  createPlan,
+  getTargetPlan,
+  unlockPlan,
+  updatePlan,
+} from '../../apis/api/plan';
+import { useMutation, useQueryClient, useQuery } from 'react-query';
 function PlanModal({
   isOpenModal,
   setIsOpenModal,
@@ -36,7 +41,16 @@ function PlanModal({
   } = useForm({ mode: 'onChange' });
   const [isOpenPostcode, setIsOpenPostcode] = useState(false);
   const [address, setAddress] = useState('');
-
+  const {
+    data: preUpdatePlan,
+    isLoading: isLoadingPlanData,
+    isSuccess,
+  } = useQuery(
+    ['plan'],
+    getTargetPlan((tripId, isOpenModal), {
+      enabled: isOpenModal !== true && isOpenModal !== false,
+    }),
+  );
   const queryClient = useQueryClient();
   const uploadPlanMutation = useMutation({
     mutationFn: (newPlan) => createPlan(tripId, newPlan),
@@ -44,7 +58,12 @@ function PlanModal({
       queryClient.invalidateQueries({ queryKey: ['getAllPlan'] });
     },
   });
-
+  const updatePlanMutation = useMutation({
+    mutationFn: (newPlan) => updatePlan(tripId, newPlan),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getAllPlan'] });
+    },
+  });
   const onSubmit = (data) => {
     //실제 plan 생성
     const cur_date = days[data.selectDay];
@@ -66,10 +85,14 @@ function PlanModal({
       content: data.content,
       category: categoryToEng[data.category],
     };
-
-    uploadPlanMutation.mutate(newPlan);
+    if (isOpenModal !== false && isOpenModal !== true) {
+      updatePlanMutation.mutate(newPlan);
+    } else {
+      uploadPlanMutation.mutate(newPlan);
+    }
 
     //초기화
+    const response = unlockPlan(tripId, isOpenModal);
     setIsOpenModal(false);
     reset({
       selectDay: 0,
@@ -81,26 +104,40 @@ function PlanModal({
     setAddress('');
   };
 
+  console.log('isOpenModal', isOpenModal);
   useEffect(() => {
-    //update를 위해 창이 열렸을 때
-    if (isOpenModal !== false && isOpenModal !== true) {
-      console.log('수정하기 clicked', isOpenModal); //isOpenModal상태에 planId값 존재
-      //tripId와 planId에 해당하는 자료 값 가져오기
-      const currentPlan = getTargetPlan(tripId, isOpenModal);
-      console.log('수정될 plan', currentPlan);
-      setAddress(currentPlan.address?.roadNameAddress);
+    if (
+      isOpenModal !== false &&
+      isOpenModal !== true &&
+      preUpdatePlan != undefined
+    ) {
+      //수정상태일 경우
+      const currentPlan = preUpdatePlan;
+      setAddress(currentPlan.address?.roadNameAddress ?? '');
       setValue('category', categoryToKo[currentPlan.category]);
       setValue('content', currentPlan.content);
     }
-  }, [isOpenModal, setValue, tripId]);
-  console.log('isOpenModal', isOpenModal);
+  }, [isOpenModal, preUpdatePlan, setValue]);
+  if (isOpenModal !== false && isOpenModal !== true) {
+    if (isLoadingPlanData) {
+      return <>로딩중</>;
+    }
+  }
+
   return (
     <div>
       <M.ModalWrapper isopen={isOpenModal}>
         <div className="button-box">
           <button
             className="close-modal-button"
-            onClick={() => setIsOpenModal(false)}
+            onClick={() => {
+              if (isOpenModal !== false && isOpenModal !== true) {
+                const response = unlockPlan(tripId, isOpenModal);
+                setIsOpenModal(false);
+              } else {
+                setIsOpenModal(false);
+              }
+            }}
           >
             <CloseIcon width="19" height="19" fill="#6446ff" />
           </button>
