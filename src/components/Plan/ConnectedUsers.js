@@ -48,4 +48,6 @@ const ProfileImg = styled.img`
   border-radius: 50%; // 이미지를 동그랗게 표시
   border: 2px solid ${(props) => props.color}; // 테두리 색상을 props로 받아옴
   margin: 0 1px;
+  width: 40px;
+  height: 40px;
 `;
