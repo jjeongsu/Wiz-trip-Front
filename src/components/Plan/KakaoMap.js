@@ -16,7 +16,7 @@ function KakaoMap({ address }) {
     const geocoder = new kakao.maps.services.Geocoder();
 
     // 주소로 좌표를 검색
-    if (address !== '') {
+    if (address) {
       geocoder.addressSearch(address, function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
           //정상적으로 검색 완료
@@ -45,7 +45,7 @@ function KakaoMap({ address }) {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [address]);
 
   return <MapWrapper id="maps"></MapWrapper>;
 }

@@ -44,7 +44,7 @@ function Plan() {
     //trip 정보 세팅
     if (isTripSuccess && tripData) {
       const { destination, startDate, finishDate } = tripData;
-      console.log("des", destination, startDate, finishDate);
+      console.log('des', destination, startDate, finishDate);
       const schedule = {
         place: destination,
         startDate: dayjs(startDate).format('YYYY-MM-DD'),
@@ -54,7 +54,6 @@ function Plan() {
       //trip 내 모든 날짜 정보 array 만들기
       const newDatesArray = createDatesArr({ ...trips });
       setDatesArr(newDatesArray);
-    
     }
 
     if (getCookie('tripId') == tripId) {
@@ -66,12 +65,10 @@ function Plan() {
   useEffect(() => {
     const newDatesArray = createDatesArr({ ...trips });
     setDatesArr(newDatesArray);
-
   }, [trips]);
   useEffect(() => {
     if (isSuccess && planData && planData.list) {
       setPlans(Array.from(planData?.list));
-
     }
   }, [planData, isSuccess]);
 
@@ -93,7 +90,7 @@ function Plan() {
             plans={plans}
             tripId={tripId}
           />
-          <KakaoMap address={currentSpot.roadNameAddress ?? ''} />
+          <KakaoMap address={currentSpot.roadNameAddress} />
           <Memo />
           <PlanModal
             isOpenModal={isOpenModal}
