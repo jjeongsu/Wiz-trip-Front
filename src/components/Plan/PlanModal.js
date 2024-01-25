@@ -45,10 +45,9 @@ function PlanModal({
     data: preUpdatePlan,
     isLoading: isLoadingPlanData,
     isSuccess,
-  } = useQuery(
-    ['plan'],
+  } = useQuery(['plan'], () =>
     getTargetPlan((tripId, isOpenModal), {
-      enabled: !!(isOpenModal !== true) && !!(isOpenModal !== false),
+      enabled: !!(isOpenModal !== true && isOpenModal !== false),
     }),
   );
   const queryClient = useQueryClient();
