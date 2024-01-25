@@ -5,7 +5,7 @@ import { getUserProfile } from '../../apis/api/plan-userinfo';
 import ModifyDetailIcon from '../../assets/plan-modi-detail-icon';
 import DefaultProfileIcon from '../../assets/default-profile-icon';
 import { useState, useRef, useEffect } from 'react';
-import { checkLockStatus, deletePlan } from '../../apis/api/plan';
+import { checkLockStatus, deletePlan, lockPlan } from '../../apis/api/plan';
 import { getUser } from '../../apis/api/user';
 import { useQueryClient } from 'react-query';
 function PlanDetailCard({
@@ -26,14 +26,6 @@ function PlanDetailCard({
   const cardRef = useRef(null);
   const contentRef = useRef(null);
 
-  // const {
-  //   data: userProfileData,
-  //   isLoading,
-  //   isSuccess,
-  // } = useQuery(['user', userId], () => getUser(userId), {
-  //   select: (data) => data.image, // 원하는 필드 선택
-  // });
-  // const userProfile = '';
   const queryClient = useQueryClient();
   const handleDelete = (e) => {
     e.preventDefault();
@@ -50,9 +42,11 @@ function PlanDetailCard({
     console.log('수정하기cliked');
     const response = await checkLockStatus(tripId, planId);
     if (response === true) {
-      //lock인 강태
+      //lock인 상태
       alert('다른 사용자가 해당 스케쥴을 편집중입니다.');
     } else if (response === false) {
+      //unlock인상태
+      const lockRes = await lockPlan(tripId, planId);
       setIsOpenFormModal(planId);
     }
   };
