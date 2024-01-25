@@ -67,10 +67,8 @@ function PlanBoard({
 
   //drag and drop event
   const handleDragStart = (layout, e, element) => {
-    //수정해도 되는지 여부 전달받기 추가
     setDragElement(e); //현재 drag 시작된 요소 저장
     const current_id = ~~element.i;
-    const response = lockPlan(tripId, current_id);
   };
   const handleDrag = (e, element) => {
     //console.log('ondrag', e, element);
@@ -79,7 +77,6 @@ function PlanBoard({
     if (dragElement !== element) {
       //element가 움직였을 때만 update
       const current_id = ~~element.i;
-      const response = unlockPlan(tripId, current_id);
       submit(element.x, element.y, element.h, element.i);
     }
   };
