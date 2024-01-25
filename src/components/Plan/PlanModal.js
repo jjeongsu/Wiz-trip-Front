@@ -48,7 +48,7 @@ function PlanModal({
   } = useQuery(
     ['plan'],
     getTargetPlan((tripId, isOpenModal), {
-      enabled: isOpenModal !== true && isOpenModal !== false,
+      enabled: !!(isOpenModal !== true) && !!(isOpenModal !== false),
     }),
   );
   const queryClient = useQueryClient();
@@ -117,7 +117,9 @@ function PlanModal({
       setValue('category', categoryToKo[currentPlan.category]);
       setValue('content', currentPlan.content);
     }
-  }, [isOpenModal, preUpdatePlan, setValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpenModal, preUpdatePlan]);
+
   if (isOpenModal !== false && isOpenModal !== true) {
     if (isLoadingPlanData) {
       return <>로딩중</>;
