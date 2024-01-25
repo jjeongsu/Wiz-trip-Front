@@ -46,7 +46,7 @@ function PlanModal({
     isLoading: isLoadingPlanData,
     isSuccess,
   } = useQuery(['plan'], () =>
-    getTargetPlan((tripId, isOpenModal), {
+    getTargetPlan((tripId, ~~isOpenModal), {
       enabled: !!(isOpenModal !== true && isOpenModal !== false),
     }),
   );
@@ -103,7 +103,12 @@ function PlanModal({
     setAddress('');
   };
 
-  console.log('isOpenModal', isOpenModal);
+  console.log(
+    'isOpenModal',
+    isOpenModal,
+    !!(isOpenModal !== true && isOpenModal !== false),
+    typeof isOpenModal,
+  );
   useEffect(() => {
     if (
       isOpenModal !== false &&
