@@ -5,6 +5,7 @@ function KakaoMap({ address }) {
   useEffect(() => {
     const { kakao } = window;
     var container = document.getElementById('maps'); //지도를 담을 영역의 DOM 레퍼런스
+    console.log('kakapmap의 address', address);
     var options = {
       center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)

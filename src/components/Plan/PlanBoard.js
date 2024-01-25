@@ -32,7 +32,6 @@ function PlanBoard({
   const [slidePx, setSlidePx] = useState(0); //day수가 3이상일 경우 slide
   const [mylayout, setMyLayout] = useState([]);
   const [dragElement, setDragElement] = useState({});
-  const [isDraggable, setIsDraggable] = useState(false); //수정 가능한지 여부
   useEffect(() => {
     const l = [];
     plans.forEach(async (p, index) => {
@@ -58,12 +57,11 @@ function PlanBoard({
         y: ~~startIndex,
         w: 1,
         h: gap,
-        isDraggable: isDraggable,
       };
       l.push(newPlan);
     });
     setMyLayout(() => [...l]);
-  }, [plans, days, tripId, isDraggable]);
+  }, [plans, days, tripId]);
 
   //drag and drop event
   const handleDragStart = (layout, e, element) => {
@@ -157,7 +155,7 @@ function PlanBoard({
               cols={days.length}
               rowHeight={12}
               isResizable={false}
-              isDraggable={isDraggable}
+              isDraggable={true}
               width={242 * days.length}
               preventCollision={true}
               compactType={null}
@@ -181,7 +179,6 @@ function PlanBoard({
                       tripId={p.tripId}
                       setMyLayout={setMyLayout}
                       mylayout={mylayout}
-                      setIsDraggable={setIsDraggable}
                     ></PlanDetailCard>
                   </div>
                 );

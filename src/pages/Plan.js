@@ -87,7 +87,7 @@ function Plan() {
             plans={plans}
             tripId={tripId}
           />
-          <KakaoMap address={currentSpot} />
+          <KakaoMap address={currentSpot.roadNameAddress ?? ''} />
           <Memo />
           <PlanModal
             isOpenModal={isOpenModal}
