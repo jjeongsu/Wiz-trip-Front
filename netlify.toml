@@ -1,14 +1,16 @@
 [[redirects]]
+from = "/plan/*"
+to = "/:splat"
+status = 200
+force = true
+
+[[redirects]]
 from = "/proxy/*"
 to = "https://wiztrip.o-r.kr/:splat"
 status = 200
 force = true
 
-[[redirects]]
-from = "/plan/*"
-to = "/"
-status = 200
-force = true
+
 
 [[redirects]]
 from = "/*"
