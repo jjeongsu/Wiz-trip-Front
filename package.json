@@ -2,7 +2,6 @@
   "name": "wiz-trip-front",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://wiz-trip.netlify.app/",
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
     "@tanstack/react-query": "^5.8.7",
@@ -66,6 +65,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "https://wiztrip.o-r.kr",
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^8.54.0",
