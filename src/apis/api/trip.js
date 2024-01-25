@@ -123,6 +123,7 @@ export async function createUrl(tripId) {
 export async function getTripId(id) {
   try {
     const res = await axios.get(`${PROXY}/trips/share?url=${id}`);
+    console.log(res);
     return res;
   } catch (error) {
     console.log('url 조회 Error', error);

@@ -30,7 +30,7 @@ function Planheader({ userIdList }) {
     const res = await createUrl(tripId);
     if (res) {
       // 클립보드에 URL 복사
-      await navigator.clipboard.writeText(`${domain}/trips/share/${res.url}`); // res.data.url은 API 응답에서 실제 URL을 가리킵니다.
+      await navigator.clipboard.writeText(`${domain}/share/${res.url}`); // res.data.url은 API 응답에서 실제 URL을 가리킵니다.
       // 사용자에게 알림
       alert('초대링크가 클립보드에 복사되었습니다.');
     }
