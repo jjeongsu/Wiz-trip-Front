@@ -35,7 +35,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route element={<PrivateRoute />}>
-            <Route path="/plan/:tripId" element={<Plan />} />
+            <Route path="/plan/:tripId/" element={<Plan />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/write/:tripId" element={<Write />} />
             <Route path="/review/:tripId" element={<Review />} />
