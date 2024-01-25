@@ -43,6 +43,7 @@ function KakaoMap({ address }) {
         }
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <MapWrapper id="maps"></MapWrapper>;
