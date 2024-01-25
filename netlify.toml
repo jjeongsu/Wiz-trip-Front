@@ -6,7 +6,7 @@ force = true
 
 [[redirects]]
 from = "/plan/:tripId/*"
-to = "index.html"
+to = "/"
 status = 200
 
 [[redirects]]
