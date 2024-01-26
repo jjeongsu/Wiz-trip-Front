@@ -123,7 +123,8 @@ function PlanModal({
       const startIndex = clockTimes.findIndex(
         time => time.text === trim_startTime
       )
-      const endIndex = clockTimes.findIndex(time => time.text == trim_endTime)
+      const endIndex =
+        clockTimes.findIndex(time => time.text == trim_endTime) - startIndex
       console.log('start', startIndex, 'end', endIndex, 'today', todayIndex)
       setAddress(currentPlan.address?.roadNameAddress ?? '')
       setValue('category', categoryToKo[currentPlan.category], {
