@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
   html {
@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: inherit;
   }
   body{
-    font-family: "Wanted Sans Variable", "Wanted Sans", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-family: "Wanted Sans Variable", "Wanted Sans", "Pretendard Variable", Pretendard,-apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
     min-height: 100%;
   }
   a { cursor: pointer; text-decoration: none; }
@@ -25,4 +25,4 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     cursor: default;
   }
-`;
+`

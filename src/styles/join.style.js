@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const JoinForm = styled.form`
   margin-top: 40px;
@@ -34,7 +34,7 @@ export const JoinForm = styled.form`
     grid-column: 1 / span 2;
     height: 10px;
   }
-`;
+`
 
 export const Button = styled.button`
   width: 79px;
@@ -48,7 +48,7 @@ export const Button = styled.button`
   font-size: 14px;
   grid-column-start: 1;
   grid-column-end: 3;
-`;
+`
 
 export const SubmitBtn = styled(Button)`
   width: 217px;
@@ -61,4 +61,4 @@ export const SubmitBtn = styled(Button)`
   &:disabled {
     background-color: ${({ theme }) => theme.gray200};
   }
-`;
+`
