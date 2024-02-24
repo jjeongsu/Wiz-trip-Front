@@ -1,4 +1,4 @@
-![](https://github.com/Wiz-trip/Wiz-trip-Front/assets/86836540/e2a43f95-ad0a-4ca6-a90f-7e830a2d3f0b)
+![KakaoTalk_20240224_145449226](https://github.com/Wiz-trip/Wiz-trip-Front/assets/86836540/1d806527-0847-4754-8df6-e5eb4b380022)![](https://github.com/Wiz-trip/Wiz-trip-Front/assets/86836540/e2a43f95-ad0a-4ca6-a90f-7e830a2d3f0b)
 ## ✨ 프로젝트 소개 
 친구, 가족들과 함께 여행계획을 작성하고 정보를 공유하는 웹서비스 
   
@@ -13,8 +13,14 @@
 
 
 ## 🎬구동 영상
-  
+|회원가입,로그인|리뷰작성 및 회원정보 수정|
+|---|---|
+|![GIFMaker_me (1)](https://github.com/Wiz-trip/Wiz-trip-Front/assets/86836540/349c93c4-7ee6-4147-91c7-dcabc4bb0180)|![GIFMaker_me](https://github.com/Wiz-trip/Wiz-trip-Front/assets/86836540/9809a607-b43f-402a-a7b8-8c72d3773187)|
+
 <br/>
+
+
+
 
 ## 📚 기술 스택
 <div align="center">
